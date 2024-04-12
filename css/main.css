@@ -331,12 +331,26 @@ input[type=search]:focus {
 }
 
 .menu-text{
-  padding-left: 40%;
+  /* padding-left: 40%; */
   font-weight: 500;
   font-size: 16px;
-  
+  color: var(--Color-Blue-blue-500, #4256A0);
+
+  /* Nunito Sans/Bold/Body 1 */
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
 }
 
+.menu-row{
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
 
 .menu-active{
   color: var(--primarycolor);
@@ -488,14 +502,38 @@ input[type=search]:focus {
 
 
 
-.dashboard-items{
-  
-  border: 2px solid #c9cbce9f;
-  border-radius: 7px;
-  color: var(--primarycolor);
-  /*background-color: #d8ebfa25 ;*/
-  /*box-shadow: 0 3px 5px 0 rgba(95, 95, 97, 0.3);*/
+.dashboard-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Sesuaikan warna sesuai kebutuhan */
 }
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+ font-size: 18px;
+ color: #333;
+}
+.h3-dashboard{
+  
+}
+
+.count {
+ font-size: 24px;
+ color:#333;
+}
+
+.icon {
+ width: 50px;
+ height: 50px;
+}
+
 
 
 .h1-dashboard{

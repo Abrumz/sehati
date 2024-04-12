@@ -215,3 +215,24 @@ html, body {
       top:.5em; 
   }
   
+  .input-text::placeholder{
+    color: var(--Color-Neutral-neutral-100, #C7CACF);
+
+    /* Nunito Sans/Regular/Body 1 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-label {
+    color: var(--Color-Neutral-neutral-700, #353C46);
+
+    /* Nunito Sans/Bold/Body 1 */
+    font-family: "Nunito Sans",sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}

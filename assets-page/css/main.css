@@ -23251,3 +23251,343 @@ h2.Bawah{
     text-decoration-line: underline;
     margin: 0px;
 }
+
+
+/* Style untuk Doctors */
+.header-search {
+    display: flex;
+    width: 300px;
+    height: 50px;
+    padding: 0px 16px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid rgba(57, 57, 57, 0.40);
+    background: linear-gradient(90deg, #FFF 83.52%, #4256A0 83.52%);
+}
+
+.header-search::placeholder{
+    color: var(--Color-Neutral-neutral-200, #ACB1B7);
+    text-align: center;
+
+    /* Nunito Sans/Regular/Body 1 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 0px;
+    background: none;
+}
+
+.header-searchbar::placeholder {
+    color: #888;
+}
+
+
+/* Tambahkan CSS ini di dalam tag <style> atau file CSS terpisah */
+.status-dropdown {
+    border: 1px solid #ccc; /* Ganti dengan warna border yang diinginkan */
+    border-radius: 4px; /* Ganti dengan radius yang diinginkan */
+    padding: 10px 15px; /* Atur padding sesuai kebutuhan */
+    background-color: #f9f9f9; /* Ganti dengan warna background yang diinginkan */
+    color: #333; /* Ganti dengan warna teks yang diinginkan */
+    font-size: 16px; /* Atur ukuran font sesuai kebutuhan */
+    cursor: pointer; /* Tambahkan cursor pointer untuk indikasi bisa diklik */
+}
+
+/* Style untuk dropdown saat dibuka */
+.status-dropdown:focus {
+    outline: none; /* Menghilangkan outline saat dropdown difokuskan */
+    border-color: #66afe9; /* Ganti dengan warna border saat difokuskan */
+}
+
+/* Style untuk opsi yang sedang dipilih */
+.status-dropdown option:checked {
+    background-color: #e9ecef; /* Ganti dengan warna background opsi yang dipilih */
+}
+
+.btn.dropdown-toggle.btn-round.btn-simple {
+    visibility: hidden;
+}
+
+.select-menu{
+    /* width: 380px;
+    margin: 140px auto; */
+}
+.select-menu .select-btn{
+    display: flex;
+    height: 55px;
+    background: #fff;
+    /* padding: 20px; */
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 8px;
+    /* align-items: center; */
+    cursor: pointer;
+    justify-content: space-between;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    /* display: flex; */
+    /* width: 120px; */
+    padding: 4px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.select-btn i{
+    font-size: 25px;
+    transition: 0.3s;
+}
+.select-menu.active .select-btn i{
+    transform: rotate(-180deg);
+}
+.select-menu .options{
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    display: none;
+}
+.select-menu.active .options{
+    display: block;
+}
+.options .option{
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+}
+.options .option:hover{
+    background: #F2F2F2;
+}
+.option i{
+    font-size: 25px;
+    margin-right: 12px;
+}
+.option .option-text{
+    font-size: 18px;
+    color: #333;
+}
+
+.Add-Doctor h1{
+    color: var(--Color-Neutral-neutral-50, #EDEEEF);
+    text-align: center;
+
+    /* Button Link/Normal */
+    font-family: "Nunito Sans";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 120% */
+    margin: 0px;
+}
+
+.Doctor-btn{
+    display: flex;
+    padding: 16px 32px;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 4px;
+    background: var(--Color-Blue-blue-500, #4256A0);
+}
+
+.nav-doctor{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+}
+
+@media (max-width: 640px) {
+    .nav-doctor{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        flex-wrap: wrap;
+    }
+  }
+
+.heading-main12{
+    color: var(--Color-Neutral-neutral-500, #4B5563);
+
+    /* Nunito Sans/Regular/Body 1 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 16px;
+}
+
+.select-btn.aktif{
+    border-radius: 16px;
+    background: #BFFFCD;
+    display: flex;
+    /* width: 120px; */
+    padding: 4px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.select-btn.non-aktif{
+    border-radius: 16px;
+    background: #FFBFBF;
+    display: flex;
+    /* width: 120px; */
+    padding: 4px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.form-doctor{
+    padding: 33px;
+  }
+
+.form-doctor-header h1{
+    align-self: stretch;
+    color: var(--Color-Neutral-neutral-700, #353C46);
+
+    /* Rubik/Bold/Headline 2 */
+    font-family: Rubik, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.form-doctor-body h1{
+    color: var(--Color-Neutral-neutral-700, #353C46);
+
+    /* Nunito Sans/Bold/Body 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.form-doctor-body input{
+    width: 100%;
+    height: 50px;
+    padding: 0px 16px;
+    /* border-radius: 8px;
+    border: 1px solid #E5E7EB; */
+    background: #F9FAFB;
+    color: #1F2937;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7);
+}
+
+.box-doctor{
+    width: 100%;
+    height: 50px;
+    padding: 0px 16px;
+    /* border-radius: 8px;
+    border: 1px solid #E5E7EB; */
+    background: #F9FAFB;
+    color: #1F2937;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7);
+}
+
+.sBtn-text1 {
+    color: var(--Color-Neutral-neutral-700, #353C46);
+
+    /* Nunito Sans/Bold/Body 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+/* CSS untuk tombol dengan id 'reset' */
+#reset {
+    border-radius: 4px;
+    border: 1px solid var(--Color-Blue-blue-500, #4256A0);
+    display: flex;
+    padding: 14px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--Color-Blue-blue-500, #4256A0);
+    text-align: center;
+
+    /* Button Link/Medium */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+}
+
+/* CSS untuk tombol dengan id 'submit' */
+#submit {
+    border-radius: 4px;
+    background: var(--Color-Blue-blue-500, #4256A0);
+
+    display: flex;
+    padding: 14px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--Button-Primary-Text_Default, #FFF);
+    text-align: center;
+
+    /* Button Link/Medium */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+}
+
+/* CSS untuk semua tombol dengan class 'button-doc' */
+.button-doc {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.button-doc:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.confirm{
+    display: flex;
+    justify-content: flex-end
+}

@@ -189,10 +189,17 @@ body{
 
 }
 .table-headin{
-    font-size: 16px;
-    font-weight: 500;
     padding: 10px;
     border-bottom: 3px solid var(--primarycolor);
+    color: var(--Color-Neutral-neutral-700, #353C46);
+    text-align: center;
+
+    /* Nunito Sans/Bold/Body 1 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .abc{
@@ -635,3 +642,5 @@ input[type=search]:focus {
   background-repeat: no-repeat;
   transition: 0.5s;
 }
+
+/* form */

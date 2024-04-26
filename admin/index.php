@@ -13,14 +13,14 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
 <!-- Favicon-->
-<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/plugins/morrisjs/morris.css" />
-<link rel="stylesheet" href="assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css"/>
+<link rel="stylesheet" href="../assets-page/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets-page/plugins/morrisjs/morris.css" />
+<link rel="stylesheet" href="../assets-page/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css"/>
 
 <!-- Custom Css -->
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/color_skins.css">
-<link rel="stylesheet" href="assets/css/font.css">
+<link rel="stylesheet" href="../assets-page/css/main.css">
+<link rel="stylesheet" href="../assets-page/css/color_skins.css">
+<link rel="stylesheet" href="../assets-page/css/font.css">
 <link rel="stylesheet" href="../css/animations.css">  
 <link rel="stylesheet" href="../css/main.css"> 
 </head>
@@ -500,18 +500,18 @@
     </div>
 </section>
 <!-- Jquery Core Js -->
-<script src="assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
 
-<script src="assets/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="assets/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="assets/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="assets/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
-<script src="assets/bundles/doughnut.bundle.js"></script>
+<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
+<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/doughnut.bundle.js"></script>
 
-<script src="assets/bundles/mainscripts.bundle.js"></script>
-<script src="assets/js/pages/index.js"></script>
-<script src="assets/js/line.js"></script>
-<script src="assets/js/table.js"></script>
+<script src="../assets-page/bundles/mainscripts.bundle.js"></script>
+<script src="../assets-page/js/pages/index.js"></script>
+<script src="../assets-page/js/line.js"></script>
+<script src="../assets-page/js/table.js"></script>
 </body>
 </html>

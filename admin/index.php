@@ -195,7 +195,7 @@
                         <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active">
                         <a href="index.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
@@ -206,7 +206,21 @@
                     <li class="active">
                         <a href="index.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
-                 
+    <?php
+    //import database
+            include("../connection.php");
+
+            // Query untuk mengambil data admin dari database
+                $query = "SELECT * FROM admin";
+                $result = $database->query($query);
+
+                // Memeriksa apakah ada hasil yang ditemukan
+                if ($result->num_rows > 0) {
+                    // Loop melalui setiap baris hasil query
+                    while ($row = $result->fetch_assoc()) {
+                        // Ekstrak data yang dibutuhkan dari setiap baris
+                        $adminEmail = $row['aemail'];
+                ?>
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
@@ -214,11 +228,18 @@
                         </div>
                         <div class="detail">
                             <h6>Admin Sehati</h6>
-                            <p class="m-b-0">admin@sehati.ilkomerz.biz.id</p>
+                            <p class="m-b-0"><?php echo $adminEmail; ?></p>
                                          
                         </div>
                     </div>
-                </li>             
+                </li>
+                <?php
+                    }
+                } else {
+                    // Jika tidak ada data admin yang ditemukan
+                    echo "Tidak ada data admin yang ditemukan.";
+                }
+        ?>           
             </ul>
         </div>
     </div>
@@ -345,6 +366,90 @@
                 </div>
             </div>
             <div class="table-row">
+<?php
+//import database
+include("../connection.php");
+
+// id dokter
+$doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+
+// ubah array ID dokter menjadi string yang sesuai untuk digunakan dalam klausa IN
+$doctor_ids_string = implode(",", $doctor_ids);
+
+// query utk ambil data pasien
+$query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+            FROM appointment 
+            JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+            JOIN doctor ON schedule.docid = doctor.docid
+            JOIN patient ON appointment.pid = patient.pid
+            WHERE doctor.docid IN ($doctor_ids_string)";
+
+$result = $database->query($query);
+
+$count = 0;
+
+// periksa hasil dibatasi 4 hasil pada page
+if ($result->num_rows > 0 && $count < 4) {
+    // Loop melalui setiap baris hasil query
+    while ($row = $result->fetch_assoc()) {
+        $scheduleid = $row["scheduleid"];
+        $title = $row["title"];
+        $docname = $row["docname"];
+        $scheduledate = $row["scheduledate"];
+        $scheduletime = $row["scheduletime"];
+        $pname = $row["pname"];
+        $apponum = $row["apponum"];
+        $appodate = $row["appodate"];
+        $title = $row["title"];
+
+        // menampilkan blok div hanya jika jumlahnya masih kurang dari 4
+        if ($count < 4) {
+            ?>
+            <div class="table-cell-jadwal" style="width: 25%;">
+                <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
+                    <div>
+                        <div style="display: flex;">
+                            <div class="line-color"></div>
+                            <div>
+                                <h5><?php echo $title; ?></h5>
+                                <h2 style="margin-bottom: 0px;"><?php echo $pname; ?></h2>
+                            </div>
+                        </div>
+                        <h3 style="margin-top: 12px;"><?php echo $docname; ?></h3>
+                        <div class="calendar-janji">
+                            <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
+                            <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+            // update var
+            $count++;
+        } else {
+            break; // stop loop
+        }
+    }
+} else {
+    // kalo tidak ada data
+    echo "Tidak ada data yang ditemukan.";
+}
+?>
+<div style="text-align: end;">
+    <a href="../soon.html">
+        <h4>Lihat Semua Jadwal</h4>
+    </a>
+</div>
+
+<!-- 
+<div class="table-row">
+        <div class="filter-container" style="border: none;">
+            <div class="table-row">
+                <div class="table-cell" colspan="4">
+                    <p>Jadwal yang Akan Datang</p>
+                </div>
+            </div>
+            <div class="table-row">
                 <div class="table-cell-jadwal" style="width: 25%;">
                     <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
                         <div>
@@ -352,7 +457,7 @@
                                 <div class="line-color" ></div>
                                 <div>
                                     <h5>Asam Lambung</h5>
-                                    <h2 style="margin-bottom: 0px;">Ilham Reynaldi</h2>
+                                    <h2 style="margin-bottom: 0px;"><></h2>
                                 </div>
                             </div>
                             <h3 style="margin-top: 12px;">Dr. Herdiawan, S.Pk.</h3>
@@ -369,14 +474,14 @@
                             <div style="display: flex;">
                                 <div class="line-color" ></div>
                                 <div>
-                                    <h5>Demam Tinggi</h5>
-                                    <h2 style="margin-bottom: 0px;">Lutfiah Hadinata</h2>
+                                    <h5>Demam Tinggi</h5> 
+                                    <h2 style="margin-bottom: 0px;">Lutfiah Hadinata</h2> 
                                 </div>
                             </div>
-                            <h3 style="margin-top: 12px;">Dr. Budiman H, S.Pk.</h3>
+                            <h3 style="margin-top: 12px;">Dr. Budiman H, S.Pk.</h3> 
                             <div class="calendar-janji">
-                                <h1>22/04/2024</h1>
-                                <h2>16:30 WIB</h2>
+                                <h1>22/04/2024</h1> 
+                                <h2>16:30 WIB</h2> 
                             </div>
                         </div>
                     </div>
@@ -423,10 +528,89 @@
                     <h4>Lihat Semua Jadwal</h4>
                 </a>
             </div>
-        </div>
+        </div>  -->
+
+<!-- JANJI TEMU -->
+<div class="table-row">
+        <div class="filter-container" style="border: none;">
+            <div class="table-row">
+                <div class="table-cell" colspan="4">
+                    <p>Janji Temu</p>
+                </div>
+            </div>
+            <div class="table-row">
+<?php
+//import database
+include("../connection.php");
+
+// id dokter
+$doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+
+// array id diubah jadi string
+$doctor_ids_string = implode(",", $doctor_ids);
+
+// query ambil data pasien
+$query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+            FROM appointment 
+            JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+            JOIN doctor ON schedule.docid = doctor.docid
+            JOIN patient ON appointment.pid = patient.pid
+            WHERE doctor.docid IN ($doctor_ids_string)";
+
+$result = $database->query($query);
+
+$count = 0;
+
+// periksa hasil apakah lebih dari 4 atau tidak
+if ($result->num_rows > 0 && $count < 4) {
+    // loop melalui setiap baris hasil query
+    while ($row = $result->fetch_assoc()) {
+        $scheduleid = $row["scheduleid"];
+        $title = $row["title"];
+        $docname = $row["docname"];
+        $scheduledate = $row["scheduledate"];
+        $scheduletime = $row["scheduletime"];
+        $pname = $row["pname"];
+        $apponum = $row["apponum"];
+        $appodate = $row["appodate"];
+        $title = $row["title"];
+
+        // menampilkan blok
+        if ($count < 4) {
+            ?>
+            <div class="table-cell-patient" style="width: 25%;">
+                <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
+                    <div>
+                        <h1><?php echo $apponum; ?></h1>
+                        <h2><?php echo $pname; ?></h2>
+                        <h3><?php echo $docname; ?></h3>
+                        <div class="calendar-janji">
+                            <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
+                            <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+            // update var
+            $count++;
+        } else {
+            break; // stop loop
+        }
+    }
+} else {
+    // tidak ada data
+    echo "Tidak ada data yang ditemukan.";
+}
+?>
+<div style="text-align: end;">
+    <a href="../soon.html">
+        <h4>Lihat Semua Jadwal</h4>
+    </a>
 </div>
 
-<div class="table-row">
+
+<!-- <div class="table-row">
         <div class="filter-container" style="border: none;">
             <div class="table-row">
                 <div class="table-cell" colspan="4">
@@ -493,7 +677,7 @@
                 </a>
             </div>
         </div>
-</div>
+</div> -->
 
 
 <!-- Selesai -->

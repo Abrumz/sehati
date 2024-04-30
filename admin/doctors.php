@@ -209,7 +209,7 @@
                         <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
                         <a href="index.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
@@ -423,11 +423,11 @@
                                     $spcil_array= $spcil_res->fetch_assoc();
                                     $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
-                                    <td> &nbsp;'. substr($name,0,30) .'</td>
-                                    <td> '.substr($spcil_name,0,20).' </td>
-                                    <td> '.substr($email,0,20).' </td>
-                                    <td> 
-                                        <div class="select-menu">
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'. substr($name,0,30) .'</td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($spcil_name,0,20).' </td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($email,0,20).' </td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> 
+                                        <div class="select-menu" >
                                             <div class="select-btn">
                                                 <span class="sBtn-text">Select your option</span>
                                                 <i class="bx bx-chevron-down"></i>

@@ -198,7 +198,7 @@
                         <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
                         <a href="index.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
@@ -366,79 +366,92 @@
                 </div>
             </div>
             <div class="table-row">
-<?php
-//import database
-include("../connection.php");
+            <?php
+    //import database
+    include("../connection.php");
 
-// id dokter
-$doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+    // id dokter
+    $doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
 
-// ubah array ID dokter menjadi string yang sesuai untuk digunakan dalam klausa IN
-$doctor_ids_string = implode(",", $doctor_ids);
+    // array id diubah jadi string
+    $doctor_ids_string = implode(",", $doctor_ids);
 
-// query utk ambil data pasien
-$query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
-            FROM appointment 
-            JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
-            JOIN doctor ON schedule.docid = doctor.docid
-            JOIN patient ON appointment.pid = patient.pid
-            WHERE doctor.docid IN ($doctor_ids_string)";
+    // query ambil data pasien
+    $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+                FROM appointment 
+                JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+                JOIN doctor ON schedule.docid = doctor.docid
+                JOIN patient ON appointment.pid = patient.pid
+                WHERE doctor.docid IN ($doctor_ids_string)
+                ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC"; // Mengurutkan data berdasarkan tanggal dan waktu jadwal dari yang paling lama
 
-$result = $database->query($query);
+    $result = $database->query($query);
 
-$count = 0;
+    $count = 0;
 
-// periksa hasil dibatasi 4 hasil pada page
-if ($result->num_rows > 0 && $count < 4) {
-    // Loop melalui setiap baris hasil query
-    while ($row = $result->fetch_assoc()) {
-        $scheduleid = $row["scheduleid"];
-        $title = $row["title"];
-        $docname = $row["docname"];
-        $scheduledate = $row["scheduledate"];
-        $scheduletime = $row["scheduletime"];
-        $pname = $row["pname"];
-        $apponum = $row["apponum"];
-        $appodate = $row["appodate"];
-        $title = $row["title"];
+    // periksa hasil apakah lebih dari 4 atau tidak
+    if ($result->num_rows > 0 && $count < 4) {
+        // loop melalui setiap baris hasil query
+        while ($row = $result->fetch_assoc()) {
+            $scheduleid = $row["scheduleid"];
+            $title = $row["title"];
+            $docname = $row["docname"];
+            $scheduledate = $row["scheduledate"];
+            $scheduletime = $row["scheduletime"];
+            $pname = $row["pname"];
+            $apponum = $row["apponum"];
+            $appodate = $row["appodate"];
+            $title = $row["title"];
 
-        // menampilkan blok div hanya jika jumlahnya masih kurang dari 4
-        if ($count < 4) {
-            ?>
-            <div class="table-cell-jadwal" style="width: 25%;">
-                <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
-                    <div>
-                        <div style="display: flex;">
-                            <div class="line-color"></div>
+            // Cek apakah jadwal sudah lewat
+            $currentDateTime = date("Y-m-d H:i:s");
+            $scheduleDateTime = date("Y-m-d H:i:s", strtotime($scheduledate . ' ' . $scheduletime));
+            if ($scheduleDateTime > $currentDateTime) {
+                // menampilkan blok
+                if ($count < 4) {
+                    ?>
+                    <div class="table-cell-jadwal" style="width: 25%;">
+                        <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
                             <div>
-                                <h5><?php echo $title; ?></h5>
-                                <h2 style="margin-bottom: 0px;"><?php echo $pname; ?></h2>
+                                <div style="display: flex;">
+                                    <div class="line-color"></div>
+                                    <div>
+                                        <h5><?php echo $title; ?></h5>
+                                        <h2 style="margin-bottom: 0px;"><?php echo $pname; ?></h2>
+                                    </div>
+                                </div>
+                                <h3 style="margin-top: 12px;"><?php echo $docname; ?></h3>
+                                <div class="calendar-janji">
+                                    <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
+                                    <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+                                </div>
                             </div>
                         </div>
-                        <h3 style="margin-top: 12px;"><?php echo $docname; ?></h3>
-                        <div class="calendar-janji">
-                            <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
-                            <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
-                        </div>
                     </div>
+                    <?php
+                    // update var
+                    $count++;
+                } else {
+                    break; // stop loop
+                }
+            }
+        }
+    } else {
+        // tidak ada data
+        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan.">';
+    }
+    
+?>
+
+                
+            </div>
+                <div style="text-align: end;">
+                    <a href="../soon.html">
+                        <h4>Lihat Semua Jadwal</h4>
+                    </a>
                 </div>
             </div>
-            <?php
-            // update var
-            $count++;
-        } else {
-            break; // stop loop
-        }
-    }
-} else {
-    // kalo tidak ada data
-    echo "Tidak ada data yang ditemukan.";
-}
-?>
-<div style="text-align: end;">
-    <a href="../soon.html">
-        <h4>Lihat Semua Jadwal</h4>
-    </a>
+        </div>
 </div>
 
 <!-- 
@@ -539,75 +552,87 @@ if ($result->num_rows > 0 && $count < 4) {
                 </div>
             </div>
             <div class="table-row">
-<?php
-//import database
-include("../connection.php");
+            <?php
+    //import database
+    include("../connection.php");
 
-// id dokter
-$doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+    // id dokter
+    $doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
 
-// array id diubah jadi string
-$doctor_ids_string = implode(",", $doctor_ids);
+    // array id diubah jadi string
+    $doctor_ids_string = implode(",", $doctor_ids);
 
-// query ambil data pasien
-$query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
-            FROM appointment 
-            JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
-            JOIN doctor ON schedule.docid = doctor.docid
-            JOIN patient ON appointment.pid = patient.pid
-            WHERE doctor.docid IN ($doctor_ids_string)";
+    // query ambil data pasien
+    $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+                FROM appointment 
+                JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+                JOIN doctor ON schedule.docid = doctor.docid
+                JOIN patient ON appointment.pid = patient.pid
+                WHERE doctor.docid IN ($doctor_ids_string)
+                ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC"; // Mengurutkan data berdasarkan tanggal dan waktu jadwal dari yang paling lama
 
-$result = $database->query($query);
+    $result = $database->query($query);
 
-$count = 0;
+    $count = 0;
 
-// periksa hasil apakah lebih dari 4 atau tidak
-if ($result->num_rows > 0 && $count < 4) {
-    // loop melalui setiap baris hasil query
-    while ($row = $result->fetch_assoc()) {
-        $scheduleid = $row["scheduleid"];
-        $title = $row["title"];
-        $docname = $row["docname"];
-        $scheduledate = $row["scheduledate"];
-        $scheduletime = $row["scheduletime"];
-        $pname = $row["pname"];
-        $apponum = $row["apponum"];
-        $appodate = $row["appodate"];
-        $title = $row["title"];
+    // periksa hasil apakah lebih dari 4 atau tidak
+    if ($result->num_rows > 0 && $count < 4) {
+        // loop melalui setiap baris hasil query
+        while ($row = $result->fetch_assoc()) {
+            $scheduleid = $row["scheduleid"];
+            $title = $row["title"];
+            $docname = $row["docname"];
+            $scheduledate = $row["scheduledate"];
+            $scheduletime = $row["scheduletime"];
+            $pname = $row["pname"];
+            $apponum = $row["apponum"];
+            $appodate = $row["appodate"];
+            $title = $row["title"];
 
-        // menampilkan blok
-        if ($count < 4) {
-            ?>
-            <div class="table-cell-patient" style="width: 25%;">
-                <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
-                    <div>
-                        <h1><?php echo $apponum; ?></h1>
-                        <h2><?php echo $pname; ?></h2>
-                        <h3><?php echo $docname; ?></h3>
-                        <div class="calendar-janji">
-                            <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
-                            <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+            // Cek apakah jadwal sudah lewat
+            $currentDateTime = date("Y-m-d H:i:s");
+            $scheduleDateTime = date("Y-m-d H:i:s", strtotime($scheduledate . ' ' . $scheduletime));
+            if ($scheduleDateTime > $currentDateTime) {
+                // menampilkan blok
+                if ($count < 4) {
+                    ?>
+                    <div class="table-cell-patient" style="width: 25%;">
+                        <div class="dashboard-table" style="padding:20px;margin:auto;width:95%; height: auto">
+                            <div>
+                                <h1>#<?php echo $apponum; ?></h1>
+                                <h2><?php echo $pname; ?></h2>
+                                <h3><?php echo $docname; ?></h3>
+                                <div class="calendar-janji">
+                                    <h1><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h1>
+                                    <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <?php
+                    // update var
+                    $count++;
+                } else {
+                    break; // stop loop
+                }
+            }
+        }
+    } else {
+        // tidak ada data
+        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan.">';
+    }
+    
+?>
+
+                </div>
+                <div style="text-align: end;">
+                    <a href="../soon.html">
+                        <h4>Lihat Semua Jadwal</h4>
+                    </a>
                 </div>
             </div>
-            <?php
-            // update var
-            $count++;
-        } else {
-            break; // stop loop
-        }
-    }
-} else {
-    // tidak ada data
-    echo "Tidak ada data yang ditemukan.";
-}
-?>
-<div style="text-align: end;">
-    <a href="../soon.html">
-        <h4>Lihat Semua Jadwal</h4>
-    </a>
-</div>
+        </div>
+    </div>
 
 
 <!-- <div class="table-row">

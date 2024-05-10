@@ -212,10 +212,10 @@
                         <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
+                        <a href="appointment.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
@@ -275,16 +275,16 @@
     </div>
 </div>
 </div>
-<div class="button-schedule">
-                        <div class="Add-Doctor">
-                            <a href="add-session.php">
-                                <button class="Doctor-btn" style="display: flex; justify-content: center;">
-                                <input type="image" src="../img/search.png" >
-                                <h1>Tambah Jadwal</h1>            
-                            </button>
-                            </a>
-                        </div>
-                    </div>
+        <div class="button-schedule">
+            <div class="Add-Doctor">
+                <a href="add-session.php">
+                    <button class="Doctor-btn" style="display: flex; justify-content: center;">
+                        <input type="image" src="../img/search.png" >
+                        <h1>Tambah Jadwal</h1>            
+                    </button>
+                </a>
+            </div>
+        </div>
 
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;">

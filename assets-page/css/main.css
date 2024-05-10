@@ -23591,3 +23591,17 @@ h2.Bawah{
     display: flex;
     justify-content: flex-end
 }
+
+.button-schedule{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 44px;
+    margin-top: 32px;
+}
+
+@media (max-width: 640px) {
+    .button-schedule{
+        display: flex;
+        justify-content: space-around;
+        margin: 0;
+}

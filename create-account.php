@@ -77,7 +77,7 @@ if($_POST){
             $_SESSION["usertype"]="p";
             $_SESSION["username"]=$fname;
 
-            header('Location: patient/index.php');
+            header('Location: patient/index');
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
         }
         
@@ -89,7 +89,7 @@ if($_POST){
 
     
 }else{
-    //header('location: signup.php');
+    //header('location: signup');
     $error='<label for="promter" class="form-label"></label>';
 }
 
@@ -181,7 +181,7 @@ if($_POST){
                 <td colspan="2">
                     <br>
                     <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
-                    <a href="login.php" class="hover-link1 non-style-link">Login</a>
+                    <a href="login" class="hover-link1 non-style-link">Login</a>
                     <br><br><br>
                 </td>
             </tr>

@@ -139,7 +139,7 @@
        <div class="col-md-6 right-box">
           <div class="row align-items-center">
                 <div class="header-text mb-4">
-                <a href="index.html"><img src="img/LogoSehati.png" alt=""></a>
+                <a href="index"><img src="img/LogoSehati.png" alt=""></a>
                      <h2>Selamat Datang!👋</h2>
                      <p>Silakan masukkan data akun Anda</p>
                 </div>
@@ -161,7 +161,7 @@
                     </div>
                     <br>
                     <label for="" class="sub-text" style="font-weight: 280;">Belum Punya Akun? </label>
-                    <a href="signup.php" class="hover-link1 non-style-link">Daftar</a>
+                    <a href="signup" class="hover-link1 non-style-link">Daftar</a>
                     </br>
                     </br>
                     </br>

@@ -90,13 +90,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -203,19 +203,19 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
-                        <a href="appointment.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
+                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li>
                     <li class="active">
-                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
@@ -239,7 +239,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -277,7 +277,7 @@
 </div>
         <div class="button-schedule">
             <div class="Add-Doctor">
-                <a href="add-session.php">
+                <a href="add-session">
                     <button class="Doctor-btn" style="display: flex; justify-content: center;">
                         <input type="image" src="../img/search.png" >
                         <h1>Tambah Jadwal</h1>            
@@ -452,7 +452,7 @@
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
+                                    <a class="non-style-link" href="schedule"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
                                     </a>
                                     </center>
                                     <br><br><br><br>
@@ -485,7 +485,7 @@
 
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="edit-session.php" class="non-style-link" style="padding-right:10%">
+                                            <a href="edit-session" class="non-style-link" style="padding-right:10%">
                                                 <img src="../img/edit.png" alt="Edit">
                                             </a>
 
@@ -526,7 +526,7 @@
                     <center>
                     
                     
-                        <a class="close" href="schedule.php">&times;</a> 
+                        <a class="close" href="schedule">&times;</a> 
                         <div style="display: flex;justify-content: center;">
                         <div class="abc">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -544,7 +544,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                <form action="add-session.php" method="POST" class="add-new-form">
+                                <form action="add-session" method="POST" class="add-new-form">
                                     <label for="title" class="form-label">Session Title : </label>
                                 </td>
                             </tr>
@@ -638,14 +638,14 @@
                     <center>
                     <br><br>
                         <h2>Session Placed.</h2>
-                        <a class="close" href="schedule.php">&times;</a>
+                        <a class="close" href="schedule">&times;</a>
                         <div class="content">
                         '.substr($titleget,0,40).' was scheduled.<br><br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
                         
-                        <a href="schedule.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
+                        <a href="schedule" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
                         <br><br><br><br>
                         </div>
                     </center>
@@ -659,14 +659,14 @@
                     <div class="popup">
                     <center>
                         <h2>Are you sure?</h2>
-                        <a class="close" href="schedule.php">&times;</a>
+                        <a class="close" href="schedule">&times;</a>
                         <div class="content">
                             You want to delete this record<br>('.substr($nameget,0,40).').
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-session.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="schedule.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
+                        <a href="delete-session?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="schedule" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>
                     </center>
@@ -694,7 +694,7 @@
                     <div class="popup" style="width: 70%;">
                     <center>
                         <h2></h2>
-                        <a class="close" href="schedule.php">&times;</a>
+                        <a class="close" href="schedule">&times;</a>
                         <div class="content">
                             
                             
@@ -799,7 +799,7 @@
                                              
                                              <br>
                                              <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                             <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</font></button>
+                                             <a class="non-style-link" href="appointment"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</font></button>
                                              </a>
                                              </center>
                                              <br><br><br><br>

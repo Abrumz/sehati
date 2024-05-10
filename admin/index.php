@@ -138,37 +138,37 @@
                             <li>
                                 <div class="checkbox">
                                     <input id="checkbox1" type="checkbox">
-                                    <label for="checkbox1">Report Panel Usage</label>
+                                    <label for="checkbox1">Ada Raka cuy</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <input id="checkbox2" type="checkbox" checked="">
-                                    <label for="checkbox2">Email Redirect</label>
+                                    <label for="checkbox2">Kotop Ganteng</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <input id="checkbox3" type="checkbox">
-                                    <label for="checkbox3">Notifications</label>
+                                    <label for="checkbox3">Belllllllll</label>
                                 </div>                        
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <input id="checkbox4" type="checkbox">
-                                    <label for="checkbox4">Auto Updates</label>
+                                    <label for="checkbox4">Tata Netchita smansa</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <input id="checkbox5" type="checkbox" checked="">
-                                    <label for="checkbox5">Offline</label>
+                                    <label for="checkbox5">Kotop ter the best</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox m-b-0">
                                     <input id="checkbox6" type="checkbox">
-                                    <label for="checkbox6">Location Permission</label>
+                                    <label for="checkbox6">Kelompok Jaya</label>
                                 </div>
                             </li>
                         </ul>
@@ -201,10 +201,10 @@
                         <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
+                        <a href="appointment.php"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
     <?php
     //import database

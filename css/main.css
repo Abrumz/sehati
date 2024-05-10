@@ -190,7 +190,7 @@ body{
 }
 .table-headin{
     padding: 10px;
-    border-bottom: 3px solid var(--primarycolor);
+    /* border-bottom: 3px solid var(--primarycolor); */
     color: var(--Color-Neutral-neutral-700, #353C46);
     text-align: center;
 

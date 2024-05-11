@@ -55,7 +55,37 @@
     //import database
     include("../connection.php");
 
+    // Menyimpan data dokter
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+        // Ambil data dari formulir
+        $docname = $database->real_escape_string($_POST["docname"]);
+        $docemail = $database->real_escape_string($_POST["docemail"]);
+        $docnic = $database->real_escape_string($_POST["docnic"]);
+        $doctel = $database->real_escape_string($_POST["doctel"]);
+        $specialties = $database->real_escape_string($_POST["specialties"]);
+        $docpassword = $database->real_escape_string($_POST["docpassword"]);
+
+        // Simpan data ke dalam database
+        $query = "INSERT INTO doctor (docname, docemail, docnic, doctel, specialties, docpassword) VALUES ('$docname', '$docemail', '$docnic', '$doctel', '$specialties', '$docpassword')";
+        $result = $database->query($query);
+
+        if ($result) {
+            // Data disimpan ke webuser 
+            $sql2 = "INSERT INTO webuser (email, usertype) VALUES ('$docemail', 'd')";
+            $result2 = $database->query($sql2);
     
+            if ($result2) {
+                // Redirect ke halaman dokter setelah data disimpan
+                header("location: doctors.php");
+            } else {
+                // Error
+                echo "Terjadi error saat memasukkan data ke tabel webuser: " . $database->error;
+            }
+        } else {
+            // Error
+            echo "Terjadi error saat memasukkan data ke tabel dokter: " . $database->error;
+        }
+    }
     ?>
 
 <body class="theme-black">
@@ -288,7 +318,7 @@
                 <div class="col">
                     <h1>Nama Dokter</h1>
                 <div id="subject-field">
-                    <input type="text" required placeholder="Nama Dokter" name="Nama Dokter">
+                    <input type="text" required placeholder="Nama Dokter" name="docname">
                 </div>
                 </div>
             </div>
@@ -296,7 +326,7 @@
                 <div class="col">
                     <h1>Email</h1>
                 <div id="email-field">
-                    <input type="text" required placeholder="Alamat Email" name="email">
+                    <input type="text" required placeholder="Alamat Email" name="docemail">
                 </div>
                 </div>
             </div>
@@ -304,190 +334,55 @@
                 <div class="col">
                     <h1>NIK</h1>
                     <div id="number-field">
-                        <input type="number" name="nik" required placeholder="Nomor Induk Kependudukan">
+                        <input type="number" name="docnic" required placeholder="Nomor Induk Kependudukan">
                     </div>
                 </div>
                 <div class="col">
                     <h1>Nomor Telepon</h1>
                     <div id="number-field">
-                        <input type="number" required placeholder="Nomor Telepon" name="notel">
+                        <input type="number" required placeholder="Nomor Telepon" name="doctel">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Spesialis</h1>
-                            <div class="select-menu" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                <div class="select-btn" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                     <span class="sBtn-text1">Pilih Spesialis Dokter</span>
-                                     <i class="bx bx-chevron-down"></i>
-                                </div>
-                                <ul class="options">
-                                <li class="option" id="1">
-                                    <span class="option-text">Accident and emergency medicine</span>
-                                </li>
-                                <li class="option" id="2">
-                                    <span class="option-text">Allergology</span>
-                                </li>
-                                <li class="option" id="3">
-                                    <span class="option-text">Anaesthetics</span>
-                                </li>
-                                <li class="option" id="4">
-                                    <span class="option-text">Biological hematology</span>
-                                </li>
-                                <li class="option" id="5">
-                                    <span class="option-text">Cardiology</span>
-                                </li>
-                                <li class="option" id="6">
-                                    <span class="option-text">Child psychiatry</span>
-                                </li>
-                                <li class="option" id="7">
-                                    <span class="option-text">Clinical biology</span>
-                                </li>
-                                <li class="option" id="8">
-                                    <span class="option-text">Clinical chemistry</span>
-                                </li>
-                                <li class="option" id="9">
-                                    <span class="option-text">Clinical neurophysiology</span>
-                                </li>
-                                <li class="option" id="10">
-                                    <span class="option-text">Clinical radiology</span>
-                                </li>
-                                <li class="option" id="11">
-                                    <span class="option-text">Dental, oral and maxillo-facial surgery</span>
-                                </li>
-                                <li class="option" id="12">
-                                    <span class="option-text">Dermato-venerology</span>
-                                </li>
-                                <li class="option" id="13">
-                                    <span class="option-text">Dermatology</span>
-                                </li>
-                                <li class="option" id="14">
-                                    <span class="option-text">Endocrinology</span>
-                                </li>
-                                <li class="option" id="15">
-                                    <span class="option-text">Gastro-enterologic surgery</span>
-                                </li>
-                                <li class="option" id="16">
-                                    <span class="option-text">Gastroenterology</span>
-                                </li>
-                                <li class="option" id="17">
-                                    <span class="option-text">General hematology</span>
-                                </li>
-                                <li class="option" id="18">
-                                    <span class="option-text">General Practice</span>
-                                </li>
-                                <li class="option" id="19">
-                                    <span class="option-text">General surgery</span>
-                                </li>
-                                <li class="option" id="20">
-                                    <span class="option-text">Geriatrics</span>
-                                </li>
-                                <li class="option" id="21">
-                                    <span class="option-text">Immunology</span>
-                                </li>
-                                <li class="option" id="22">
-                                    <span class="option-text">Infectious diseases</span>
-                                </li>
-                                <li class="option" id="23">
-                                    <span class="option-text">Internal medicine</span>
-                                </li>
-                                <li class="option" id="24">
-                                    <span class="option-text">Laboratory medicine</span>
-                                </li>
-                                <li class="option" id="25">
-                                    <span class="option-text">Maxillo-facial surgery</span>
-                                </li>
-                                <li class="option" id="26">
-                                    <span class="option-text">Microbiology</span>
-                                </li>
-                                <li class="option" id="27">
-                                    <span class="option-text">Nephrology</span>
-                                </li>
-                                <li class="option" id="28">
-                                    <span class="option-text">Neuro-psychiatry</span>
-                                </li>
-                                <li class="option" id="29">
-                                    <span class="option-text">Neurology</span>
-                                </li>
-                                <li class="option" id="30">
-                                    <span class="option-text">Neurosurgery</span>
-                                </li>
-                                <li class="option" id="31">
-                                    <span class="option-text">Nuclear medicine</span>
-                                </li>
-                                <li class="option" id="32">
-                                    <span class="option-text">Obstetrics and gynecology</span>
-                                </li>
-                                <li class="option" id="33">
-                                    <span class="option-text">Occupational medicine</span>
-                                </li>
-                                <li class="option" id="34">
-                                    <span class="option-text">Ophthalmology</span>
-                                </li>
-                                <li class="option" id="35">
-                                    <span class="option-text">Orthopaedics</span>
-                                </li>
-                                <li class="option" id="36">
-                                    <span class="option-text">Otorhinolaryngology</span>
-                                </li>
-                                <li class="option" id="37">
-                                    <span class="option-text">Paediatric surgery</span>
-                                </li>
-                                <li class="option" id="38">
-                                    <span class="option-text">Paediatrics</span>
-                                </li>
-                                <li class="option" id="39">
-                                    <span class="option-text">Pathology</span>
-                                </li>
-                                <li class="option" id="40">
-                                    <span class="option-text">Pharmacology</span>
-                                </li>
-                                <li class="option" id="41">
-                                    <span class="option-text">Physical medicine and rehabilitation</span>
-                                </li>
-                                <li class="option" id="42">
-                                    <span class="option-text">Plastic surgery</span>
-                                </li>
-                                <li class="option" id="43">
-                                    <span class="option-text">Podiatric Medicine</span>
-                                </li>
-                                <li class="option" id="44">
-                                    <span class="option-text">Podiatric Surgery</span>
-                                </li>
-                                <li class="option" id="45">
-                                    <span class="option-text">Psychiatry</span>
-                                </li>
-                                <li class="option" id="46">
-                                    <span class="option-text">Public health and Preventive Medicine</span>
-                                </li>
-                                <li class="option" id="47">
-                                    <span class="option-text">Radiology</span>
-                                </li>
-                                <li class="option" id="48">
-                                    <span class="option-text">Radiotherapy</span>
-                                </li>
-                                <li class="option" id="49">
-                                    <span class="option-text">Respiratory medicine</span>
-                                </li>
-                                <li class="option" id="50">
-                                    <span class="option-text">Rheumatology</span>
-                                </li>
-                                <li class="option" id="51">
-                                    <span class="option-text">Stomatology</span>
-                                </li>
-                                <li class="option" id="52">
-                                    <span class="option-text">Thoracic surgery</span>
-                                </li>
-                                </ul>
-                            </div>               
+                    <div class="select-menu" style="position: relative;">
+                        <select name="specialties" id="specialties" class="select-btn" required>
+                            <option value="" selected disabled>Pilih Spesialis Dokter</option>
+                            <?php
+                            //import database
+                            include("../connection.php");
+
+                            // Query untuk mengambil daftar spesialis dari database
+                            $query = "SELECT id, sname FROM specialties ORDER BY sname ASC";
+                            $result = $database->query($query);
+
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data spesialis
+                                    $id = $row['id'];
+                                    $sname = $row['sname'];
+                                    ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $sname; ?></option>
+                                    <?php
+                                }
+                            } else {
+                                // Jika tidak ada hasil yang ditemukan
+                                echo "<option value='' disabled>Tidak ada spesialis yang ditemukan.</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Kata Sandi</h1>
                 <div id="password-field">
-                    <input type="password" required placeholder="Masukkan Kata Sandi" name="password">
+                    <input type="password" required placeholder="Masukkan Kata Sandi" name="docpassword">
                 </div>
                 </div>
             </div>
@@ -501,7 +396,7 @@
             </div>
             <div class="confirm">
                 <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" id="submit">Tambah</button>
+                <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
             </div>
         </form>
     </div>
@@ -548,6 +443,18 @@ optionMenus.forEach(optionMenu => {
         });
     });
 });
+
+document.getElementById('submit').addEventListener('click', function(event) {
+    var selectedSpecialty = document.querySelector('.sBtn-text1').innerText;
+    if (selectedSpecialty === 'Pilih Spesialis Dokter') {
+        alert('Mohon pilih spesialis sebelum mengirim formulir.');
+        event.preventDefault(); /
+    } else {
+        var hiddenInput = document.getElementById('sname');
+        hiddenInput.value = selectedSpecialty; 
+    }
+});
+
 </script>
 </body>
 </html>

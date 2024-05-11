@@ -508,11 +508,11 @@
                                     $apponum=$row["apponum"];
                                     $appodate=$row["appodate"];
                                     echo '<tr >
-                                        <td style="font-weight:600;"> &nbsp;'.
+                                        <td style="font-weight:400;"> &nbsp;'.
                                         
                                         substr($pname,0,25)
                                         .'</td >
-                                        <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
+                                        <td style="text-align:center;font-size:23px; color: var(--btnnicetext);">
                                         '.$apponum.'
                                         
                                         </td>
@@ -528,12 +528,14 @@
                                         </td>
 
                                         <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <!--<a href="?action=view&id='.$appoid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;-->
-                                       <a href="?action=drop&id='.$appoid.'&name='.$pname.'&session='.$title.'&apponum='.$apponum.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancel</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;</div>
+                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                            <a href="edit-session" class="non-style-link" style="padding-right:10%">
+                                                <img src="../img/edit.png" alt="Edit">
+                                            </a>
+
+                                       <a href="" class="non-style-link"><img src="../img/delete.png" alt="Edit">
+                                       </a>
+                                        </div>
                                         </td>
                                     </tr>';
                                     

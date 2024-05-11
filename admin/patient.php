@@ -415,26 +415,25 @@
                                     $tel=$row["ptel"];
                                     
                                     echo '<tr>
-                                        <td> &nbsp;'.
+                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'.
                                         substr($name,0,35)
                                         .'</td>
-                                        <td>
+                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($nic,0,12).'
                                         </td>
-                                        <td>
+                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                             '.substr($tel,0,10).'
                                         </td>
-                                        <td>
+                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($email,0,20).'
                                          </td>
-                                        <td>
+                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($dob,0,10).'
                                         </td>
-                                        <td >
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <a href="?action=view&id='.$pid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       
+                                        <td>
+                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                       <a href="" class="non-style-link"><img src="../img/delete.png" alt="Edit">
+                                       </a>
                                         </div>
                                         </td>
                                     </tr>';

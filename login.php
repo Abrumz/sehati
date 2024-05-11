@@ -63,7 +63,7 @@
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='p';
                     
-                    header('location: patient/index.php');
+                    header('location: patient/index');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
@@ -79,7 +79,7 @@
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='a';
                     
-                    header('location: admin/index.php');
+                    header('location: admin/index');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
@@ -95,7 +95,7 @@
                     //   doctor dashbord
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='d';
-                    header('location: doctor/index.php');
+                    header('location: doctor/index');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';

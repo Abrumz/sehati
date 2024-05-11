@@ -1,28 +1,24 @@
 <?php
+    include("../connection.php");
+    
+    // Memastikan id yang mau dihapus tersedia
+    if(isset($_GET['id'])) {
+        $scheduleid = $_GET['id'];
 
-    session_start();
+        // Penghapusan sesuai id 
+        $delete_query = "DELETE FROM schedule WHERE scheduleid = $scheduleid";
+        $result = $database->query($delete_query);
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
+        if($result) {
+            // Jika penghapusan berhasil, redirect kembali ke halaman schedule.php
+            header("Location: schedule.php");
+            exit();
+        } else {
+            // Error
+            echo "Error: Tidak bisa hapus jadwal.";
         }
-
-    }else{
-        header("location: ../login.php");
+    } else {
+        // Jika id tidak tersedia, tampilkan pesan kesalahan
+        echo "Error: Tidak ada id jadwal.";
     }
-    
-    
-    if($_GET){
-        //import database
-        include("../connection.php");
-        $id=$_GET["id"];
-        //$result001= $database->query("select * from schedule where scheduleid=$id;");
-        //$email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from schedule where scheduleid='$id';");
-        //$sql= $database->query("delete from doctor where docemail='$email';");
-        //print_r($email);
-        header("location: schedule.php");
-    }
-
-
 ?>

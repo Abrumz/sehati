@@ -15,11 +15,13 @@
     if($_GET){
         //import database
         include("../connection.php");
-        $id=$_GET["id"];
-        $result001= $database->query("select * from doctor where docid=$id;");
-        $email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from webuser where email='$email';");
-        $sql= $database->query("delete from doctor where docemail='$email';");
+        $docid=$_GET["id"];
+        $result001= $database->query("SELECT * FROM doctor WHERE docid=$docid;");
+        $row = $result001->fetch_assoc();
+        $docemail = $row["docemail"];
+
+        $sql= $database->query("DELETE FROM webuser WHERE email='$docemail';");
+        $sql= $database->query("DELETE FROM doctor WHERE docemail='$docemail';");
         //print_r($email);
         header("location: doctors.php");
     }

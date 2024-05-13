@@ -50,15 +50,38 @@
         header("location: ../login.php");
     }
     
-    
-
-    //import database
+    // Import file koneksi database
     include("../connection.php");
 
-    
-    ?>
+     // Pastikan permintaan POST dihandle dengan benar
+     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['csrf_token'])) {
+        // Periksa token CSRF
+        if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
+            // Ambil data dokter dan status dari permintaan
+            $docid = $_POST['docid'];
+            $status = ($_POST['status'] == 'true') ? 1 : 0;
+
+            // Update status dokter di database
+            // Gunakan prepared statement untuk menghindari serangan SQL Injection
+            $stmt = $database->prepare("UPDATE doctor SET status = ? WHERE docid = ?");
+            $stmt->bind_param("ii", $status, $docid);
+            $stmt->execute();
+            $stmt->close();
+
+            // Keluarkan pesan sukses atau gagal ke JavaScript
+            echo "Doctor status updated successfully!";
+        } 
+        exit(); // Keluar dari skrip PHP setelah menangani permintaan POST
+    }
+?>
 
 <body class="theme-black">
+
+<!-- Popup -->
+<div id="status-popup" class="popup" style="display:none; position:fixed; top:50%; left:50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); z-index: 9999;">
+        <p>Status dokter berhasil perbarui!</p>
+    </div>
+
 <!-- Page Loader -->
 
 
@@ -281,18 +304,22 @@
 <!-- Add and Search -->
 
 <?php
-                    if($_POST){
-                        $keyword=$_POST["search"];
-                        
-                        $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
-                    }else{
-                        $sqlmain= "select * from doctor order by docid desc";
+// Tambahkan token CSRF ke dalam formulir
+$csrf_token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $csrf_token;
 
-                    }
+if($_POST){
+    $keyword=$_POST["search"];
+    
+    $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
+}else{
+    $sqlmain= "select * from doctor order by docid desc";
+
+}
 
 
 
-                ?>
+?>
 
 <div class="nav-doctor">
     
@@ -308,10 +335,8 @@
 
     
     <form action="" method="post" class="header-search">
-
-    <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Dokter" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
-
-
+        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Dokter" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
     <?php
         echo '<datalist id="doctors">';
         $list11 = $database->query("select  docname,docemail from  doctor;");
@@ -418,48 +443,67 @@
                                     $docid=$row["docid"];
                                     $name=$row["docname"];
                                     $email=$row["docemail"];
-                                    $spe=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$spe'");
-                                    $spcil_array= $spcil_res->fetch_assoc();
-                                    $spcil_name=$spcil_array["sname"];
+                                    $status=$row["status"];
+                                    $specialties=$row["specialties"];
+                                    $spcil_res= $database->query("select sname from specialties where id='$specialties'");
+
+                                    // Initialize the JavaScript confirmation popup
+                                    $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus dokter ini?')\"";
+                                    // Memeriksa apakah hasil kueri ditemukan
+                                    if ($spcil_res) {
+                                        // Memeriksa apakah ada baris hasil yang ditemukan
+                                        if ($spcil_res->num_rows > 0) {
+                                            // Jika ada, ambil baris pertama dari hasil kueri
+                                            $spcil_array = $spcil_res->fetch_assoc();
+                                            // Periksa apakah elemen "sname" ada dalam array
+                                            if (isset($spcil_array["sname"])) {
+                                                $spcil_name = $spcil_array["sname"];
+                                            } else {
+                                                $spcil_name = ""; // Atau berikan nilai default jika tidak ada
+                                            }
+                                        } else {
+                                            $spcil_name = ""; // Atau berikan nilai default jika tidak ada baris hasil
+                                        }
+                                    } else {
+                                        $spcil_name = ""; // Atau berikan nilai default jika hasil kueri tidak ada
+                                    }
                                     echo '<tr>
-                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'. substr($name,0,30) .'</td>
-                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($spcil_name,0,20).' </td>
-                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($email,0,20).' </td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'. substr($name, 0, 30) .'</td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($spcil_name, 0, 20).' </td>
+                                    <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($email, 0, 20).' </td>
                                     <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> 
-                                        <div class="select-menu" >
-                                            <div class="select-btn">
-                                                <span class="sBtn-text">Select your option</span>
+                                        <div class="select-menu" data-docid='.$docid.'>
+                                            <div class="select-btn '. (($status == 1) ? 'aktif' : 'non-aktif') .'">
+                                                <span class="sBtn-text">'. (($status == 1) ? 'Aktif' : 'Non-Aktif') .'</span>
                                                 <i class="bx bx-chevron-down"></i>
                                             </div>
                                             <ul class="options">
-                                                <li class="option" id="aktif">
+                                                <li class="option" data-status="aktif">
                                                     <span class="option-text">Aktif</span>
                                                 </li>
-                                                <li class="option" id="non-aktif">
+                                                <li class="option" data-status="non-aktif">
                                                     <span class="option-text">Non-Aktif</span>
                                                 </li>
                                             </ul>
-
                                         </div>
                                     </td>
 
-
                                         <td>
                                         <div style="display:flex;justify-content: center;">
-                                            <a href="edit-doc" class="non-style-link" style="padding-right:10%">
+                                            <a href="edit-doc?id='.($docid).'" class="non-style-link" style="padding-right:10%">
                                                 <img src="../img/edit.png" alt="Edit">
                                             </a>
 
-                                       <a href="" class="non-style-link"><img src="../img/delete.png" alt="Edit">
-                                       </a>
+                                            <a href="delete-doctor?id=' . $docid . '" class="non-style-link" ' . $confirmation_popup . '>
+                                                <img src="../img/delete.png" alt="Delete">
+                                            </a>
                                         </div>
                                         </td>
                                     </tr>';
                                     
                                 }
                             }
-                                 
+                                
                             ?>
  
                             </tbody>
@@ -488,31 +532,66 @@
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
 <script>
-const optionMenus = document.querySelectorAll(".select-menu");
+    document.addEventListener("DOMContentLoaded", function () {
+        const optionMenus = document.querySelectorAll(".select-menu");
+        optionMenus.forEach(optionMenu => {
+            const selectBtn = optionMenu.querySelector(".select-btn"),
+                options = optionMenu.querySelectorAll(".option"),
+                sBtn_text = optionMenu.querySelector(".sBtn-text");
 
-optionMenus.forEach(optionMenu => {
-    const selectBtn = optionMenu.querySelector(".select-btn"),
-          options = optionMenu.querySelectorAll(".option"),
-          sBtn_text = optionMenu.querySelector(".sBtn-text");
+            selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
 
-    selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    let selectedOption = option.querySelector(".option-text").innerText;
+                    sBtn_text.innerText = selectedOption;
+                    selectBtn.className = "select-btn " + option.dataset.status;
+                    optionMenu.classList.remove("active");
+                    updateDoctorStatus(option.parentElement.parentElement.dataset.docid, option.dataset.status);
+                });
+            });
 
-    options.forEach(option =>{
-        option.addEventListener("click", ()=>{
-            let selectedOption = option.querySelector(".option-text").innerText;
-            sBtn_text.innerText = selectedOption;
-
-            selectBtn.classList.remove("aktif", "non-aktif");
-
-            selectBtn.classList.add(option.id);
-
-            optionMenu.classList.remove("active");
-            optionMenu.classList.remove("non-active");
+            // Check if status is NULL and set default option accordingly
+            if (selectBtn.dataset.status === "") {
+                sBtn_text.innerText = "Select your status";
+            }
         });
+
+        function updateDoctorStatus(docid, status) {
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value; // Ambil token CSRF dari formulir
+            const formData = new FormData();
+            const booleanStatus = (status === 'aktif');
+            formData.append('docid', docid);
+            formData.append('status', booleanStatus);
+            formData.append('csrf_token', csrfToken); // Sertakan token CSRF
+
+            fetch('<?php echo $_SERVER['PHP_SELF']; ?>', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    // Periksa apakah respons dari server berhasil memperbarui status
+                    if (data.trim() === "Doctor status updated successfully!") {
+                        // Update status di tabel setelah berhasil memperbarui status dokter
+                        const statusCell = document.querySelector(`[data-docid="${docid}"]`);
+                        statusCell.dataset.status = booleanStatus; // Perbarui atribut data-status dengan nilai boolean
+                        statusCell.querySelector(".sBtn-text").innerText = (booleanStatus) ? 'Aktif' : 'Non-Aktif';
+                        const selectBtn = statusCell.querySelector(".select-btn");
+                        selectBtn.className = "select-btn " + ((booleanStatus) ? 'aktif' : 'non-aktif'); // Perbarui kelas
+                        document.getElementById('status-popup').style.display = 'block'; // Tampilkan popup
+                        setTimeout(() => {
+                            document.getElementById('status-popup').style.display = 'none'; // Sembunyikan popup setelah beberapa detik
+                        }, 3000); // Ganti 3000 dengan jumlah milidetik yang diinginkan
+                    } else {
+                        console.error("Gagal memperbarui status dokter.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
     });
-});
-
-
 </script>
+
 </body>
 </html>

@@ -36,27 +36,65 @@
 </head>
 
 <?php
-
-    //learn from w3schools.com
-
     session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
-        }
-
-    }else{
+    // Redirect users if not logged in or not an admin
+    if (!isset($_SESSION["user"]) || $_SESSION['usertype'] !== 'a') {
         header("location: ../login.php");
+        exit(); // Make sure to exit after a header redirect
     }
-    
-    
 
-    //import database
+    // Import database connection
     include("../connection.php");
 
-    
-    ?>
+    // Check if schedule ID is provided in URL
+    if (!isset($_GET['id'])) {
+        // Redirect or display error message
+        header("location: schedule.php");
+        exit();
+    }
+
+    $schedule_id = $_GET['id'];
+
+    // Check if form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Retrieve form data
+        $title = $_POST['title'];
+        $docid = $_POST['docid'];
+        $nop = $_POST['nop'];
+        $date = $_POST['date'];
+        $time = $_POST['time'];
+
+        // Update schedule in database
+        $query = "UPDATE schedule SET title = '$title', docid = '$docid', nop = '$nop', scheduledate = '$date', scheduletime = '$time' WHERE scheduleid = $schedule_id";
+
+        if ($database->query($query) === TRUE) {
+            // Redirect to schedule page or display success message
+            header("location: schedule.php");
+            exit();
+        } else {
+            // Handle error
+            echo "Error updating schedule: " . $database->error;
+        }
+    }
+
+    // Retrieve existing schedule data for editing
+    $schedule_query = "SELECT * FROM schedule WHERE scheduleid = $schedule_id";
+    $schedule_result = $database->query($schedule_query);
+
+    // Check if schedule exists
+    if ($schedule_result->num_rows == 0) {
+        // Redirect or display error message
+        header("location: schedule.php");
+        exit();
+    }
+
+    $schedule_data = $schedule_result->fetch_assoc();
+
+    // Query to fetch list of active doctors
+    $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+    $doctor_result = $database->query($doctor_query);
+?>
 
 <body class="theme-black">
 <!-- Page Loader -->
@@ -288,43 +326,48 @@
                 <div class="col">
                     <h1>Nama Sesi</h1>
                 <div id="subject-field">
-                    <input type="text" required placeholder="Asam Lambung" name="Nama Sesi">
+                    <input type="text" required placeholder="Asam Lambung" name="title">
                 </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Pilih Dokter</h1>
-                            <div class="select-menu" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                <div class="select-btn" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                     <span class="sBtn-text1">Pilih Dokter yang Tersedia</span>
-                                     <i class="bx bx-chevron-down"></i>
-                                </div>
-                                <ul class="options">
-                                <li class="option" id="1">
-                                    <span class="option-text">Dokter 1</span>
-                                </li>
-                                <li class="option" id="2">
-                                    <span class="option-text">Dokter 2</span>
-                                </li>
-                                <li class="option" id="3">
-                                    <span class="option-text">Dokter 3</span>
-                                </li>
-                                <li class="option" id="4">
-                                    <span class="option-text">Dokter 4</span>
-                                </li>
-                                <li class="option" id="5">
-                                    <span class="option-text">Dokter 5</span>
-                                </li>                                
-                                </ul>
-                            </div>               
+                    <div class="select-menu" style="position: relative;">
+                        <select name="docid" id="docid" class="select-btn" required>
+                            <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
+                            <?php
+                            //import database
+                            include("../connection.php");
+
+                            // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
+                            $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+                            $result = $database->query($query);
+
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data dokter
+                                    $docid = $row['docid'];
+                                    $docname = $row['docname'];
+                                    // Tampilkan opsi dokter
+                                    echo "<option value='$docid'>$docname</option>";
+                                }
+                            } else {
+                                // Jika tidak ada dokter yang aktif ditemukan
+                                echo "<option value='' disabled>Tidak ada dokter yang aktif tersedia.</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Nomor Antrian</h1>
                 <div id="number">
-                    <input type="number" required placeholder="12" name="Antre woy">
+                    <input type="number" required placeholder="12" name="nop">
                 </div>
                 </div>
             </div>
@@ -346,7 +389,7 @@
             </div>
             <div class="confirm">
                 <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" id="submit">Tambah</button>
+                <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
             </div>
         </form>
     </div>

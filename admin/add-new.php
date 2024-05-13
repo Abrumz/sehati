@@ -58,25 +58,26 @@
     // Menyimpan data dokter
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         // Ambil data dari formulir
-        $docname = $database->real_escape_string($_POST["docname"]);
-        $docemail = $database->real_escape_string($_POST["docemail"]);
-        $docnic = $database->real_escape_string($_POST["docnic"]);
-        $doctel = $database->real_escape_string($_POST["doctel"]);
-        $specialties = $database->real_escape_string($_POST["specialties"]);
-        $docpassword = $database->real_escape_string($_POST["docpassword"]);
+        $name = $database->real_escape_string($_POST["name"]);
+        $email = $database->real_escape_string($_POST["email"]);
+        $nic = $database->real_escape_string($_POST["nic"]);
+        $tele = $database->real_escape_string($_POST["tele"]);
+        $spec = $database->real_escape_string($_POST["specialties"]);
+        $password = $database->real_escape_string($_POST["password"]);
+        $cpassword = $database->real_escape_string($_POST["cpassword"]);
 
         // Simpan data ke dalam database
-        $query = "INSERT INTO doctor (docname, docemail, docnic, doctel, specialties, docpassword) VALUES ('$docname', '$docemail', '$docnic', '$doctel', '$specialties', '$docpassword')";
+        $query = "INSERT INTO doctor (docname, docemail, docnic, doctel, specialties, docpassword) VALUES ('$name', '$email', '$nic', '$tele', '$spec', '$password')";
         $result = $database->query($query);
 
         if ($result) {
             // Data disimpan ke webuser 
-            $sql2 = "INSERT INTO webuser (email, usertype) VALUES ('$docemail', 'd')";
+            $sql2 = "INSERT INTO webuser (email, usertype) VALUES ('$email', 'd')";
             $result2 = $database->query($sql2);
     
             if ($result2) {
                 // Redirect ke halaman dokter setelah data disimpan
-                header("location: doctors.php");
+                header("location: doctors");
             } else {
                 // Error
                 echo "Terjadi error saat memasukkan data ke tabel webuser: " . $database->error;
@@ -318,7 +319,7 @@
                 <div class="col">
                     <h1>Nama Dokter</h1>
                 <div id="subject-field">
-                    <input type="text" required placeholder="Nama Dokter" name="docname">
+                    <input type="text" required placeholder="Nama Dokter" name="name">
                 </div>
                 </div>
             </div>
@@ -326,7 +327,7 @@
                 <div class="col">
                     <h1>Email</h1>
                 <div id="email-field">
-                    <input type="text" required placeholder="Alamat Email" name="docemail">
+                    <input type="text" required placeholder="Alamat Email" name="email">
                 </div>
                 </div>
             </div>
@@ -334,13 +335,13 @@
                 <div class="col">
                     <h1>NIK</h1>
                     <div id="number-field">
-                        <input type="number" name="docnic" required placeholder="Nomor Induk Kependudukan">
+                        <input type="number" name="nic" required placeholder="Nomor Induk Kependudukan">
                     </div>
                 </div>
                 <div class="col">
                     <h1>Nomor Telepon</h1>
                     <div id="number-field">
-                        <input type="number" required placeholder="Nomor Telepon" name="doctel">
+                        <input type="number" required placeholder="Nomor Telepon" name="tele">
                     </div>
                 </div>
             </div>
@@ -382,7 +383,7 @@
                 <div class="col">
                     <h1>Kata Sandi</h1>
                 <div id="password-field">
-                    <input type="password" required placeholder="Masukkan Kata Sandi" name="docpassword">
+                    <input type="password" required placeholder="Masukkan Kata Sandi" name="password">
                 </div>
                 </div>
             </div>
@@ -390,7 +391,7 @@
                 <div class="col">
                     <h1>Konfirmasi Kata Sandi</h1>
                 <div id="confirm-password-field">
-                    <input type="password" required placeholder="Konfirmasi Ulang Kata Sandi" name="confirm-password">
+                    <input type="password" required placeholder="Konfirmasi Ulang Kata Sandi" name="cpassword">
                 </div>
                 </div>
             </div>

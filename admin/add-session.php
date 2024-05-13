@@ -55,7 +55,38 @@
     //import database
     include("../connection.php");
 
-    
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+        // Ambil data dari formulir
+        $title = $database->real_escape_string($_POST["title"]);
+        $docid = $database->real_escape_string($_POST["docid"]);
+        $date = $database->real_escape_string($_POST["date"]);
+        $time = $database->real_escape_string($_POST["time"]);
+        $nop = $database->real_escape_string($_POST["nop"]);
+
+        // Ambil nama dokter berdasarkan docid
+        $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+        $doctor_result = $database->query($doctor_query);
+        if ($doctor_result->num_rows > 0) {
+            $doctor_row = $doctor_result->fetch_assoc();
+            $doctor_name = $doctor_row['docname'];
+        } else {
+            // Handle jika dokter tidak ditemukan
+            $doctor_name = "Nama Dokter Tidak Ditemukan";
+        }
+
+        // Siapkan query untuk memasukkan data ke dalam tabel schedule
+        $query = "INSERT INTO schedule (title, docid, scheduledate, scheduletime, nop) 
+                  VALUES ('$title', '$docid', '$date', '$time', '$nop')";
+
+        // Eksekusi query
+        if ($database->query($query) === TRUE) {
+            // Jika query berhasil dieksekusi
+            header("location: schedule");
+        } else {
+            // Jika terjadi kesalahan dalam eksekusi query, berikan pesan error
+            echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
+        }
+    }
     ?>
 
 <body class="theme-black">
@@ -239,7 +270,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="doctors" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -288,36 +319,49 @@
                 <div class="col">
                     <h1>Nama Sesi</h1>
                 <div id="subject-field">
-                    <input type="text" required placeholder="Asam Lambung" name="Nama Sesi">
+                    <input type="text" required placeholder="Asam Lambung" name="title">
                 </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Pilih Dokter</h1>
-                            <div class="select-menu" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                <div class="select-btn" style="background: #F9FAFB; border-radius: 4px; border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7); display: block; box-shadow: none;">
-                                     <span class="sBtn-text1">Pilih Dokter yang Tersedia</span>
-                                     <i class="bx bx-chevron-down"></i>
-                                </div>
-                                <ul class="options">
-                                <li class="option" id="1">
-                                    <span class="option-text">Dokter 1</span>
-                                </li>
-                                <li class="option" id="2">
-                                    <span class="option-text">Dokter 2</span>
-                                </li>
-                                <li class="option" id="3">
-                                    <span class="option-text">Dokter 3</span>
-                                </li>
-                                <li class="option" id="4">
-                                    <span class="option-text">Dokter 4</span>
-                                </li>
-                                <li class="option" id="5">
-                                    <span class="option-text">Dokter 5</span>
-                                </li>                                
-                                </ul>
-                            </div>               
+                    <div class="select-menu" style="position: relative;">
+                        <select name="docid" id="docid" class="select-btn" required>
+                            <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
+                            <?php
+                            //import database
+                            include("../connection.php");
+
+                            // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
+                            $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+                            $result = $database->query($query);
+
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data dokter
+                                    $docid = $row['docid'];
+                                    $docname = $row['docname'];
+                                    // Tampilkan opsi dokter
+                                    echo "<option value='$docid'>$docname</option>";
+                                }
+                            } else {
+                                // Jika tidak ada dokter yang aktif ditemukan
+                                echo "<option value='' disabled>Tidak ada dokter yang aktif tersedia.</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Nomor Antrian</h1>
+                <div id="number">
+                    <input type="number" required placeholder="12" name="nop">
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -338,7 +382,7 @@
             </div>
             <div class="confirm">
                 <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" id="submit">Tambah</button>
+                <button class="button-doc" type="submit" name= "submit" id="submit">Tambah</button>
             </div>
         </form>
     </div>

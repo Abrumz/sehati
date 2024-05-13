@@ -469,6 +469,9 @@
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
                                     $nop=$row["nop"];
+
+                                    // confirmation popup
+                                    $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
                                     echo '<tr>
                                         <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'.
                                         substr($title,0,30)
@@ -485,12 +488,13 @@
 
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="edit-session" class="non-style-link" style="padding-right:10%">
+                                            <a href="edit-session?id='.($scheduleid).'" class="non-style-link" style="padding-right:10%">
                                                 <img src="../img/edit.png" alt="Edit">
                                             </a>
 
-                                       <a href="" class="non-style-link"><img src="../img/delete.png" alt="Edit">
-                                       </a>
+                                            <a href="delete-session?id='.($scheduleid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                                <img src="../img/delete.png" alt="Delete">
+                                            </a>
                                         </div>
                                         </td>
                                     </tr>';

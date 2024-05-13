@@ -370,8 +370,20 @@
     //import database
     include("../connection.php");
 
-    // id dokter
-    $doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+    // query untuk mengambil data dokter
+    $query_doctor_ids = "SELECT docid FROM doctor"; // query untuk mengambil ID dokter
+    $result_doctor_ids = $database->query($query_doctor_ids);
+
+    $doctor_ids = []; // inisialisasi array untuk menyimpan ID dokter
+
+    // cek apakah query berhasil dijalankan
+    if ($result_doctor_ids->num_rows > 0) {
+        // loop melalui setiap baris hasil query
+        while ($row_doctor_id = $result_doctor_ids->fetch_assoc()) {
+            // tambahkan ID dokter ke dalam array $doctor_ids
+            $doctor_ids[] = $row_doctor_id["docid"];
+        }
+    }
 
     // array id diubah jadi string
     $doctor_ids_string = implode(",", $doctor_ids);

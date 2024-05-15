@@ -19,6 +19,6 @@ jobs:
           server: ftp.ilkomerz.biz.id
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          local-dir: ./sehati  # Set this to your local project directory
-          remote-dir: /home/ilkomerz/sehati.ilkomerz.biz.id  # Set this to your target directory on the server
+          local-dir: ./sehati/  # Set this to your local project directory with trailing slash
+          server-dir: /home/ilkomerz/sehati.ilkomerz.biz.id/  # Set this to your target directory on the server with trailing slash
           timeout: 3600000  # Set timeout to 1 hour

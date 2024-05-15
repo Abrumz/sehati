@@ -1,4 +1,4 @@
-name: Deploy to FTP
+name: 🚀 Deploy website on push
 
 on:
   push:
@@ -6,17 +6,18 @@ on:
       - main
 
 jobs:
-  deploy:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
 
-      - name: Deploy to FTP server
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          ftp-server: ftp://ftp.ilkomerz.biz.id
-          ftp-username: ${{ secrets.ftp_username }}
-          ftp-password: ${{ secrets.ftp_password }}
-          local-dir: ./
-          server-dir: /home/ilkomerz/sehati.ilkomerz.biz.id/
+          server: ftp.ilkomerz.biz.id
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          exclude: .htaccess
+          timeout: 3600000  # Set timeout to 1 hour

@@ -1,4 +1,4 @@
-name: 🚀 Deploy website on push
+name: Deploy to SFTP
 
 on:
   push:
@@ -6,19 +6,19 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: 📂 Sync files
+      - name: Upload files to SFTP server
         uses: atmoz/sftp-deploy@v1
         with:
-          server: ftp.ilkomerz.biz.id
+          host: ftp.ilkomerz.biz.id
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          local-dir: ./
-          server-dir: /home/ilkomerz/sehati.ilkomerz.biz.id/  # Set this to your target directory on the server with trailing slash
+          source: ./
+          target: /home/ilkomerz/sehati.ilkomerz.biz.id/
+          remove: false
           timeout: 3600000  # Set timeout to 1 hour

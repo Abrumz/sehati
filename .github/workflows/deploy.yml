@@ -1,4 +1,4 @@
-name: Deploy to SFTP
+name: Deploy to FTP
 
 on:
   push:
@@ -12,13 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Upload files to SFTP server
-        uses: atmoz/sftp-deploy@v1
+      - name: Deploy to FTP server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
         with:
-          host: ftp.ilkomerz.biz.id
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
-          source: ./
-          target: /home/ilkomerz/sehati.ilkomerz.biz.id/
-          remove: false
-          timeout: 3600000  # Set timeout to 1 hour
+          ftp-server: ftp://ftp.ilkomerz.biz.id
+          ftp-username: ${{ secrets.ftp_username }}
+          ftp-password: ${{ secrets.ftp_password }}
+          local-dir: ./
+          server-dir: /home/ilkomerz/sehati.ilkomerz.biz.id/

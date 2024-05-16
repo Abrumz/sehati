@@ -215,21 +215,22 @@
         <div class="menu">
             <ul class="list">
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
-                <li class="header">UTAMA</li>
+            <li class="header">UTAMA</li>
                     <li class="active open" style="background-color: transparent">
                         <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
-                    <li class="active">
+                    <!-- <li class="active">
                         <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
-                    </li>
-                    <li class="active">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
-                    </li>
-                    <li class="active">
+                    </li> -->
+                    <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li>
+                    </li> -->
                     <li class="active">
-                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                    </li>
+                    
+                    <li class="active">
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
                     </li>
     <?php
     //import database
@@ -435,9 +436,10 @@
     $result = $database->query($query);
 
     $count = 0;
+    $validCount = 0; // Menambahkan variabel untuk menghitung jumlah jadwal valid
 
     // periksa hasil apakah lebih dari 4 atau tidak
-    if ($result->num_rows > 0 && $count < 4) {
+    if ($result->num_rows > 0) {
         // loop melalui setiap baris hasil query
         while ($row = $result->fetch_assoc()) {
             $scheduleid = $row["scheduleid"];
@@ -480,17 +482,21 @@
                     <?php
                     // update var
                     $count++;
+                    $validCount++; // Menambah jumlah jadwal valid
                 } else {
                     break; // stop loop
                 }
             }
         }
-    } else {
-        // tidak ada data
-        echo '<img src="../img/404-empty.png" alt="Tidak ada data yang ditemukan.">';
     }
-    
+
+    // Periksa jika tidak ada jadwal valid yang ditemukan
+    if ($validCount === 0) {
+        // tidak ada data
+        echo '<img src="../img/404-empty.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+    }
 ?>
+
 
                 
                 <div style="text-align: end;">

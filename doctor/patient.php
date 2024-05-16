@@ -1,15 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="no-js " lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Patients</title>
-    <style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+<title>Sehati</title>
+<link rel="icon" href="../img/LogoSehati.png">
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"> 
+
+<!-- Favicon-->
+<link rel="stylesheet" href="../assets-page/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets-page/plugins/morrisjs/morris.css" />
+<link rel="stylesheet" href="../assets-page/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css"/>
+
+<!-- Custom Css -->
+<link rel="stylesheet" href="../assets-page/css/main.css">
+<link rel="stylesheet" href="../assets-page/css/color_skins.css">
+<link rel="stylesheet" href="../assets-page/css/font.css">
+<link rel="stylesheet" href="../css/animations.css">  
+<link rel="stylesheet" href="../css/main.css"> 
+<link rel="stylesheet" href="../css/doctor.css"> 
+
+<style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
         }
@@ -17,9 +33,10 @@
             animation: transitionIn-Y-bottom 0.5s;
         }
 </style>
+
 </head>
-<body>
-    <?php
+
+<?php
 
     //learn from w3schools.com
 
@@ -36,6 +53,7 @@
         header("location: ../login.php");
     }
     
+    
 
     //import database
     include("../connection.php");
@@ -43,63 +61,371 @@
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
+    $email=$userfetch["docemail"];
+ //echo $userid;
+ ?>
+
+<body class="theme-black">
+<!-- Page Loader -->
 
 
-    //echo $userid;
-    //echo $username;
-    ?>
-    <div class="container">
-    <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                    <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Dashboard</p></a></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">My Appointments</p></a></div>
-                    </td>
-                </tr>
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">My Sessions</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient menu-active menu-icon-patient-active">
-                        <a href="patient.php" class="non-style-link-menu  non-style-link-menu-active"><div><p class="menu-text">My Patients</p></a></div>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings   ">
-                        <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
-                    </td>
-                </tr>
-                
-            </table>
+
+
+<div class="overlay_menu">
+    <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
+    <div class="container">        
+        <div class="row clearfix">
+            <div class="card">
+                <div class="body">
+                    <div class="input-group m-b-0">                
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+                      
         </div>
+        
+    </div>
+</div>
+<div class="overlay"></div><!-- Overlay For Sidebars -->
+
+<!-- Left Sidebar -->
+<aside id="minileftbar" class="minileftbar">
+    <ul class="menu_list">
+        <li>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
+        </li>     
+        <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
+        <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
+        <li class="power">
+            <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+        </li>
+    </ul>    
+</aside>
+
+<aside class="right_menu">
+    
+    <div id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
+            
+        </ul>
+        <div class="tab-content slim_scroll">
+            <div class="tab-pane slideRight active" id="setting">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Colors</strong> Skins</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="choose-skin list-unstyled m-b-0">
+                            <li data-theme="black" class="active">
+                                <div class="black"></div>
+                            </li>
+                            <li data-theme="purple">
+                                <div class="purple"></div>
+                            </li>                   
+                            <li data-theme="blue">
+                                <div class="blue"></div>
+                            </li>
+                            <li data-theme="cyan">
+                                <div class="cyan"></div>                    
+                            </li>
+                            <li data-theme="green">
+                                <div class="green"></div>
+                            </li>
+                            <li data-theme="orange">
+                                <div class="orange"></div>
+                            </li>
+                            <li data-theme="blush">
+                                <div class="blush"></div>                    
+                            </li>
+                        </ul>
+                    </div>
+                </div>                
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>General</strong> Settings</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="setting-list list-unstyled m-b-0">
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox1" type="checkbox">
+                                    <label for="checkbox1">Ada Raka cuy</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox2" type="checkbox" checked="">
+                                    <label for="checkbox2">Kotop Ganteng</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox3" type="checkbox">
+                                    <label for="checkbox3">Belllllllll</label>
+                                </div>                        
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox4" type="checkbox">
+                                    <label for="checkbox4">Tata Netchita smansa</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox5" type="checkbox" checked="">
+                                    <label for="checkbox5">Kotop ter the best</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox m-b-0">
+                                    <input id="checkbox6" type="checkbox">
+                                    <label for="checkbox6">Kelompok Jaya</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Left</strong> Menu</h2>
+                    </div>
+                    <div class="body theme-light-dark">
+                        <button class="t-dark btn btn-primary btn-round btn-block">Dark</button>
+                    </div>
+                </div>               
+            </div>
+            
+        </div>
+    </div>
+    <div id="leftsidebar" class="sidebar">
+        <div class="menu">
+            <ul class="list">
+            <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
+            <li class="header">UTAMA</li>
+                    <li class="active">
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                    </li>
+                    <!-- <li class="active">
+                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
+                    </li> -->
+                    <li class="active">
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                    </li>
+                    <li class="active open" style="background-color: transparent">
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
+                    </li>
+                 
+                    <?php
+    //import database
+            include("../connection.php");
+
+            // Query untuk mengambil data admin dari database
+                $query = "SELECT * FROM admin";
+                $result = $database->query($query);
+
+                // Memeriksa apakah ada hasil yang ditemukan
+                if ($result->num_rows > 0) {
+                    // Loop melalui setiap baris hasil query
+                    while ($row = $result->fetch_assoc()) {
+                        // Ekstrak data yang dibutuhkan dari setiap baris
+                        $adminEmail = $row['aemail'];
+                ?>
+                <li>
+                    <div class="user-info m-b-20">
+                        <div class="image">
+                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                        </div>
+                        <div class="detail">
+                            <h6><?php echo $username  ?></h6>
+                            <p class="m-b-0"><?php echo $email; ?></p>
+                                         
+                        </div>
+                    </div>
+                </li>
+                <?php
+                    }
+                } else {
+                    // Jika tidak ada data admin yang ditemukan
+                    echo "Tidak ada data admin yang ditemukan.";
+                }
+        ?>                     
+            </ul>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<section class="content home">
+<!-- NAVBAR -->
+<div class="nav-bar" >
+    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+            <img src="../img/back.png" style="padding-right: 8px;">
+            <h2 class="Bawah">Kembali</h2>
+    </a>
+    <div class="Calendar">
+        <div class="date-section">
+            <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
+                <?php
+                setlocale(LC_TIME, 'id_ID'); 
+                $today = strftime('%A');
+                echo $today;
+                ?>
+            </p>
+
+            <p class="heading-sub12" style="padding: 0;margin: 0;">
+                <?php 
+                setlocale(LC_TIME, 'id_ID');
+                $today = strftime('%d %B %Y');
+                echo $today;
+
+                $patientrow = $database->query("select  * from  patient;");
+                $doctorrow = $database->query("select  * from  doctor;");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $list110 = $database->query("select  * from  schedule where docid=$userid;");
+                
+?>
+            </p>
+            
+        </div>
+        <div class="calendar-section">
+            <button class="btn-label">
+                <img src="../img/calendar.svg" alt="Calendar">
+            </button>
+        </div>    
+    </div>
+</div>
+</div>
+<?php       
+    $selecttype = "My";
+    $current = "My patients Only";
+    if ($_POST) {
+        if (isset($_POST["search"])) {
+            $keyword = $_POST["search12"];
+            $sqlmain = "SELECT * FROM patient WHERE pemail LIKE '%$keyword%' OR pname LIKE '%$keyword%'";
+            $selecttype = "my";
+        }
+        if (isset($_POST["filter"])) {
+            if ($_POST["showonly"] == 'all') {
+                $sqlmain = "SELECT * FROM patient";
+                $selecttype = "All";
+                $current = "All patients";
+            } else {
+                $sqlmain = "SELECT * FROM appointment INNER JOIN patient ON patient.pid = appointment.pid INNER JOIN schedule ON schedule.scheduleid = appointment.scheduleid WHERE schedule.docid = $userid";
+                $selecttype = "My";
+                $current = "My patients Only";
+            }
+        }
+    } else {
+        $sqlmain = "SELECT * FROM appointment INNER JOIN patient ON patient.pid = appointment.pid INNER JOIN schedule ON schedule.scheduleid = appointment.scheduleid WHERE schedule.docid = $userid";
+        $selecttype = "My";
+    }
+?>
+<div>
+    <table border="0" width="100%" style="border-spacing: 0;margin:0;padding:0;margin-top:25px;">
+        <tr>
+            <td>
+                <!-- 
+                <form action="" method="post" class="header-search">
+                    <input type="search" name="search12" class="input-text header-searchbar" placeholder="Search Patient name or Email" list="patient">  
+                    <?php
+                        echo '<datalist id="patient">';
+                        $list11 = $database->query($sqlmain);
+                        for ($y = 0; $y < $list11->num_rows; $y++) {
+                            $row00 = $list11->fetch_assoc();
+                            $d = $row00["pname"];
+                            $c = $row00["pemail"];
+                            echo "<option value='$d'><br/>";
+                            echo "<option value='$c'><br/>";
+                        };
+                        echo ' </datalist>';
+                    ?>
+                    <input type="Submit" value="Search" name="search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                </form>
+                -->
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding-top:10px;">
+                <p class="heading-janjitemu">Jumlah Pasien: <span style="font-weight: 600;"><?php echo $list11->num_rows; ?></span></p>
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<tr>
+    <td>                  
+                    
+                </tr>
+                <div class="header-doc" colspan="4" style="justify-content: flex-end;">
+                                <div class="filter-search" >
+                                
+                                    <div>
+
+                                    
+                                        <form action="" method="post" class="header-search">
+
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
+
+
+                                        <?php
+                                            echo '<datalist id="doctors">';
+                                            $list11 = $database->query("select  docname,docemail from  doctor;");
+
+                                            for ($y=0;$y<$list11->num_rows;$y++){
+                                                $row00=$list11->fetch_assoc();
+                                                $d=$row00["docname"];
+                                                $c=$row00["docemail"];
+                                                echo "<option value='$d'><br/>";
+                                                echo "<option value='$c'><br/>";
+                                            };
+
+                                        echo ' </datalist>';
+                                        ?>
+
+                                        <input type="image" src="../img/search.png" >
+
+
+
+                                        </form>
+                                    </div>
+                                <div>
+                            </div>
+                <?php
+
+
+                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
+
+                    if($_POST){
+                        //print_r($_POST);
+                        
+
+
+                        
+                        if(!empty($_POST["sheduledate"])){
+                            $sheduledate=$_POST["sheduledate"];
+                            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
+                        };
+
+                        
+
+                        //echo $sqlmain;
+
+                    }
+
+
+                ?>
+                </div>
+                </div>
+
         <?php       
 
                     $selecttype="My";
@@ -135,14 +461,9 @@
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
-                    <td width="13%">
-
-                    <a href="patient.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                        
-                    </td>
                     <td>
                         
-                        <form action="" method="post" class="header-search">
+                        <!-- <form action="" method="post" class="header-search">
 
                             <input type="search" name="search12" class="input-text header-searchbar" placeholder="Search Patient name or Email" list="patient">&nbsp;&nbsp;
                             
@@ -165,62 +486,12 @@
                        
                             <input type="Submit" value="Search" name="search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
                         
-                        </form>
+                        </form> -->
                         
                     </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-                        date_default_timezone_set('Asia/Kolkata');
-
-                        $date = date('Y-m-d');
-                        echo $date;
-                        ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-
-
-                </tr>
                
                 
                 <tr>
-                    <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $selecttype." Patients (".$list11->num_rows.")"; ?></p>
-                    </td>
-                    
-                </tr>
-                <tr>
-                    <td colspan="4" style="padding-top:0px;width: 100%;" >
-                        <center>
-                        <table class="filter-container" border="0" >
- 
-                        <form action="" method="post">
-                        
-                        <td  style="text-align: right;">
-                        Show Details About : &nbsp;
-                        </td>
-                        <td width="30%">
-                        <select name="showonly" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
-                                    <option value="" disabled selected hidden><?php echo $current   ?></option><br/>
-                                    <option value="my">My Patients Only</option><br/>
-                                    <option value="all">All Patients</option><br/>
-                                    
-
-                        </select>
-                    </td>
-                    <td width="12%">
-                        <input type="submit"  name="filter" value=" Filter" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
-                        </form>
-                    </td>
-
-                    </tr>
-                            </table>
 
                         </center>
                     </td>
@@ -231,25 +502,25 @@
                    <td colspan="4">
                        <center>
                         <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown"  style="border-spacing:0;">
+                        <table width="93%" class="sub-table scrolldown"  style="border-spacing:0; ">
                         <thead>
                         <tr>
-                                <th class="table-headin">
+                                <th class="table-headin" style="padding: 8px" >
                                     
                                 
-                                Name
+                                Nama Pasien
                                 
                                 </th>
                                 <th class="table-headin">
                                     
                                 
-                                    NIC
+                                    NIK
                                     
                                 </th>
                                 <th class="table-headin">
                                 
                             
-                                Telephone
+                                Telepon
                                 
                                 </th>
                                 <th class="table-headin">
@@ -260,11 +531,7 @@
                                     Date of Birth
                                     
                                 </th>
-                                <th class="table-headin">
-                                    
-                                    Events
-                                    
-                                </tr>
+                                
                         </thead>
                         <tbody>
                         
@@ -301,28 +568,22 @@
                                     $tel=$row["ptel"];
                                     
                                     echo '<tr>
-                                        <td> &nbsp;'.
+                                    <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF); padding: 8px"> &nbsp; '.
                                         substr($name,0,35)
                                         .'</td>
-                                        <td>
+                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($nic,0,12).'
                                         </td>
-                                        <td>
+                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                             '.substr($tel,0,10).'
                                         </td>
-                                        <td>
+                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($email,0,20).'
                                          </td>
-                                        <td>
+                                         <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                         '.substr($dob,0,10).'
                                         </td>
-                                        <td >
-                                        <div style="display:flex;justify-content: center;">
                                         
-                                        <a href="?action=view&id='.$pid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       
-                                        </div>
-                                        </td>
                                     </tr>';
                                     
                                 }
@@ -343,136 +604,24 @@
             </table>
         </div>
     </div>
-    <?php 
-    if($_GET){
-        
-        $id=$_GET["id"];
-        $action=$_GET["action"];
-            $sqlmain= "select * from patient where pid='$id'";
-            $result= $database->query($sqlmain);
-            $row=$result->fetch_assoc();
-            $name=$row["pname"];
-            $email=$row["pemail"];
-            $nic=$row["pnic"];
-            $dob=$row["pdob"];
-            $tele=$row["ptel"];
-            $address=$row["paddress"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <a class="close" href="patient.php">&times;</a>
-                        <div class="content">
-
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Patient ID: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    P-'.$id.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$name.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Email: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$email.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">NIC: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$nic.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Telephone: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$tele.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Address: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            '.$address.'<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Date of Birth: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$dob.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
-                                </td>
-                
-                            </tr>
-                           
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
-        
-    };
-
-?>
+   
 </div>
+<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+
+<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
+<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/doughnut.bundle.js"></script>
+
+<script src="../assets-page/bundles/mainscripts.bundle.js"></script>
+<script src="../assets-page/js/pages/index.js"></script>
+<script src="../assets-page/js/line.js"></script>
+<script src="../assets-page/js/table.js"></script>
+
 
 </body>
 </html>
+
+

@@ -200,9 +200,9 @@
                     <li class="active">
                         <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
-                    <li class="active">
+                    <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li>
+                    </li> -->
                     <li class="active">
                         <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
@@ -390,7 +390,7 @@
     $count = 0;
 
     // periksa hasil apakah lebih dari 4 atau tidak
-    if ($result->num_rows > 0 && $count < 4) {
+    if ($result->num_rows > 0) {
         // loop melalui setiap baris hasil query
         while ($row = $result->fetch_assoc()) {
             $scheduleid = $row["scheduleid"];
@@ -436,12 +436,15 @@
                 }
             }
         }
-    } else {
-        // tidak ada data
-        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan.">';
     }
-    
+
+    // Periksa jika tidak ada jadwal valid yang ditemukan
+    if ($count === 0) {
+        // tidak ada data
+        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+    }
 ?>
+
 
                 
             </div>
@@ -544,7 +547,7 @@
         </div>  -->
 
 <!-- JANJI TEMU -->
-<div class="table-row">
+<!-- <div class="table-row">
         <div class="filter-container" style="border: none;">
             <div class="table-row">
                 <div class="table-cell" colspan="4">
@@ -576,7 +579,7 @@
     $count = 0;
 
     // periksa hasil apakah lebih dari 4 atau tidak
-    if ($result->num_rows > 0 && $count < 4) {
+    if ($result->num_rows > 0) {
         // loop melalui setiap baris hasil query
         while ($row = $result->fetch_assoc()) {
             $scheduleid = $row["scheduleid"];
@@ -617,12 +620,15 @@
                 }
             }
         }
-    } else {
-        // tidak ada data
-        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan.">';
     }
-    
+
+    // Periksa jika tidak ada jadwal valid yang ditemukan
+    if ($count === 0) {
+        // tidak ada data
+        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+    }
 ?>
+
 
                 </div>
                 <div style="text-align: end;">
@@ -632,7 +638,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 <!-- <div class="table-row">

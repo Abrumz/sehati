@@ -211,9 +211,9 @@
                     <li class="active">
                         <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
-                    <li class="active">
+                    <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li>
+                    </li> -->
                     <li class="active">
                         <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>

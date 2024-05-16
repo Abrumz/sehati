@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="../assets-page/css/font.css">
 <link rel="stylesheet" href="../css/animations.css">  
 <link rel="stylesheet" href="../css/main.css"> 
+<link rel="stylesheet" href="../css/doctor.css"> 
 
 <style>
         .popup{
@@ -211,9 +212,9 @@
                     <li class="active open" style="background-color: transparent">
                         <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
-                    <li class="active">
+                    <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li>
+                    </li> -->
                     <li class="active">
                         <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
@@ -285,6 +286,51 @@
                 </a>
             </div>
         </div>
+        <div class="header-doc" colspan="4">
+                                <div>
+                                    <a href="schedule" class="btn-filter-doc" style="padding: 15px; margin :0;width:100%">Reset Filter</a>
+                                </div>
+                                <div class="filter-search">
+                                    <div class="filter-doc" style="display: inline-flex align-content: center; flex-wrap: wrap;">
+                                        <form action="" method="post" id="dateForm">
+                                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
+                                        </form>
+                                    </div>
+                                
+                                    <div>
+
+                                    
+                                        <form action="" method="post" class="header-search">
+
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
+
+
+                                        <?php
+                                            echo '<datalist id="doctors">';
+                                            $list11 = $database->query("select  docname,docemail from  doctor;");
+
+                                            for ($y=0;$y<$list11->num_rows;$y++){
+                                                $row00=$list11->fetch_assoc();
+                                                $d=$row00["docname"];
+                                                $c=$row00["docemail"];
+                                                echo "<option value='$d'><br/>";
+                                                echo "<option value='$c'><br/>";
+                                            };
+
+                                        echo ' </datalist>';
+                                        ?>
+
+                                        <input type="image" src="../img/search.png" >
+
+
+
+                                        </form>
+                                    </div>
+                                <div>
+                            </div>
+                
+                </div>
+                </div>
 
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;">

@@ -366,6 +366,14 @@
             </div>
             <div class="row">
                 <div class="col">
+                    <h1>Nomor Antrian</h1>
+                <div id="number">
+                    <input type="number" required placeholder="12" name="Antre woy">
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <h1>Tanggal Sesi</h1>
                 <div id="date-session">
                     <input type="date" required placeholder="dd/mm/yy" name="date">

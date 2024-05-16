@@ -23597,6 +23597,7 @@ h2.Bawah{
     justify-content: flex-end;
     margin-right: 44px;
     margin-top: 32px;
+    margin-bottom: 32px;
 }
 
 @media (max-width: 640px) {

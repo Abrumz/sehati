@@ -453,7 +453,8 @@
     // Periksa jika tidak ada jadwal valid yang ditemukan
     if ($count === 0) {
         // tidak ada data
-        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        // echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        echo '<img src="../img/404.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
     }
 ?>
 
@@ -637,7 +638,8 @@
     // Periksa jika tidak ada jadwal valid yang ditemukan
     if ($count === 0) {
         // tidak ada data
-        echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        // echo '<img src="../img/404.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        echo '<img src="../img/404.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
     }
 ?>
 

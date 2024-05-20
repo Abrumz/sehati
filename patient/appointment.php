@@ -1,15 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="no-js " lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Appointments</title>
-    <style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+<title>Sehati</title>
+<link rel="icon" href="../img/LogoSehati.png">
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"> 
+
+<!-- Favicon-->
+<link rel="stylesheet" href="../assets-page/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets-page/plugins/morrisjs/morris.css" />
+<link rel="stylesheet" href="../assets-page/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css"/>
+
+<!-- Custom Css -->
+<link rel="stylesheet" href="../assets-page/css/main.css">
+<link rel="stylesheet" href="../assets-page/css/color_skins.css">
+<link rel="stylesheet" href="../assets-page/css/font.css">
+<link rel="stylesheet" href="../css/animations.css">  
+<link rel="stylesheet" href="../css/main.css"> 
+<link rel="stylesheet" href="../css/doctor.css"> 
+
+<style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
         }
@@ -17,9 +33,10 @@
             animation: transitionIn-Y-bottom 0.5s;
         }
 </style>
+
 </head>
-<body>
-    <?php
+
+<?php
 
     //learn from w3schools.com
 
@@ -47,6 +64,7 @@
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
+    $email=$userfetch["pemail"];
 
 
     //echo $userid;
@@ -76,146 +94,301 @@
     $sqlmain.="order by appointment.appodate  asc";
     $result= $database->query($sqlmain);
     ?>
-    <div class="container">
-        <div class="menu">
-        <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                    <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home" >
-                        <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">All Doctors</p></a></div>
-                    </td>
-                </tr>
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Scheduled Sessions</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment  menu-active menu-icon-appoinment-active">
-                        <a href="appointment.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">My Bookings</p></a></div>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
-                        <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
-                    </td>
-                </tr>
-                
-            </table>
+
+<body class="theme-black">
+<!-- Page Loader -->
+
+
+
+
+<div class="overlay_menu">
+    <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
+    <div class="container">        
+        <div class="row clearfix">
+            <div class="card">
+                <div class="body">
+                    <div class="input-group m-b-0">                
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+                      
         </div>
-        <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%" >
-                    <a href="appointment.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
-                    <td>
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">My Bookings history</p>
-                                           
-                    </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
+        
+    </div>
+</div>
+<div class="overlay"></div><!-- Overlay For Sidebars -->
 
-                        date_default_timezone_set('Asia/Kolkata');
+<!-- Left Sidebar -->
+<aside id="minileftbar" class="minileftbar">
+    <ul class="menu_list">
+        <li>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
+        </li>     
+        <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
+        <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
+        <li class="power">
+            <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+        </li>
+    </ul>    
+</aside>
 
-                        $today = date('Y-m-d');
-                        echo $today;
-
-                        
-                        ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-
-
-                </tr>
-               
-                <!-- <tr>
-                    <td colspan="4" >
-                        <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a Session</div>
-                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font></button>
-                        </a>
+<aside class="right_menu">
+    
+    <div id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
+            
+        </ul>
+        <div class="tab-content slim_scroll">
+            <div class="tab-pane slideRight active" id="setting">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Colors</strong> Skins</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="choose-skin list-unstyled m-b-0">
+                            <li data-theme="black" class="active">
+                                <div class="black"></div>
+                            </li>
+                            <li data-theme="purple">
+                                <div class="purple"></div>
+                            </li>                   
+                            <li data-theme="blue">
+                                <div class="blue"></div>
+                            </li>
+                            <li data-theme="cyan">
+                                <div class="cyan"></div>                    
+                            </li>
+                            <li data-theme="green">
+                                <div class="green"></div>
+                            </li>
+                            <li data-theme="orange">
+                                <div class="orange"></div>
+                            </li>
+                            <li data-theme="blush">
+                                <div class="blush"></div>                    
+                            </li>
+                        </ul>
+                    </div>
+                </div>                
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>General</strong> Settings</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="setting-list list-unstyled m-b-0">
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox1" type="checkbox">
+                                    <label for="checkbox1">Ada Raka cuy</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox2" type="checkbox" checked="">
+                                    <label for="checkbox2">Kotop Ganteng</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox3" type="checkbox">
+                                    <label for="checkbox3">Belllllllll</label>
+                                </div>                        
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox4" type="checkbox">
+                                    <label for="checkbox4">Tata Netchita smansa</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <input id="checkbox5" type="checkbox" checked="">
+                                    <label for="checkbox5">Kotop ter the best</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox m-b-0">
+                                    <input id="checkbox6" type="checkbox">
+                                    <label for="checkbox6">Kelompok Jaya</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Left</strong> Menu</h2>
+                    </div>
+                    <div class="body theme-light-dark">
+                        <button class="t-dark btn btn-primary btn-round btn-block">Dark</button>
+                    </div>
+                </div>               
+            </div>
+            
+        </div>
+    </div>
+    <div id="leftsidebar" class="sidebar">
+        <div class="menu">
+            <ul class="list">
+            <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
+                <li class="header">UTAMA</li>
+                    <li class="active">
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                    </li>
+                    <!-- <li class="active">
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                    </li> -->
+                    <!-- <li class="active">
+                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
+                    </li> -->
+                    <li class="active">
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
+                    </li>
+                    <li class="active open" style="background-color: transparent">
+                        <a href="appointment"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                    </li>
+                 
+                <li>
+                    <div class="user-info m-b-20">
+                        <div class="image">
+                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
-                    </td>
-                </tr> -->
+                        <div class="detail">
+                            <h6><?php echo $username  ?></h6>
+                            <p class="m-b-0"><?php echo $email; ?></p>
+                                         
+                        </div>
+                    </div>
+                </li>             
+            </ul>
+        </div>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<section class="content home">
+<!-- NAVBAR -->
+<div class="nav-bar" >
+    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+            <img src="../img/back.png" style="padding-right: 8px;">
+            <h2 class="Bawah">Kembali</h2>
+    </a>
+    <div class="Calendar">
+        <div class="date-section">
+            <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
+                <?php
+                setlocale(LC_TIME, 'id_ID'); 
+                $today = strftime('%A');
+                echo $today;
+                ?>
+            </p>
+
+            <p class="heading-sub12" style="padding: 0;margin: 0;">
+                <?php 
+                setlocale(LC_TIME, 'id_ID');
+                $today = strftime('%d %B %Y');
+                echo $today;
+
+                $patientrow = $database->query("select  * from  patient;");
+                $doctorrow = $database->query("select  * from  doctor;");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                ?>
+            </p>
+            
+        </div>
+        <div class="calendar-section">
+            <button class="btn-label">
+                <img src="../img/calendar.svg" alt="Calendar">
+            </button>
+        </div>    
+    </div>
+</div>
+</div>
                 <tr>
+                    
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
                     
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">My Bookings (<?php echo $result->num_rows; ?>)</p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
+                        Jumlah Jadwal: <span style="font-weight: 700;"><?php echo $result->num_rows; ?></span>
+                    </p>
+
                     </td>
                     
                 </tr>
-                <tr>
-                    <td colspan="4" style="padding-top:0px;width: 100%;" >
-                        <center>
-                        <table class="filter-container" border="0" >
-                        <tr>
-                           <td width="10%">
-
-                           </td> 
-                        <td width="5%" style="text-align: center;">
-                        Date:
-                        </td>
-                        <td width="30%">
-                        <form action="" method="post">
-                            
-                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
-
-                        </td>
-                        
-                    <td width="12%">
-                        <input type="submit"  name="filter" value=" Filter" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
-                        </form>
-                    </td>
-
-                    </tr>
-                            </table>
-
-                        </center>
-                    </td>
-                    
                 </tr>
+        <div class="button-schedule">
+            <div class="Add-Doctor">
+                <a href="add-session">
+                    <button class="Doctor-btn" style="display: flex; justify-content: center;">
+                        <input type="image" src="../img/add-btn.png" >
+                        <h1>Tambah Jadwal Temu</h1>            
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="header-doc" colspan="4">
+                                <div>
+                                    <a href="" class="btn-filter-doc" style="padding: 15px; margin :0;width:100%">Reset Filter</a>
+                                </div>
+                                <div class="filter-search">
+                                    <div class="filter-doc" style="display: inline-flex align-content: center; flex-wrap: wrap;">
+                                        <form action="" method="post" id="dateForm">
+                                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
+                                        </form>
+                                    </div>
                 
-               
-                  
+                </div>
+                </div>
+
+                <div class="dash-body">
+            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">            
                 <tr>
                    <td colspan="4">
                        <center>
-                        <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" border="0" style="border:none">
-                        
+                       <div class="abc scroll">
+                        <table width="93%" class="sub-table scrolldown" border="0">
+                        <thead>
+                        <tr>
+                                <th class="table-headin">
+                                    
+                                
+                                Sesi
+                                
+                                </th>
+                                
+                                <th class="table-headin">
+                                    Dokter
+                                </th>
+                                <th class="table-headin">
+                                    
+                                    Tanggal
+                                    
+                                </th>
+                                <th class="table-headin">
+                                    
+                                    Waktu
+                                    
+                                </th>
+                                <!-- <th class="table-headin">
+                                    
+                                Max num that can be booked
+                                    
+                                </th> -->
+                                
+                                <th class="table-headin">
+                                    
+                                    Action
+                                    
+                                </tr>
+                        </thead>
                         <tbody>
                         
                             <?php
@@ -261,80 +434,34 @@
                                             if($scheduleid==""){
                                                 break;
                                             }
+                                            $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
     
-                                            echo '
-                                            <td style="width: 25%;">
-                                                    <div  class="dashboard-items search-items"  >
-                                                    
-                                                        <div style="width:100%;">
-                                                        <div class="h3-search">
-                                                                    Booking Date: '.substr($appodate,0,30).'<br>
-                                                                    Reference Number: OC-000-'.$appoid.'
-                                                                </div>
-                                                                <div class="h1-search">
-                                                                    '.substr($title,0,21).'<br>
-                                                                </div>
-                                                                <div class="h3-search">
-                                                                    Appointment Number:<div class="h1-search">0'.$apponum.'</div>
-                                                                </div>
-                                                                <div class="h3-search">
-                                                                    '.substr($docname,0,30).'
-                                                                </div>
-                                                                
-                                                                
-                                                                <div class="h4-search">
-                                                                    Scheduled Date: '.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)
-                                                                </div>
-                                                                <br>
-                                                                <a href="?action=drop&id='.$appoid.'&title='.$title.'&doc='.$docname.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancel Booking</font></button></a>
-                                                        </div>
-                                                                
-                                                    </div>
-                                                </td>';
+                                            echo '<tr>
+                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'.
+                                        substr($title,0,30)
+                                        .'</td>
+                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                        '.substr($docname,0,20).'
+                                        </td>
+                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                            '.substr($scheduledate,0,10).'
+                                        </td>
+                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                            '.substr($scheduletime,0,5).'
+                                        </td>
+
+                                        <td>
+                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                            <a href="appointment?id='.($scheduleid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                                <img src="../img/delete-text.png" alt="Delete">
+                                            </a>
+                                        </div>
+                                        </td>
+                                    </tr>';
     
                                         }
                                         echo "</tr>";
                            
-                                // for ( $x=0; $x<$result->num_rows;$x++){
-                                //     $row=$result->fetch_assoc();
-                                //     $appoid=$row["appoid"];
-                                //     $scheduleid=$row["scheduleid"];
-                                //     $title=$row["title"];
-                                //     $docname=$row["docname"];
-                                //     $scheduledate=$row["scheduledate"];
-                                //     $scheduletime=$row["scheduletime"];
-                                //     $pname=$row["pname"];
-                                //     
-                                //     
-                                //     echo '<tr >
-                                //         <td style="font-weight:600;"> &nbsp;'.
-                                        
-                                //         substr($pname,0,25)
-                                //         .'</td >
-                                //         <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
-                                //         '.$apponum.'
-                                        
-                                //         </td>
-                                //         <td>
-                                //         '.substr($title,0,15).'
-                                //         </td>
-                                //         <td style="text-align:center;;">
-                                //             '.substr($scheduledate,0,10).' @'.substr($scheduletime,0,5).'
-                                //         </td>
-                                        
-                                //         <td style="text-align:center;">
-                                //             '.$appodate.'
-                                //         </td>
-
-                                //         <td>
-                                //         <div style="display:flex;justify-content: center;">
-                                        
-                                //         <!--<a href="?action=view&id='.$appoid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                //        &nbsp;&nbsp;&nbsp;-->
-                                //        <a href="?action=drop&id='.$appoid.'&name='.$pname.'&session='.$title.'&apponum='.$apponum.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancel</font></button></a>
-                                //        &nbsp;&nbsp;&nbsp;</div>
-                                //         </td>
-                                //     </tr>';
                                     
                                 }
                             }
@@ -354,172 +481,22 @@
             </table>
         </div>
     </div>
-    <?php
     
-    if($_GET){
-        $id=$_GET["id"];
-        $action=$_GET["action"];
-        if($action=='booking-added'){
-            
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                    <br><br>
-                        <h2>Booking Successfully.</h2>
-                        <a class="close" href="appointment.php">&times;</a>
-                        <div class="content">
-                        Your Appointment number is '.$id.'.<br><br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        
-                        <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
-                        <br><br><br><br>
-                        </div>
-                    </center>
-            </div>
-            </div>
-            ';
-        }elseif($action=='drop'){
-            $title=$_GET["title"];
-            $docname=$_GET["doc"];
-            
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2>Are you sure?</h2>
-                        <a class="close" href="appointment.php">&times;</a>
-                        <div class="content">
-                            You want to Cancel this Appointment?<br><br>
-                            Session Name: &nbsp;<b>'.substr($title,0,40).'</b><br>
-                            Doctor name&nbsp; : <b>'.substr($docname,0,40).'</b><br><br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <a href="delete-appointment.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
-
-                        </div>
-                    </center>
-            </div>
-            </div>
-            '; 
-        }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("i",$id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
-            $spe=$row["specialties"];
-            
-            $sqlmain= "select sname from specialties where id=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("s",$spe);
-            $stmt->execute();
-            $spcil_res = $stmt->get_result();
-            $spcil_array= $spcil_res->fetch_assoc();
-            $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
-                        <div class="content">
-                            eDoc Web App<br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$name.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Email: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$email.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">NIC: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$nic.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Telephone: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$tele.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Specialties: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            '.$spcil_name.'<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
-                                </td>
-                
-                            </tr>
-                           
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';  
-    }
-}
-
-    ?>
     </div>
 
+
+    <script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+
+<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
+<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/doughnut.bundle.js"></script>
+
+<script src="../assets-page/bundles/mainscripts.bundle.js"></script>
+<script src="../assets-page/js/pages/index.js"></script>
+<script src="../assets-page/js/line.js"></script>
+<script src="../assets-page/js/table.js"></script>
 </body>
 </html>

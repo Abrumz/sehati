@@ -23,7 +23,6 @@
 <link rel="stylesheet" href="../assets-page/css/font.css">
 <link rel="stylesheet" href="../css/animations.css">  
 <link rel="stylesheet" href="../css/main.css"> 
-<link rel="stylesheet" href="../css/doctor.css"> 
 
 <style>
         .popup{
@@ -53,6 +52,7 @@
         header("location: ../login.php");
     }
     
+    
 
     //import database
     include("../connection.php");
@@ -66,33 +66,38 @@
     $username=$userfetch["pname"];
     $email=$userfetch["pemail"];
 
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+        // Ambil data dari formulir
+        $title = $database->real_escape_string($_POST["title"]);
+        $docid = $database->real_escape_string($_POST["docid"]);
+        $date = $database->real_escape_string($_POST["date"]);
+        $time = $database->real_escape_string($_POST["time"]);
+        $nop = $database->real_escape_string($_POST["nop"]);
 
-    //echo $userid;
-    //echo $username;
+        // Ambil nama dokter berdasarkan docid
+        $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+        $doctor_result = $database->query($doctor_query);
+        if ($doctor_result->num_rows > 0) {
+            $doctor_row = $doctor_result->fetch_assoc();
+            $doctor_name = $doctor_row['docname'];
+        } else {
+            // Handle jika dokter tidak ditemukan
+            $doctor_name = "Nama Dokter Tidak Ditemukan";
+        }
 
+        // Siapkan query untuk memasukkan data ke dalam tabel schedule
+        $query = "INSERT INTO schedule (title, docid, scheduledate, scheduletime, nop) 
+                  VALUES ('$title', '$docid', '$date', '$time', '$nop')";
 
-    //TODO
-    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
-
-    if($_POST){
-        //print_r($_POST);
-        
-
-
-        
-        if(!empty($_POST["sheduledate"])){
-            $sheduledate=$_POST["sheduledate"];
-            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
-        };
-
-    
-
-        //echo $sqlmain;
-
+        // Eksekusi query
+        if ($database->query($query) === TRUE) {
+            // Jika query berhasil dieksekusi
+            header("location: schedule");
+        } else {
+            // Jika terjadi kesalahan dalam eksekusi query, berikan pesan error
+            echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
+        }
     }
-
-    $sqlmain.="order by appointment.appodate  asc";
-    $result= $database->query($sqlmain);
     ?>
 
 <body class="theme-black">
@@ -276,7 +281,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -312,170 +317,95 @@
     </div>
 </div>
 </div>
-                <tr>
-                    
-                    <td colspan="4" style="padding-top:10px;width: 100%;" >
-                    
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
-                        Jumlah Jadwal: <span style="font-weight: 700;"><?php echo $result->num_rows; ?></span>
-                    </p>
 
-                    </td>
-                    
-                </tr>
-                </tr>
-        <div class="button-schedule">
-            <div class="Add-Doctor">
-                <a href="add-session">
-                    <button class="Doctor-btn" style="display: flex; justify-content: center;">
-                        <input type="image" src="../img/add-btn.png" >
-                        <h1>Tambah Jadwal Temu</h1>            
-                    </button>
-                </a>
-            </div>
-        </div>
-        <div class="header-doc" colspan="4">
-                                <div>
-                                    <a href="" class="btn-filter-doc" style="padding: 15px; margin :0;width:100%">Reset Filter</a>
-                                </div>
-                                <div class="filter-search">
-                                    <div class="filter-doc" style="display: inline-flex align-content: center; flex-wrap: wrap;">
-                                        <form action="" method="post" id="dateForm">
-                                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
-                                        </form>
-                                    </div>
-                
+
+<!-- CONTAINER/ISI -->
+<div class="form-doctor">
+    <div class="form-doctor-header">
+        <h1>Tambah Jadwal Baru</h1>
+    </div>
+    <div class="form-doctor-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col">
+                    <h1>Nama Sesi</h1>
+                <div id="subject-field">
+                    <input type="text" required placeholder="Asam Lambung" name="title">
                 </div>
-                </div>        
-                <tr>
-                   <td colspan="4">
-                       <center>
-                       <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" border="0">
-                        <thead>
-                        <tr>
-                                <th class="table-headin">
-                                    
-                                
-                                Sesi
-                                
-                                </th>
-                                
-                                <th class="table-headin">
-                                    Dokter
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Tanggal
-                                    
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Waktu
-                                    
-                                </th>
-                                <!-- <th class="table-headin">
-                                    
-                                Max num that can be booked
-                                    
-                                </th> -->
-                                
-                                <th class="table-headin">
-                                    
-                                    Action
-                                    
-                                </tr>
-                        </thead>
-                        <tbody>
-                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Pilih Dokter</h1>
+                    <div class="select-menu" style="position: relative;">
+                        <select name="docid" id="docid" class="select-btn" required>
+                            <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
                             <?php
+                            //import database
+                            include("../connection.php");
 
-                                
-                                
+                            // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
+                            $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
+                            $result = $database->query($query);
 
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="7">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/404.gif" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data dokter
+                                    $docid = $row['docid'];
+                                    $docname = $row['docname'];
+                                    // Tampilkan opsi dokter
+                                    echo "<option value='$docid'>$docname</option>";
                                 }
-                                else{
-
-                                    for ( $x=0; $x<($result->num_rows);$x++){
-                                        echo "<tr>";
-                                        for($q=0;$q<3;$q++){
-                                            $row=$result->fetch_assoc();
-                                            if (!isset($row)){
-                                            break;
-                                            };
-                                            $scheduleid=$row["scheduleid"];
-                                            $title=$row["title"];
-                                            $docname=$row["docname"];
-                                            $scheduledate=$row["scheduledate"];
-                                            $scheduletime=$row["scheduletime"];
-                                            $apponum=$row["apponum"];
-                                            $appodate=$row["appodate"];
-                                            $appoid=$row["appoid"];
-    
-                                            if($scheduleid==""){
-                                                break;
-                                            }
-                                            $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
-    
-                                            echo '<tr>
-                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'.
-                                        substr($title,0,30)
-                                        .'</td>
-                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($docname,0,20).'
-                                        </td>
-                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            '.substr($scheduledate,0,10).'
-                                        </td>
-                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            '.substr($scheduletime,0,5).'
-                                        </td>
-
-                                        <td>
-                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="schedule?id='.($scheduleid).'" class="non-style-link" ' . $confirmation_popup . '>
-                                                <img src="../img/delete-text.png" alt="Delete">
-                                            </a>
-                                        </div>
-                                        </td>
-                                    </tr>';
-    
-                                        }
-                                        echo "</tr>";
-                           
-                                    
-                                }
+                            } else {
+                                // Jika tidak ada dokter yang aktif ditemukan
+                                echo "<option value='' disabled>Tidak ada dokter yang aktif tersedia.</option>";
                             }
-                                 
                             ?>
- 
-                            </tbody>
-
-                        </table>
-                        </div>
-                        </center>
-                   </td> 
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Nomor Antrian</h1>
+                <div id="number">
+                    <input type="number" required placeholder="12" name="Antre woy">
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Tanggal Sesi</h1>
+                <div id="date-session">
+                    <input type="date" required placeholder="dd/mm/yy" name="date">
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Waktu Sesi</h1>
+                <div id="time-session">
+                    <input type="time" required placeholder="--:--" name="time">
+                </div>
+                </div>
+            </div>
+            <div class="confirm">
+                <button class="button-doc" type="reset" id="reset">Buang</button>
+                <button class="button-doc" type="submit" name= "submit" id="submit">Tambah</button>
+            </div>
+        </form>
+    </div>
+</div>
                    
-                </tr>
+<!-- PHP -->
 
 
-    <script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+
+</section>
+<!-- Jquery Core Js -->
+<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
 <script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
 
 <script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
@@ -486,7 +416,30 @@
 
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
-<script src="../assets-page/js/line.js"></script>
-<script src="../assets-page/js/table.js"></script>
+<script>
+const optionMenus = document.querySelectorAll(".select-menu");
+
+optionMenus.forEach(optionMenu => {
+    const selectBtn = optionMenu.querySelector(".select-btn"),
+          options = optionMenu.querySelectorAll(".option"),
+          sBtn_text = optionMenu.querySelector(".sBtn-text1");
+
+    selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+
+    options.forEach(option =>{
+        option.addEventListener("click", ()=>{
+            let selectedOption = option.querySelector(".option-text").innerText;
+            sBtn_text.innerText = selectedOption;
+
+            selectBtn.classList.remove("aktif", "non-aktif");
+
+            selectBtn.classList.add(option.id);
+
+            optionMenu.classList.remove("active");
+            optionMenu.classList.remove("non-active");
+        });
+    });
+});
+</script>
 </body>
 </html>

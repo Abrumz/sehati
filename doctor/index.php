@@ -493,7 +493,8 @@
     // Periksa jika tidak ada jadwal valid yang ditemukan
     if ($validCount === 0) {
         // tidak ada data
-        echo '<img src="../img/404-empty.png" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        echo '<img src="../img/404-empty.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
+        // echo '<img src="../img/404.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">';
     }
 ?>
 

@@ -38,6 +38,7 @@
 
     //import database
     include("connection.php");
+    include("google.php");
 
     
 
@@ -66,7 +67,7 @@
                     header('location: patient/index');
 
                 }else{
-                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
+                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Email atau Kata Sandi Salah/Tidak ditemukan</label>';
                 }
 
             }elseif($utype=='a'){
@@ -122,6 +123,7 @@
 
 <!----------------------- Main Container -------------------------->
 <!-- <div class="container d-flex justify-content-center align-items-center min-vh-100"> -->
+    
     <!----------------------- Login Container -------------------------->
     <div class="row">
 
@@ -148,7 +150,7 @@
                             <label for="useremail" class="form-label">Username / Email: </label>
                             <input type="email" name="useremail" class="input-text" placeholder="Email" required>
                             <label for="userpassword" class="form-label">Kata Sandi: </label>
-                            <input type="password" name="userpassword" class="input-text" placeholder="Kata Sandi" required>
+                            <input type="password" name="userpassword" class="input-text" placeholder="Kata Sandi" >
                             <br>
                             <?php echo $error ?>
                             <input type="submit" value="Masuk" class="login-btn btn-primary btn">
@@ -156,7 +158,11 @@
                                 <span>Atau</span>
                             </div>
                             <div class="input-group mb-3">
-                            <button class="btn btn-lg btn-light w-100 fs-6"><img src="https://logopng.com.br/logos/google-37.png" style="width:20px" class="me-2"><small>Sign In with Google</small></button>
+                            <a href="<?= $client->createAuthUrl();?>"  class="btn btn-lg btn-light w-100 fs-6">
+                                <img src="https://logopng.com.br/logos/google-37.png" style="width:20px" class="me-2">
+                                <small>Sign In with Google</small>
+                            </a>
+
                         </form>
                     </div>
                     <br>

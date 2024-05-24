@@ -1,15 +1,28 @@
+<?php
+session_start();
 
- <?php
-	session_start();
+require_once 'vendor/autoload.php';
 
-	require_once 'vendor/autoload.php';
+// Revoke token
+if (isset($_SESSION['access_token'])) {
+    $client = new Google_Client();
+    $client->setAccessToken($_SESSION['access_token']);
+    $client->revokeToken($_SESSION['access_token']);
+}
 
-	$access_token = $_SESSION['access_token'];
+// Destroy session
+session_destroy();
 
-	$client = new Google_Client();
+// Clear session cookies
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000, 
+        $params["path"], $params["domain"], 
+        $params["secure"], $params["httponly"]
+    );
+}
 
-	$client->revokeToken($access_token);
-
-	session_destroy();
-	header('Location: login?action=logout');
- ?>
+// Redirect to login page
+header('Location: login?action=logout');
+exit();
+?>

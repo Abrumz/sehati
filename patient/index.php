@@ -290,10 +290,10 @@
                     <tr>
                         <td >
                             <h3 style="color: #FFF;">Hallo <?php echo $username  ?>,</h3>
-                            <p style="color: #FFF;">Selamat Datang di Dashboard Sehati! Yuk buat Janji temu Anda Hari ini! 
+                            <p style="color: #FFF;">Selamat Datang di Dashboard Sehati! Yuk buat Jadwal temu Anda Hari ini! 
                             </p>
                             <a href="schedule" class="non-style-link" style="padding:32px; "><button class="btn-doctor-dash">
-                                <p>Buat Janji Temu Sekarang</p>
+                                <p>Buat Jadwal Temu Sekarang</p>
                             </button>
                             </a>
                             <br>
@@ -418,70 +418,70 @@
             </div>
             <div class="table-row-doctor">
             <?php
-    //import database
-    include("../connection.php");
+            //import database
+            include("../connection.php");
 
-    // id dokter
-    $doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+            // id pasien yang login
+            $patient_id = $userid;
 
-    // array id diubah jadi string
-    $doctor_ids_string = implode(",", $doctor_ids);
+            // query ambil data jadwal pasien yang login
+            $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+                    FROM appointment 
+                    JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+                    JOIN doctor ON schedule.docid = doctor.docid
+                    JOIN patient ON appointment.pid = patient.pid
+                    WHERE patient.pid = ?
+                    ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC";
 
-    // query ambil data pasien
-    $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
-                FROM appointment 
-                JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
-                JOIN doctor ON schedule.docid = doctor.docid
-                JOIN patient ON appointment.pid = patient.pid
-                WHERE doctor.docid IN ($doctor_ids_string)
-                ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC"; // Mengurutkan data berdasarkan tanggal dan waktu jadwal dari yang paling lama
+            $stmt = $database->prepare($query);
+            $stmt->bind_param("i", $patient_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-    $result = $database->query($query);
+            $count = 0;
+            $validCount = 0;
 
-    $count = 0;
-    $validCount = 0; // Menambahkan variabel untuk menghitung jumlah jadwal valid
+            // periksa hasil apakah lebih dari 4 atau tidak
+            if ($result->num_rows > 0) {
+                // loop melalui setiap baris hasil query
+                while ($row = $result->fetch_assoc()) {
+                    $scheduleid = $row["scheduleid"];
+                    $title = $row["title"];
+                    $scheduledate = $row["scheduledate"];
+                    $scheduletime = $row["scheduletime"];
+                    $pname = $row["pname"];
+                    $apponum = $row["apponum"];
+                    $appodate = $row["appodate"];
+                    $title = $row["title"];
 
-    // periksa hasil apakah lebih dari 4 atau tidak
-    if ($result->num_rows > 0) {
-        // loop melalui setiap baris hasil query
-        while ($row = $result->fetch_assoc()) {
-            $scheduleid = $row["scheduleid"];
-            $title = $row["title"];
-            $scheduledate = $row["scheduledate"];
-            $scheduletime = $row["scheduletime"];
-            $pname = $row["pname"];
-            $apponum = $row["apponum"];
-            $appodate = $row["appodate"];
-            $title = $row["title"];
-
-            // Cek apakah jadwal sudah lewat
-            $currentDateTime = date("Y-m-d H:i:s");
-            $scheduleDateTime = date("Y-m-d H:i:s", strtotime($scheduledate . ' ' . $scheduletime));
-            if ($scheduleDateTime > $currentDateTime) {
-                // menampilkan blok
-                if ($count < 4) {
-                    ?>
-                    <div class="table-cell-jadwal">
-                        <div class="dashboard-table-doctor" style="padding:20px;margin:auto; height: auto">
-                            <div style="display: flex; justify-content: space-between">
-                                <div style="display: flex;">
-                                    <div class="line-color"></div>
-                                    <div>
-                                        <h5><?php echo $title; ?></h5>
-                                        <h2 style="margin-bottom: 0px;"><?php echo $pname; ?></h2>
+                    // Cek apakah jadwal sudah lewat
+                    $currentDateTime = date("Y-m-d H:i:s");
+                    $scheduleDateTime = date("Y-m-d H:i:s", strtotime($scheduledate . ' ' . $scheduletime));
+                    if ($scheduleDateTime > $currentDateTime) {
+                        // menampilkan blok
+                        if ($count < 4) {
+                            ?>
+                            <div class="table-cell-jadwal">
+                                <div class="dashboard-table-doctor" style="padding:20px;margin:auto; height: auto">
+                                    <div style="display: flex; justify-content: space-between">
+                                        <div style="display: flex;">
+                                            <div class="line-color"></div>
+                                            <div>
+                                                <h5><?php echo $title; ?></h5>
+                                                <h2 style="margin-bottom: 0px;"><?php echo $pname; ?></h2>
+                                            </div>
+                                        </div>
+                                        <div class="calendar-janji" style="display: flex; flex-direction: column; padding: 0 8%;  ">
+                                            <h1>Tanggal</h1>
+                                            <h2><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h2>
+                                        </div>
+                                        <div class="calendar-janji" style="display: flex; flex-direction: column;">
+                                            <h1 style="display: flex;  justify-content: flex-end;">waktu</h1>
+                                            <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="calendar-janji" style="display: flex; flex-direction: column; padding: 0 8%;  ">
-                                    <h1>Tanggal</h1>
-                                    <h2><?php echo date('d/m/Y', strtotime($scheduledate)); ?></h2>
-                                </div>
-                                <div class="calendar-janji" style="display: flex; flex-direction: column;">
-                                    <h1 style="display: flex;  justify-content: flex-end;">waktu</h1>
-                                    <h2><?php echo date('H:i', strtotime($scheduletime)) . ' WIB'; ?></h2>
-                                </div>
                             </div>
-                        </div>
-                    </div>
                     <?php
                     // update var
                     $count++;
@@ -504,7 +504,7 @@
 
                 
                 <div style="text-align: end;">
-                    <a href="../soon">
+                    <a href="../patient/schedule">
                         <h4>Lihat Semua Jadwal</h4>
                     </a>
                 </div>

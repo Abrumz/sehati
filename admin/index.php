@@ -338,7 +338,7 @@
                         <div class="background-img-status"><img src="../img/Jadwal.png" ></div>
                     </div>
                 </div>
-                <div class="table-cell" style="width: 25%;">
+                <!-- <div class="table-cell" style="width: 25%;">
                     <div class="dashboard-table" style="padding:20px;margin:auto;width:95%;display: flex;padding-top:26px;padding-bottom:26px;">
                         <div>
                             <div class="h3-tabel" style="font-size: 15px">
@@ -351,7 +351,7 @@
                         </div>
                         <div class="background-img-status"><img src="../img/JanTem.png" ></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 </div>
@@ -462,7 +462,7 @@
                 
             </div>
                 <div style="text-align: end;">
-                    <a href="../soon">
+                    <a href="../admin/schedule">
                         <h4>Lihat Semua Jadwal</h4>
                     </a>
                 </div>

@@ -36,69 +36,71 @@
 </head>
 
 <?php
+session_start();
 
-    //learn from w3schools.com
+// Periksa apakah pengguna sudah login sebagai pasien
+if(isset($_SESSION["user"]) && $_SESSION['usertype'] == 'p'){
+    $useremail = $_SESSION["user"];
+} else {
+    // Jika belum, arahkan ke halaman login
+    header("location: ../login.php");
+    exit; // Hentikan eksekusi kode selanjutnya
+}
 
-    session_start();
+// Impor koneksi database
+include("../connection.php");
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
+// Ambil data pasien dari database
+$sqlmain = "SELECT * FROM patient WHERE pemail=?";
+$stmt = $database->prepare($sqlmain);
+$stmt->bind_param("s", $useremail);
+$stmt->execute();
+$userrow = $stmt->get_result();
+$userfetch = $userrow->fetch_assoc();
+$userid = $userfetch["pid"];
+$username = $userfetch["pname"];
+$email = $userfetch["pemail"];
 
-    }else{
-        header("location: ../login.php");
-    }
+// Proses formulir saat dikirimkan (method POST)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    // Ambil data dari formulir
+    $sesi_id = $database->real_escape_string($_POST["sesi_id"]);
+    $title = ''; // Kosongkan untuk saat ini
+    $docid = ''; // Kosongkan untuk saat ini
+    $date = ''; // Kosongkan untuk saat ini
+    $time = ''; // Kosongkan untuk saat ini
+
+    // Ambil informasi sesi yang dipilih dari database
+    $sesi_query = "SELECT * FROM schedule WHERE scheduleid ='$sesi_id'";
+    $sesi_result = $database->query($sesi_query);
     
-    
-
-    //import database
-    include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $userrow = $stmt->get_result();
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-    $email=$userfetch["pemail"];
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-        // Ambil data dari formulir
-        $title = $database->real_escape_string($_POST["title"]);
-        $docid = $database->real_escape_string($_POST["docid"]);
-        $date = $database->real_escape_string($_POST["date"]);
-        $time = $database->real_escape_string($_POST["time"]);
-        $nop = $database->real_escape_string($_POST["nop"]);
-
-        // Ambil nama dokter berdasarkan docid
-        $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
-        $doctor_result = $database->query($doctor_query);
-        if ($doctor_result->num_rows > 0) {
-            $doctor_row = $doctor_result->fetch_assoc();
-            $doctor_name = $doctor_row['docname'];
-        } else {
-            // Handle jika dokter tidak ditemukan
-            $doctor_name = "Nama Dokter Tidak Ditemukan";
-        }
-
-        // Siapkan query untuk memasukkan data ke dalam tabel schedule
-        $query = "INSERT INTO schedule (title, docid, scheduledate, scheduletime, nop) 
-                  VALUES ('$title', '$docid', '$date', '$time', '$nop')";
-
-        // Eksekusi query
-        if ($database->query($query) === TRUE) {
-            // Jika query berhasil dieksekusi
-            header("location: schedule");
-        } else {
-            // Jika terjadi kesalahan dalam eksekusi query, berikan pesan error
-            echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
-        }
+    if ($sesi_result->num_rows > 0) {
+        // Jika sesi ditemukan, ambil informasinya
+        $sesi_data = $sesi_result->fetch_assoc();
+        $title = $sesi_data['title'];
+        $docid = $sesi_data['docid'];
+        $date = $sesi_data['scheduledate'];
+        $time = $sesi_data['scheduletime'];
     }
-    ?>
+
+    // Gabungkan tanggal dan waktu menjadi format datetime yang sesuai
+    $datetime = date('Y-m-d H:i:s', strtotime("$date $time"));
+
+    // Query untuk memasukkan data booking ke dalam tabel appointment
+    $query = "INSERT INTO appointment (pid, scheduleid, appodate) 
+              VALUES ('$userid', '$sesi_id', '$datetime')";
+
+    // Eksekusi query
+    if ($database->query($query) === TRUE) {
+        // Jika query berhasil dieksekusi, arahkan kembali ke halaman jadwal pasien
+        header("location: schedule");
+        exit; // Hentikan eksekusi kode selanjutnya
+    } else {
+        // Jika terjadi kesalahan dalam eksekusi query, tampilkan pesan error
+        echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
+    }
+}
+?>
 
 <body class="theme-black">
 <!-- Page Loader -->
@@ -328,67 +330,48 @@
         <form method="POST">
             <div class="row">
                 <div class="col">
-                    <h1>Nama Sesi</h1>
-                <div id="subject-field">
-                    <input type="text" required placeholder="Asam Lambung" name="title">
-                </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h1>Pilih Dokter</h1>
-                    <div class="select-menu" style="position: relative;">
-                        <select name="docid" id="docid" class="select-btn" required>
-                            <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
-                            <?php
-                            //import database
-                            include("../connection.php");
-
-                            // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
-                            $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
-                            $result = $database->query($query);
-
-                            // Memeriksa apakah ada hasil yang ditemukan
-                            if ($result->num_rows > 0) {
-                                // Loop melalui setiap baris hasil query
-                                while ($row = $result->fetch_assoc()) {
-                                    // Ekstrak data dokter
-                                    $docid = $row['docid'];
-                                    $docname = $row['docname'];
-                                    // Tampilkan opsi dokter
-                                    echo "<option value='$docid'>$docname</option>";
-                                }
-                            } else {
-                                // Jika tidak ada dokter yang aktif ditemukan
-                                echo "<option value='' disabled>Tidak ada dokter yang aktif tersedia.</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
+                    <h1>Pilih Sesi Jadwal Temu</h1>
+                    <select name="sesi_id" id="sesi_id" class="form-control" required onchange="setSessionInfo()">
+                        <option value="">Pilih Sesi</option>
+                        <?php
+                        // Query untuk mengambil data sesi dari tabel schedule
+                        $query = "SELECT * FROM schedule";
+                        $result = $database->query($query);
+                        
+                        while ($row = $result->fetch_assoc()) {
+                            // Query untuk mendapatkan nama dokter berdasarkan docid
+                            $doctor_query = "SELECT docname FROM doctor WHERE docid = '{$row['docid']}'";
+                            $doctor_result = $database->query($doctor_query);
+                            $doctor_row = $doctor_result->fetch_assoc();
+                            $docname = $doctor_row['docname'];
+                        
+                            echo "<option value='{$row['scheduleid']}' 
+                                         data-docname='{$docname}' 
+                                         data-scheduledate='{$row['scheduledate']}' 
+                                         data-scheduletime='{$row['scheduletime']}'>
+                                      {$row['title']}
+                                  </option>";
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1>Nomor Antrian</h1>
-                <div id="number">
-                    <input type="number" required placeholder="12" name="Antre woy">
-                </div>
+                    <h1>Nama Dokter</h1>
+                    <input type="text" id="docname" class="form-control" readonly>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Tanggal Sesi</h1>
-                <div id="date-session">
-                    <input type="date" required placeholder="dd/mm/yy" name="date">
-                </div>
+                    <input type="date" id="scheduledate" class="form-control" readonly>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <h1>Waktu Sesi</h1>
-                <div id="time-session">
-                    <input type="time" required placeholder="--:--" name="time">
-                </div>
+                    <input type="time" id="scheduletime" class="form-control" readonly>
                 </div>
             </div>
             <div class="confirm">
@@ -398,6 +381,7 @@
         </form>
     </div>
 </div>
+
                    
 <!-- PHP -->
 
@@ -440,6 +424,20 @@ optionMenus.forEach(optionMenu => {
         });
     });
 });
+
+// Fungsi untuk mengisi otomatis informasi sesi yang dipilih
+function setSessionInfo() {
+        var sesi_id = document.getElementById("sesi_id").value;
+        var selectedOption = document.getElementById("sesi_id").querySelector("option:checked");
+
+        var docname = selectedOption.getAttribute("data-docname");
+        var scheduledate = selectedOption.getAttribute("data-scheduledate");
+        var scheduletime = selectedOption.getAttribute("data-scheduletime");
+
+        document.getElementById("docname").value = docname;
+        document.getElementById("scheduledate").value = scheduledate;
+        document.getElementById("scheduletime").value = scheduletime;
+    }
 </script>
 </body>
 </html>

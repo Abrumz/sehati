@@ -392,7 +392,12 @@
                 
                 <?php
 
-                $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid where doctor.docid=$userid ";
+                $sqlmain = "SELECT appointment.appoid, schedule.scheduleid, schedule.title, doctor.docname, patient.pname, schedule.scheduledate, schedule.scheduletime, appointment.apponum, appointment.appodate 
+                FROM schedule 
+                INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid 
+                INNER JOIN patient ON patient.pid = appointment.pid 
+                INNER JOIN doctor ON schedule.docid = doctor.docid 
+                WHERE doctor.docid = $userid";
                     if($_POST){
                         //print_r($_POST);
                         $sqlpt1="";
@@ -472,12 +477,15 @@
                                 for ( $x=0; $x<$result->num_rows;$x++){
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
+                                    $appoid=$row["appoid"];
                                     $title=$row["title"];
                                     $docname=$row["docname"];
                                     $scheduledate=$row["scheduledate"];
                                     $scheduletime=$row["scheduletime"];
-                                    $nop=$row["nop"];
+                                    // $nop=$row["nop"];
                                     $pname=$row["pname"];
+                                    // confirmation popup
+                                    $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
                                     echo '<tr>
                                     <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;' . substr($pname, 0, 25) . '
                                                 </td>
@@ -494,7 +502,9 @@
 
                                         <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
                                                     <div style="display:flex;justify-content: center;">
-                                                        <a href="" class="non-style-link"><img src="../img/delete-text.png" alt="Edit"></a>
+                                                        <a href="delete-appointment?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                                            <img src="../img/delete-text.png" alt="Delete">
+                                                        </a>
                                                     </div>
                                                 </td>
                                     </tr>';

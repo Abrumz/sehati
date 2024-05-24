@@ -243,9 +243,6 @@
                         <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
-                        <a href="index"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li>
-                    <li class="active">
                         <a href="index"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
@@ -356,7 +353,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col">
                     <h1>Nomor Antrian</h1>
                 <div id="number">
@@ -371,7 +368,7 @@
                     <input type="number" required placeholder="12" name="Antre woy">
                 </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col">
                     <h1>Tanggal Sesi</h1>

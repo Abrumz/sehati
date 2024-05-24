@@ -374,11 +374,6 @@
                                 Tanggal Lahir
                                     
                                 </th>
-                                <th class="table-headin">
-                                    
-                                Action
-                                    
-                                </tr>
                         </thead>
                         <tbody>
                         
@@ -432,8 +427,7 @@
                                         </td>
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                       <a href="" class="non-style-link"><img src="../img/delete.png" alt="Edit">
-                                       </a>
+                                    
                                         </div>
                                         </td>
                                     </tr>';

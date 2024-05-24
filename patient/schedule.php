@@ -420,6 +420,7 @@
                                             break;
                                             };
                                             $scheduleid=$row["scheduleid"];
+                                            $appoid=$row["appoid"];
                                             $title=$row["title"];
                                             $docname=$row["docname"];
                                             $scheduledate=$row["scheduledate"];
@@ -449,7 +450,7 @@
 
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="schedule?id='.($scheduleid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                            <a href="delete-appointment?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
                                                 <img src="../img/delete-text.png" alt="Delete">
                                             </a>
                                         </div>

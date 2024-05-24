@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           exclude: .htaccess
-          timeout: 3600000  # Set timeout to 1 hour
+          # timeout: 3600000  # Set timeout to 1 hour

@@ -287,10 +287,10 @@
                     <tr>
                         <td >
                             <h3 style="color: #FFF;">Hallo <?php echo $username  ?>,</h3>
-                            <p style="color: #FFF;">Selamat Datang di Dashboard Sehati! Yuk cek Jadwal dan Janji temu Anda Hari ini! 
+                            <p style="color: #FFF;">Selamat Datang di Dashboard Sehati! Yuk cek Jadwal Anda Hari ini! 
                             </p>
-                            <a href="appointment" class="non-style-link" style="padding:32px; "><button class="btn-doctor-dash">
-                                <p>Cek Janji Temu</p>
+                            <a href="schedule" class="non-style-link" style="padding:32px; "><button class="btn-doctor-dash">
+                                <p>Cek Jadwal</p>
                             </button>
                             </a>
                             <br>
@@ -390,7 +390,7 @@
                             <div class="background-img-status"><img src="../img/Jadwal.png" ></div>
                         </div>
                     </div>
-                    <div class="table-cell-doc" style="width: 20vw;">
+                    <!-- <div class="table-cell-doc" style="width: 20vw;">
                         <div class="dashboard-table" style="padding:20px;margin:auto;width: revert-layer;display: flex;padding-top:26px;padding-bottom:26px;">
                             <div>
                                 <div class="h3-tabel" style="font-size: 15px">
@@ -403,7 +403,7 @@
                             </div>
                             <div class="background-img-status"><img src="../img/JanTem.png" ></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -418,21 +418,17 @@
     //import database
     include("../connection.php");
 
-    // id dokter
-    $doctor_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+     // id dokter yang sedang login
+     $doctor_id = $userid; // Menggunakan ID dokter dari session
 
-    // array id diubah jadi string
-    $doctor_ids_string = implode(",", $doctor_ids);
-
-    // query ambil data pasien
-    $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
-                FROM appointment 
-                JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
-                JOIN doctor ON schedule.docid = doctor.docid
-                JOIN patient ON appointment.pid = patient.pid
-                WHERE doctor.docid IN ($doctor_ids_string)
-                ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC"; // Mengurutkan data berdasarkan tanggal dan waktu jadwal dari yang paling lama
-
+     // query ambil data pasien
+     $query = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, patient.pname, appointment.apponum, appointment.appodate
+                 FROM appointment 
+                 JOIN schedule ON appointment.scheduleid = schedule.scheduleid 
+                 JOIN doctor ON schedule.docid = doctor.docid
+                 JOIN patient ON appointment.pid = patient.pid
+                 WHERE doctor.docid = '$doctor_id'
+                 ORDER BY schedule.scheduledate DESC, schedule.scheduletime DESC"; // Mengurutkan data berdasarkan tanggal dan waktu jadwal dari yang paling lama
     $result = $database->query($query);
 
     $count = 0;
@@ -501,7 +497,7 @@
 
                 
                 <div style="text-align: end;">
-                    <a href="../soon">
+                    <a href="../doctor/schedule">
                         <h4>Lihat Semua Jadwal</h4>
                     </a>
                 </div>

@@ -1,16 +1,15 @@
-<?php 
 
+ <?php
 	session_start();
 
-	$_SESSION = array();
+	require_once 'vendor/autoload.php';
 
-	if (isset($_COOKIE[session_name()])) {
-		setcookie(session_name(), '', time()-86400, '/');
-	}
+	$access_token = $_SESSION['access_token'];
+
+	$client = new Google_Client();
+
+	$client->revokeToken($access_token);
 
 	session_destroy();
-
-	// redirecting the user to the login page
 	header('Location: login?action=logout');
-
  ?>

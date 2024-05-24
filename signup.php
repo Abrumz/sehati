@@ -99,7 +99,7 @@ if($_POST){
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="text" name="address" class="input-text" placeholder="Masukan Alamat Lengkap Anda" required>
+                    <input type="text" name="address" class="input-text" placeholder="Masukan Alamat Lengkap Anda">
                 </td>
             </tr>
             <tr>
@@ -109,7 +109,7 @@ if($_POST){
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="text" name="nic" class="input-text" placeholder="Masukan NIK Anda" required>
+                    <input type="text" name="nic" class="input-text" placeholder="Masukan NIK Anda">
                 </td>
             </tr>
             <tr>
@@ -119,7 +119,7 @@ if($_POST){
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="date" name="dob" class="input-text" required>
+                    <input type="date" name="dob" class="input-text">
                 </td>
             </tr>
             <tr>

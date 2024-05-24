@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sehati</title>
+	<link rel="icon" href="img/LogoSehati.png">
+
+	<!-- font -->
+	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<!-- end font -->
+
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<!-- loader -->
+	<div class="fakeLoader"></div>
+	
+
+	<!-- footer -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="content">
+						<div class="brand"><img src="img/LogoSehatiW.png" alt=""></div>
+						<p>Kami selalu selalu memberikan pelayanan yang terbaik untuk pasien.</p>
+						<p> We are happy, if our patient Healthy.</p>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Layanan</h5>
+						<ul>
+							<li><a href="login"> Buat Jadwal Temu</a></li>
+							<li><a href="login">Cari Dokter</a></li>
+							<li><a href="login">Medical Check-Up</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Sumber</h5>
+						<ul>
+							<li><a href="">Blog</a></li>
+							<li><a href="">Product</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Bantuan</h5>
+						<ul>
+							<li><a href="">Tentang Kami</a></li>
+							<li><a href="">Kebijakan Platform</a></li>
+							<li><a href="">Pusat Bantuan</a></li>
+							<li><a href="">FAQ</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Informasi Kontak</h5>
+						<ul><li><a href="">cs@sehati.ilkomerz.biz.id</a></li></ul>
+						<ul class="social">
+							<img src="img/facebook.png" alt="">
+							<img src="img/instagram.png" alt="">
+							<img src="img/twitter.png" alt="">
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+	<!-- footer bottom -->
+	<div class="footer-bottom">
+		<span>Copyright @2024 Sehati. All right reserved</span>
+	</div>
+	<!-- end footer bottom -->
+
+	<!-- script -->
+	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.filterizr.min.js"></script>
+	<script src="js/imagesloaded.pkgd.min.js"></script>
+	<script src="js/magnific-popup.min.js"></script>
+	<script src="js/contact-form.js"></script>
+	<script src="js/main.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+	const counts = document.querySelectorAll('.count');
+const speed = 867;
+
+counts.forEach((counter) => {
+    function update() {
+        const target = Number(counter.getAttribute('data-target'));
+        const count = Number(counter.innerText.replace(/,/g, ''));
+
+        const inc = target / speed;
+
+        if (count < target) {
+            if (target > 1000) {
+                counter.innerText = '+' + Math.floor(count + inc).toLocaleString();
+            } else if (target > 50) {
+                counter.innerText = Math.floor(count + inc).toLocaleString() + '%';
+            } else {
+                counter.innerText = Math.floor(count + inc).toLocaleString() + '+';
+            }
+            setTimeout(update, 15);
+        } else {
+            if (target > 1000) {
+                counter.innerText = '+' + target.toLocaleString();
+            } else if (target > 50) {
+                counter.innerText = target.toLocaleString() + '% Positif';
+            } else {
+                counter.innerText = target.toLocaleString() + '+ Tahun';
+            }
+        }
+    }
+    update();
+});
+
+    </script>
+<script>
+	let counter = 1;
+setInterval(() => {
+    document.getElementById('s' + counter).checked = true;
+    counter++;
+    if(counter > 5) {
+        counter = 1;
+    }
+}, 2000);
+
+</script>
+</body>
+</html> 

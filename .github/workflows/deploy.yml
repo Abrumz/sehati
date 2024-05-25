@@ -6,18 +6,21 @@ on:
       - main
 
 jobs:
-  web-deploy:
+  deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: ['firebase', 'google', 'guzzlehttp', 'monolog', 'paragonie', 'phpseclib', 'psr', 'ralouphie']
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: 📂 Sync files
+      - name: 📂 Sync files in ${{ matrix.folder }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftp.ilkomerz.biz.id
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          exclude: .htaccess
-          # timeout: 3600000  # Set timeout to 1 hour
+          local-dir: vendor/${{ matrix.folder }}
+          # timeout: 600  # Set timeout to 10 minutes

@@ -6,13 +6,42 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  setup:
+    name: 🛠️ Setup
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-vendor-
+
+  build:
+    name: 🏗️ Build
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Build project
+        run: echo "Build commands go here"
+
+  test:
+    name: ✅ Test
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔍 Run tests
+        run: echo "Test commands go here"
+
+  deploy:
+    name: 🚀 Deploy
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -20,4 +49,3 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           exclude: .htaccess
-          # timeout: 3600000  # Set timeout to 1 hour

@@ -19,5 +19,7 @@ jobs:
           server: ftp.ilkomerz.biz.id
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          exclude: .htaccess
+          exclude: 
+            - .htaccess
+            - vendor/**  # Menambahkan baris ini
           # timeout: 3600000  # Set timeout to 1 hour

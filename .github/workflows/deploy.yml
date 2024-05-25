@@ -13,14 +13,6 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: actions/cache@v4.0.2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-vendor-
-
   build:
     name: 🏗️ Build
     needs: setup

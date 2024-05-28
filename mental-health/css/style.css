@@ -1,0 +1,265 @@
+
+.container-mental-health {
+    display: flex;
+    width: auto;
+    /* padding: 32px; */
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 56px;
+    margin-top: 0px;  
+
+    border-radius: 16px;
+    background: var(--Color-Blue-blue-50, #ECEEF6);
+}
+
+.mental-health-row{
+    margin: 32px;
+    width: 100%;
+}
+
+.mental-health-row h1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 0 0;
+    align-self: stretch;
+
+    color: var(--Color-Blue-blue-500, #4256A0);
+
+    /* Rubik/Display 2 */
+    font-family: Rubik, sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 0px !important;
+    margin-left: 16px;
+    }
+
+.mental-health-row p{
+    align-self: stretch;
+    color: #000;
+    font-family: "Nunito Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 35px; /* 194.444% */
+
+}
+
+.accordion {
+    /* background-color: #eee;
+    color: #444; */
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+  
+  /* .active, .accordion:hover {
+    background-color: #ccc;
+  } */
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+  
+  .judul{
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+      flex: 0 1 calc(33.333% - 20px);
+      margin: 0 10px 20px;
+  }
+  
+  .utama{
+      display: flex;
+      flex-direction: row;
+      margin: auto;
+  }
+
+  /* .accordion {
+    width: 90%;
+    max-width: 800px;
+} */
+.accordion-item {
+    margin: 5px 0;
+}
+.accordion-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #00bcd4;
+    color: #fff;
+    border: none;
+    text-align: left;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.accordion-button:hover {
+    background-color: #0097a7;
+}
+.accordion-button.active {
+    background-color: #e0f7fa;
+    color: #000;
+}
+.accordion-content {
+    padding: 15px;
+    background-color: #e0f7fa;
+    display: none;
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+.accordion-content p {
+    margin: 0;
+    font-size: 1em;
+    margin-bottom: 16px;
+}
+.accordion-content a {
+    display: block;
+    margin-top: 10px;
+    color: #00796b;
+    text-decoration: none;
+    font-weight: bold;
+}
+.mental-health-text{
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .accordion {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .accordion-item {
+        flex: 1 1 calc(100%/3 - 10px);
+        margin: 5px;
+    }
+}
+
+@media (max-width: 425px) {
+    .mental-health-row p{
+        width: 80%;
+    }
+    .mental-health-text{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+}
+
+.accordion-content p{
+    align-self: stretch;
+    color: var(--Color-Neutral-neutral-700, #353C46);
+
+    /* Nunito Sans/Regular/Body 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Styling for the depression test button */
+.depression-test-button {
+    border-radius: 4px;
+    background: var(--Color-Blue-blue-500, #4256A0);
+    display: flex;
+    padding: 12px 24px;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.depression-test-button:hover {
+    background-color: #0056b3;
+}
+
+.depression-test-button a{
+    color: var(--Color-Neutral-neutral-50, #EDEEEF) !important;
+    text-align: center;
+
+    /* Button Link/Small */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
+    display: flex;
+    padding: 0px;
+    margin: 0px !important;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Gaya tombol */
+input[type="submit"] {
+    display: flex;
+align-items: flex-start;
+align-self: stretch;
+
+
+/* shadow-lg */
+box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05), 0px 8px 16px -3px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Gaya tombol saat dihover */
+  input[type="submit"]:hover {
+    background-color: #45a049; /* Warna latar belakang saat dihover */
+  }
+  
+  input[type="submit" i] {
+    background-color: #4CAF50; /* Warna latar belakang tombol */
+    color: white; /* Warna teks */
+    padding: 14px 20px; /* Ukuran tombol */
+    margin: 8px 0; /* Jarak antar tombol */
+    border: none; /* Tidak ada border */
+    border-radius: 4px; /* Sudut tombol */
+    cursor: pointer; /* Kursor berbentuk tangan saat dihover */
+    width: 100%; /* Lebar tombol */
+    font-size: 16px; /* Ukuran teks */
+  }
+
+  /* Gaya tombol */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Gaya tombol saat dihover */
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .skor p{
+    flex: 1 0 0;
+    color: var(--Color-Neutral-neutral-700, #353C46);
+    text-align: center;
+
+    /* Nunito Sans/Regular/Headline 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }

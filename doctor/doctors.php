@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/admin.css">
         
     <title>Doctors</title>
+    <link rel="icon" href="../img/sehati-vector.png">
     <style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;

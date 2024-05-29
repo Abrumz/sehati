@@ -8,7 +8,7 @@
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
 <title>Sehati</title>
-<link rel="icon" href="../img/sehati-vector.png">
+<link rel="icon" href="../img/LogoSehati.png">
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
@@ -34,60 +34,58 @@
 </style>
 
 </head>
+
 <?php
-// add-session.php
 
-session_start();
+    //learn from w3schools.com
 
-if (isset($_SESSION["user"])) {
-    if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'p') {
+    session_start();
+
+    if(isset($_SESSION["user"])){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
+            header("location: ../login.php");
+        }
+
+    }else{
         header("location: ../login.php");
     }
-} else {
-    header("location: ../login.php");
-}
+    
+    
 
-include("../connection.php");
-include("../pat.php");
+    //import database
+    include("../connection.php");
+    include("../adm.php");
+    
 
-$email = $_SESSION['user'];
-$userType = 'p'; 
-$patientName = '';
-$phoneNumber = ''; 
-$nik = ''; 
-$dateOfBirth = '';
-$password = ''; 
-$patientId = '';
- 
+    // var yg dibutuhkan
+    $email = "admin@example.com";
+    $userType = "admin";
+    $adminName = "Admin Name";
+    $apassword = "admin123";
+    $adminEmail = "admin@example.com";
 
-// Buat objek Patient dengan menyediakan koneksi database dari connection.php
-$patient = new Patient($email, $userType, $patientName, $phoneNumber, $dateOfBirth, $nik, $password, $patientId);
+    // Binstance class admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
 
-// Menggunakan metode getUserInfo
-$userInfo = $patient->getUserInfo($email);
-$username = $userInfo['pname'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        $nic = $_POST["nic"];
+        $tele = $_POST["tele"];
+        $spec = $_POST["specialties"];
+        $password = $_POST["password"];
 
-// Jika formulir sudah dikirimkan
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Tangkap data dari formulir
-    $userid = $userInfo['pid']; // Pastikan $userid diambil dari user info yang benar
-    $sesi_id = $_POST['scheduleid'];
+        // panggil fungsi 
+        $result = $admin->addDoctor($name, $email, $nic, $tele, $spec, $password);
 
-    // Panggil metode bookAppointment
-    $result = $patient->bookAppointment($userid, $sesi_id);
-
-    // Cek apakah penambahan jadwal berhasil
-    if ($result === true) {
-        // Redirect ke halaman jadwal
-        header("location: schedule.php");
-    } else {
-        // Tampilkan pesan kesalahan
-        echo "Gagal menambahkan jadwal: " . $result;
+        if ($result === true) {
+            header("location: doctors");
+            exit; 
+        } else {
+            echo "Terjadi kesalahan: " . $result;
+        }
     }
-}
-
-
-?>
+    ?>
 
 <body class="theme-black">
 <!-- Page Loader -->
@@ -236,27 +234,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li class="active">
                         <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
-                    </li> -->
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
-                    <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
-                    </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                    </li>
+                    <li class="active">
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                    </li>
+                    <li class="active">
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                            <a href="profile.html"><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
                         <div class="detail">
-                            <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0"><?php echo $email; ?></p>
+                            <h6>Admin Sehati</h6>
+                            <p class="m-b-0">admin@sehati.ilkomerz.biz.id</p>
                                          
                         </div>
                     </div>
@@ -270,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="doctors" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -311,64 +306,97 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- CONTAINER/ISI -->
 <div class="form-doctor">
     <div class="form-doctor-header">
-        <h1>Tambah Jadwal Baru</h1>
+        <h1>Tambah Dokter Baru</h1>
     </div>
     <div class="form-doctor-body">
         <form method="POST">
             <div class="row">
                 <div class="col">
-                    <h1>Pilih Sesi Jadwal Temu</h1>
-                    <select name="scheduleid" id="scheduleid" class="form-control" required onchange="setSessionInfo()">
-                        <option value="">Pilih Sesi</option>
-                        <?php
-                        // Query untuk mengambil data sesi dari tabel schedule
-                        $query = "SELECT * FROM schedule";
-                        $result = $database->query($query);
-                        
-                        while ($row = $result->fetch_assoc()) {
-                            // Query untuk mendapatkan nama dokter berdasarkan docid
-                            $doctor_query = "SELECT docname FROM doctor WHERE docid = '{$row['docid']}'";
-                            $doctor_result = $database->query($doctor_query);
-                            $doctor_row = $doctor_result->fetch_assoc();
-                            $docname = $doctor_row['docname'];
-                        
-                            echo "<option value='{$row['scheduleid']}' 
-                                         data-docname='{$docname}' 
-                                         data-scheduledate='{$row['scheduledate']}' 
-                                         data-scheduletime='{$row['scheduletime']}'>
-                                      {$row['title']}
-                                  </option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <h1>Nama Dokter</h1>
-                    <input type="text" id="docname" class="form-control" readonly>
+                <div id="subject-field">
+                    <input type="text" required placeholder="Nama Dokter" name="name">
+                </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1>Tanggal Sesi</h1>
-                    <input type="date" id="scheduledate" class="form-control" readonly>
+                    <h1>Email</h1>
+                <div id="email-field">
+                    <input type="text" required placeholder="Alamat Email" name="email">
+                </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1>Waktu Sesi</h1>
-                    <input type="time" id="scheduletime" class="form-control" readonly>
+                    <h1>NIK</h1>
+                    <div id="number-field">
+                        <input type="number" name="nic" required placeholder="Nomor Induk Kependudukan">
+                    </div>
+                </div>
+                <div class="col">
+                    <h1>Nomor Telepon</h1>
+                    <div id="number-field">
+                        <input type="number" required placeholder="Nomor Telepon" name="tele">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Spesialis</h1>
+                    <div class="select-menu" style="position: relative;">
+                        <select name="specialties" id="specialties" class="select-btn" required>
+                            <option value="" selected disabled>Pilih Spesialis Dokter</option>
+                            <?php
+                            //import database
+                            include("../connection.php");
+
+                            // Query untuk mengambil daftar spesialis dari database
+                            $query = "SELECT id, sname FROM specialties ORDER BY sname ASC";
+                            $result = $database->query($query);
+
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data spesialis
+                                    $id = $row['id'];
+                                    $sname = $row['sname'];
+                                    ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $sname; ?></option>
+                                    <?php
+                                }
+                            } else {
+                                // Jika tidak ada hasil yang ditemukan
+                                echo "<option value='' disabled>Tidak ada spesialis yang ditemukan.</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Kata Sandi</h1>
+                <div id="password-field">
+                    <input type="password" required placeholder="Masukkan Kata Sandi" name="password">
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>Konfirmasi Kata Sandi</h1>
+                <div id="confirm-password-field">
+                    <input type="password" required placeholder="Konfirmasi Ulang Kata Sandi" name="cpassword">
+                </div>
                 </div>
             </div>
             <div class="confirm">
                 <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" name= "submit" id="submit">Tambah</button>
+                <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
             </div>
         </form>
     </div>
 </div>
-
                    
 <!-- PHP -->
 
@@ -412,19 +440,17 @@ optionMenus.forEach(optionMenu => {
     });
 });
 
-// Fungsi untuk mengisi otomatis informasi sesi yang dipilih
-function setSessionInfo() {
-        var sesi_id = document.getElementById("scheduleid").value;
-        var selectedOption = document.getElementById("scheduleid").querySelector("option:checked");
-
-        var docname = selectedOption.getAttribute("data-docname");
-        var scheduledate = selectedOption.getAttribute("data-scheduledate");
-        var scheduletime = selectedOption.getAttribute("data-scheduletime");
-
-        document.getElementById("docname").value = docname;
-        document.getElementById("scheduledate").value = scheduledate;
-        document.getElementById("scheduletime").value = scheduletime;
+document.getElementById('submit').addEventListener('click', function(event) {
+    var selectedSpecialty = document.querySelector('.sBtn-text1').innerText;
+    if (selectedSpecialty === 'Pilih Spesialis Dokter') {
+        alert('Mohon pilih spesialis sebelum mengirim formulir.');
+        event.preventDefault(); /
+    } else {
+        var hiddenInput = document.getElementById('sname');
+        hiddenInput.value = selectedSpecialty; 
     }
+});
+
 </script>
 </body>
 </html>

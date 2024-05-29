@@ -8,7 +8,7 @@
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
 <title>Sehati</title>
-<link rel="icon" href="../img/LogoSehati.png">
+<link rel="icon" href="../img/sehati-vector.png">
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 

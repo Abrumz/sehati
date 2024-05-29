@@ -56,7 +56,7 @@
 					</li>
 					
 				</ul>
-					<div class="nav navbar-nav navbar-collapse" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;" >
+                <div class="nav navbar-nav navbar-collapse" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;     justify-content: flex-end !important;" >
 						<a href="../login" class="button button-secondary">Masuk</a>
 						<a href="../signup" class="button">Daftar</a>
 					</div>

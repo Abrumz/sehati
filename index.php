@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Sehati</title>
-	<link rel="icon" href="img/LogoSehati.png">
+	<link rel="icon" href="img/sehati-vector.png">
 	<!-- font -->
 	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<!-- end font -->
@@ -38,7 +38,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown" >
 							<a class="dropdown-item" href="#" >Booking</a>
 							<a class="dropdown-item" href="#">Konsultasi</a>
-							<a class="dropdown-item" href="soon">Mental Health </a>
+							<a class="dropdown-item" href="mental-health">Mental Health </a>
 						</div>
 					</li>	
 					<li class="nav-item">
@@ -49,7 +49,7 @@
 					</li>
 					
 				</ul>
-					<div class="navbar" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;" >
+					<div class="nav navbar-nav navbar-collapse" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;     justify-content: flex-end !important;" >
 						<a href="login" class="button button-secondary">Masuk</a>
 						<a href="signup" class="button">Daftar</a>
 					</div>

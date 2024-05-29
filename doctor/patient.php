@@ -238,7 +238,7 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>

@@ -258,7 +258,7 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>
@@ -339,7 +339,7 @@
                                     <a href="" class="btn-filter-doc" style="padding: 15px; margin :0;width:100%">Reset Filter</a>
                                 </div>
                                 <div class="filter-search">
-                                    <div class="filter-doc" style="display: inline-flex align-content: center; flex-wrap: wrap;">
+                                    <div class="filter-doc" style="display: inline-flex align-content: center;/* flex-wrap: wrap; */flex-wrap: wrap;/* display: flex; */align-content: space-around;/* padding-right: 8px; */border-radius: 16px;border: 1px solid rgba(57, 57, 57, 0.50);background: #FFF;display: flex;height: 50px;padding: 0px 16px;align-items: center;gap: 8px;margin-right: 16px;justify-content: center;margin-bottom: 8px;">
                                         <form action="" method="post" id="dateForm">
                                             <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
                                         </form>
@@ -401,8 +401,27 @@
                                     <img src="../img/404.gif" width="25%">
                                     
                                     <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</font></button>
+                                    <p class="heading-main12" style="color: var(--Color-Neutral-neutral-700, #353C46);
+
+                                    /* Rubik/Display 2 */
+                                    font-family: Rubik, sans-serif;
+                                    font-size: 48px;
+                                    font-style: normal;
+                                    font-weight: 700;
+                                    line-height: normal;
+                                    padding:0px !important;
+                                    margin: 0px;">Opps!</p>
+                                    <p class="heading-main12" style="color: var(--Color-Neutral-neutral-500, #4B5563);
+
+                                    /* Nunito Sans/Regular/Headline 2 */
+                                    font-family: "Nunito Sans", sans-serif;
+                                    font-size: 24px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: normal;
+                                    padding:0px !important;
+                                    margin: 0px;">Belum ada data apapun disini.</p>
+                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
                                     </a>
                                     </center>
                                     <br><br><br><br>

@@ -46,6 +46,7 @@
 
     // Import database connection
     include("../connection.php");
+    include("../adm.php");
 
     // Check if schedule ID is provided in URL
     if (!isset($_GET['id'])) {
@@ -53,8 +54,16 @@
         header("location: schedule.php");
         exit();
     }
+    
+    // var yg dibutuhkan
+    $email = "admin@example.com";
+    $userType = "admin";
+    $adminName = "Admin Name";
+    $apassword = "admin123";
+    $adminEmail = "admin@example.com";
 
-    $schedule_id = $_GET['id'];
+    $scheduleid = $_GET['id'];
+    $admin = new Admin($_SESSION['user'], $_SESSION['usertype'], $adminEmail, $adminName, $apassword, $database);
 
     // Check if form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -63,44 +72,38 @@
         $docid = $_POST['docid'];
         $nop = $_POST['nop'];
         $date = $_POST['date'];
-        $time = $_POST['time'];
+        $time = substr($_POST['time'], 0, 5);
 
         // Update schedule in database
-        $query = "UPDATE schedule SET title = '$title', docid = '$docid', nop = '$nop', scheduledate = '$date', scheduletime = '$time' WHERE scheduleid = $schedule_id";
+        $result = $admin->editSchedule($scheduleid, $title, $docid, $nop, $date, $time);
 
-        if ($database->query($query) === TRUE) {
+
+        if ($result) {
             // Redirect to schedule page or display success message
             header("location: schedule.php");
             exit();
         } else {
             // Handle error
-            echo "Error updating schedule: " . $database->error;
+            echo "Error updating schedule.";
         }
     }
 
     // Retrieve existing schedule data for editing
-    $schedule_query = "SELECT * FROM schedule WHERE scheduleid = $schedule_id";
-    $schedule_result = $database->query($schedule_query);
+    $schedule_data = $admin->getScheduleData($scheduleid);
 
     // Check if schedule exists
-    if ($schedule_result->num_rows == 0) {
+    if (!$schedule_data) {
         // Redirect or display error message
         header("location: schedule.php");
         exit();
     }
 
-    $schedule_data = $schedule_result->fetch_assoc();
-
-    // Query to fetch list of active doctors
-    $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
-    $doctor_result = $database->query($doctor_query);
+    // Get list of active doctors
+    $active_doctors = $admin->getActiveDoctors();
 ?>
 
 <body class="theme-black">
 <!-- Page Loader -->
-
-
-
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -277,7 +280,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="doctors" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -326,7 +329,7 @@
                 <div class="col">
                     <h1>Nama Sesi</h1>
                 <div id="subject-field">
-                    <input type="text" required placeholder="Asam Lambung" name="title">
+                    <input type="text" required placeholder="Asam Lambung" name="title" value="<?php echo $schedule_data['title']; ?>">
                 </div>
                 </div>
             </div>
@@ -337,6 +340,13 @@
                         <select name="docid" id="docid" class="select-btn" required>
                             <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
                             <?php
+
+                            foreach ($active_doctors as $doctor) {
+                                // Periksa apakah dokter saat ini dipilih
+                                $selected = ($doctor['docid'] == $schedule_data['docid']) ? 'selected' : '';
+                                // Tampilkan opsi dokter
+                                echo "<option value='{$doctor['docid']}' $selected>{$doctor['docname']}</option>";
+                            }
                             //import database
                             include("../connection.php");
 
@@ -365,17 +375,9 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h1>Nomor Antrian</h1>
-                <div id="number">
-                    <input type="number" required placeholder="12" name="nop">
-                </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <h1>Tanggal Sesi</h1>
                 <div id="date-session">
-                    <input type="date" required placeholder="dd/mm/yy" name="date">
+                    <input type="date" required placeholder="dd/mm/yy" name="date" value="<?php echo $schedule_data['scheduledate']; ?>">
                 </div>
                 </div>
             </div>
@@ -383,7 +385,7 @@
                 <div class="col">
                     <h1>Waktu Sesi</h1>
                 <div id="time-session">
-                    <input type="time" required placeholder="--:--" name="time">
+                <input type="time" required name="time" value="<?php echo date('H:i', strtotime($schedule_data['scheduletime'])); ?>">
                 </div>
                 </div>
             </div>

@@ -54,37 +54,35 @@
 
     //import database
     include("../connection.php");
-
-    // Menyimpan data dokter
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-        // Ambil data dari formulir
-        $name = $database->real_escape_string($_POST["name"]);
-        $email = $database->real_escape_string($_POST["email"]);
-        $nic = $database->real_escape_string($_POST["nic"]);
-        $tele = $database->real_escape_string($_POST["tele"]);
-        $spec = $database->real_escape_string($_POST["specialties"]);
-        $password = $database->real_escape_string($_POST["password"]);
-        $cpassword = $database->real_escape_string($_POST["cpassword"]);
-
-        // Simpan data ke dalam database
-        $query = "INSERT INTO doctor (docname, docemail, docnic, doctel, specialties, docpassword) VALUES ('$name', '$email', '$nic', '$tele', '$spec', '$password')";
-        $result = $database->query($query);
-
-        if ($result) {
-            // Data disimpan ke webuser 
-            $sql2 = "INSERT INTO webuser (email, usertype) VALUES ('$email', 'd')";
-            $result2 = $database->query($sql2);
+    include("../adm.php");
     
-            if ($result2) {
-                // Redirect ke halaman dokter setelah data disimpan
-                header("location: doctors");
-            } else {
-                // Error
-                echo "Terjadi error saat memasukkan data ke tabel webuser: " . $database->error;
-            }
+
+    // var yg dibutuhkan
+    $email = "admin@example.com";
+    $userType = "admin";
+    $adminName = "Admin Name";
+    $apassword = "admin123";
+    $adminEmail = "admin@example.com";
+
+    // Binstance class admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        $nic = $_POST["nic"];
+        $tele = $_POST["tele"];
+        $spec = $_POST["specialties"];
+        $password = $_POST["password"];
+
+        // panggil fungsi 
+        $result = $admin->addDoctor($name, $email, $nic, $tele, $spec, $password);
+
+        if ($result === true) {
+            header("location: doctors");
+            exit; 
         } else {
-            // Error
-            echo "Terjadi error saat memasukkan data ke tabel dokter: " . $database->error;
+            echo "Terjadi kesalahan: " . $result;
         }
     }
     ?>

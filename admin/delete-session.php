@@ -1,24 +1,30 @@
 <?php
+    //import database
     include("../connection.php");
-    
-    // Memastikan id yang mau dihapus tersedia
-    if(isset($_GET['id'])) {
-        $scheduleid = $_GET['id'];
+    include("../adm.php");
 
-        // Penghapusan sesuai id 
-        $delete_query = "DELETE FROM schedule WHERE scheduleid = $scheduleid";
-        $result = $database->query($delete_query);
+    session_start();
 
-        if($result) {
-            // Jika penghapusan berhasil, redirect kembali ke halaman schedule.php
-            header("Location: schedule.php");
-            exit();
-        } else {
-            // Error
-            echo "Error: Tidak bisa hapus jadwal.";
-        }
+    // Pastikan pengguna telah login dan memiliki hak akses sebagai admin
+    if (!isset($_SESSION["user"]) || $_SESSION["user"] == "" || $_SESSION['usertype'] != 'a') {
+        header("location: ../login.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
+    }
+
+    // Membuat objek Admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
+
+    // Memeriksa apakah ada ID yang diberikan melalui parameter GET
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+        // Memanggil metode deleteSchedule dari objek Admin
+        $admin->deleteSchedule($id);
+        header("location: schedule.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
     } else {
-        // Jika id tidak tersedia, tampilkan pesan kesalahan
-        echo "Error: Tidak ada id jadwal.";
+        // Handle jika tidak ada ID yang diberikan
+        // Misalnya, Anda dapat mengarahkan pengguna kembali ke halaman sebelumnya
+        header("location: schedule.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
     }
 ?>

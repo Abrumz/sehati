@@ -1,29 +1,30 @@
 <?php
+    //import database
+    include("../connection.php");
+    include("../adm.php");
 
     session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
-        }
-
-    }else{
+    // Pastikan pengguna telah login dan memiliki hak akses sebagai admin
+    if (!isset($_SESSION["user"]) || $_SESSION["user"] == "" || $_SESSION['usertype'] != 'a') {
         header("location: ../login.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
     }
-    
-    
-    if($_GET){
-        //import database
-        include("../connection.php");
-        $id=$_GET["id"];
-        $result001= $database->query("SELECT * FROM doctor WHERE docid=$id;");
-        $email=($result001->fetch_assoc())["docemail"];
 
-        $sql= $database->query("DELETE FROM webuser WHERE email='$email';");
-        $sql= $database->query("DELETE FROM doctor WHERE docemail='$email';");
-        //print_r($email);
+    // Membuat objek Admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
+
+    // Memeriksa apakah ada ID yang diberikan melalui parameter GET
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+        // Memanggil metode deleteDoctor dari objek Admin
+        $admin->deleteDoctor($id);
         header("location: doctors.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
+    } else {
+        // Handle jika tidak ada ID yang diberikan
+        // Misalnya, Anda dapat mengarahkan pengguna kembali ke halaman sebelumnya
+        header("location: doctors.php");
+        exit(); // Pastikan untuk keluar setelah melakukan redirect
     }
-
-
 ?>

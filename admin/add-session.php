@@ -50,43 +50,40 @@
         header("location: ../login.php");
     }
     
-    
-
-    //import database
     include("../connection.php");
+    include("../adm.php");
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-        // Ambil data dari formulir
-        $title = $database->real_escape_string($_POST["title"]);
-        $docid = $database->real_escape_string($_POST["docid"]);
-        $date = $database->real_escape_string($_POST["date"]);
-        $time = $database->real_escape_string($_POST["time"]);
-        $nop = $database->real_escape_string($_POST["nop"]);
+    // Definisikan variabel-variabel yang dibutuhkan
+    $email = "admin@example.com";
+    $userType = "admin";
+    $adminName = "Admin Name";
+    $apassword = "admin123";
+    $adminEmail = "admin@example.com";
 
-        // Ambil nama dokter berdasarkan docid
-        $doctor_query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";
-        $doctor_result = $database->query($doctor_query);
-        if ($doctor_result->num_rows > 0) {
-            $doctor_row = $doctor_result->fetch_assoc();
-            $doctor_name = $doctor_row['docname'];
-        } else {
-            // Handle jika dokter tidak ditemukan
-            $doctor_name = "Nama Dokter Tidak Ditemukan";
-        }
+    // Buat instance dari kelas Admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
 
-        // Siapkan query untuk memasukkan data ke dalam tabel schedule
-        $query = "INSERT INTO schedule (title, docid, scheduledate, scheduletime, nop) 
-                  VALUES ('$title', '$docid', '$date', '$time', '$nop')";
+   // Jika formulir sudah dikirimkan
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Tangkap data dari formulir
+        $title = $_POST['title'];
+        $docid = $_POST['docid'];
+        $date = $_POST['date'];
+        $time = $_POST['time'];
 
-        // Eksekusi query
-        if ($database->query($query) === TRUE) {
-            // Jika query berhasil dieksekusi
-            header("location: schedule");
-        } else {
-            // Jika terjadi kesalahan dalam eksekusi query, berikan pesan error
-            echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
+        // Panggil fungsi addSchedule() dari file webuser.php
+        $result = $admin->addSchedule($title, $docid, $date, $time);
+
+        // Cek apakah penambahan jadwal berhasil
+        if($result === true){
+            // Redirect ke halaman jadwal
+            header("location: schedule.php");
+        }else{
+            // Tampilkan pesan kesalahan
+            echo "Gagal menambahkan jadwal: " . $result;
         }
     }
+
     ?>
 
 <body class="theme-black">

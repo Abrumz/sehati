@@ -50,28 +50,34 @@
         header("location: ../login.php");
     }
     
-    // Import file koneksi database
     include("../connection.php");
+    include("../adm.php");
 
-     // Pastikan permintaan POST dihandle dengan benar
-     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['csrf_token'])) {
-        // Periksa token CSRF
+    // var yg dibutuhkan
+    $email = "admin@example.com";
+    $userType = "admin";
+    $adminName = "Admin Name";
+    $apassword = "admin123";
+    $adminEmail = "admin@example.com";
+
+    // Buat instance class admin
+    $admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['csrf_token'])) {
         if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
             // Ambil data dokter dan status dari permintaan
             $docid = $_POST['docid'];
-            $status = ($_POST['status'] == 'true') ? 1 : 0;
+            $status = ($_POST['status'] == 'aktif') ? 1 : 0;
 
-            // Update status dokter di database
-            // Gunakan prepared statement untuk menghindari serangan SQL Injection
-            $stmt = $database->prepare("UPDATE doctor SET status = ? WHERE docid = ?");
-            $stmt->bind_param("ii", $status, $docid);
-            $stmt->execute();
-            $stmt->close();
-
-            // Keluarkan pesan sukses atau gagal ke JavaScript
-            echo "Doctor status updated successfully!";
-        } 
-        exit(); // Keluar dari skrip PHP setelah menangani permintaan POST
+            // Panggil metode updateDoctorStatus
+            $admin->updateDoctorStatus($docid, $status);
+    
+            // Kirim respons JSON
+                echo json_encode(['status' => 'success', 'message' => 'Status dokter berhasil diperbaharui!']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'CSRF token tidak valid']);
+            }
+            exit();
     }
 ?>
 
@@ -79,13 +85,9 @@
 
 <!-- Popup -->
 <div id="status-popup" class="popup" style="display:none; position:fixed; top:50%; left:50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); z-index: 9999;">
-        <p>Status dokter berhasil perbarui!</p>
-    </div>
-
+    <p>Status dokter berhasil diperbarui!</p>
+</div>
 <!-- Page Loader -->
-
-
-
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -551,41 +553,35 @@ if($_POST){
                 });
             });
 
-            // Check if status is NULL and set default option accordingly
             if (selectBtn.dataset.status === "") {
                 sBtn_text.innerText = "Select your status";
             }
         });
 
         function updateDoctorStatus(docid, status) {
-            const csrfToken = document.querySelector('input[name="csrf_token"]').value; // Ambil token CSRF dari formulir
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
             const formData = new FormData();
-            const booleanStatus = (status === 'aktif');
             formData.append('docid', docid);
-            formData.append('status', booleanStatus);
-            formData.append('csrf_token', csrfToken); // Sertakan token CSRF
+            formData.append('status', status);
+            formData.append('csrf_token', csrfToken);
 
-            fetch('<?php echo $_SERVER['PHP_SELF']; ?>', {
+            fetch('', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    // Periksa apakah respons dari server berhasil memperbarui status
-                    if (data.trim() === "Doctor status updated successfully!") {
-                        // Update status di tabel setelah berhasil memperbarui status dokter
+                    if (data.status === 'success') {
                         const statusCell = document.querySelector(`[data-docid="${docid}"]`);
-                        statusCell.dataset.status = booleanStatus; // Perbarui atribut data-status dengan nilai boolean
-                        statusCell.querySelector(".sBtn-text").innerText = (booleanStatus) ? 'Aktif' : 'Non-Aktif';
+                        statusCell.querySelector(".sBtn-text").innerText = status === 'aktif' ? 'Aktif' : 'Non-Aktif';
                         const selectBtn = statusCell.querySelector(".select-btn");
-                        selectBtn.className = "select-btn " + ((booleanStatus) ? 'aktif' : 'non-aktif'); // Perbarui kelas
-                        document.getElementById('status-popup').style.display = 'block'; // Tampilkan popup
+                        selectBtn.className = "select-btn " + (status === 'aktif' ? 'aktif' : 'non-aktif');
+                        document.getElementById('status-popup').style.display = 'block';
                         setTimeout(() => {
-                            document.getElementById('status-popup').style.display = 'none'; // Sembunyikan popup setelah beberapa detik
-                        }, 3000); // Ganti 3000 dengan jumlah milidetik yang diinginkan
+                            document.getElementById('status-popup').style.display = 'none';
+                        }, 3000);
                     } else {
-                        console.error("Gagal memperbarui status dokter.");
+                        console.error("Gagal memperbarui status dokter:", data.message);
                     }
                 })
                 .catch(error => console.error('Error:', error));

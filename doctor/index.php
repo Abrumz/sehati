@@ -232,40 +232,40 @@
                     <li class="active">
                         <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
                     </li>
-    <?php
-    //import database
-            include("../connection.php");
-
-            // Query untuk mengambil data admin dari database
-                $query = "SELECT * FROM admin";
-                $result = $database->query($query);
-
-                // Memeriksa apakah ada hasil yang ditemukan
-                if ($result->num_rows > 0) {
-                    // Loop melalui setiap baris hasil query
-                    while ($row = $result->fetch_assoc()) {
-                        // Ekstrak data yang dibutuhkan dari setiap baris
-                        $adminEmail = $row['aemail'];
-                ?>
-                <li>
-                    <div class="user-info m-b-20">
-                        <div class="image">
-                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
-                        </div>
-                        <div class="detail">
-                            <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0"><?php echo $email; ?></p>
-                                         
-                        </div>
-                    </div>
-                </li>
                 <?php
-                    }
-                } else {
-                    // Jika tidak ada data admin yang ditemukan
-                    echo "Tidak ada data admin yang ditemukan.";
-                }
-        ?>           
+                //import database
+                        include("../connection.php");
+
+                        // Query untuk mengambil data admin dari database
+                            $query = "SELECT * FROM admin";
+                            $result = $database->query($query);
+
+                            // Memeriksa apakah ada hasil yang ditemukan
+                            if ($result->num_rows > 0) {
+                                // Loop melalui setiap baris hasil query
+                                while ($row = $result->fetch_assoc()) {
+                                    // Ekstrak data yang dibutuhkan dari setiap baris
+                                    $adminEmail = $row['aemail'];
+                            ?>
+                            <li>
+                                <div class="user-info m-b-20">
+                                    <div class="image">
+                                        <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                                    </div>
+                                    <div class="detail">
+                                        <h6><?php echo $username  ?></h6>
+                                        <p class="m-b-0"><?php echo $email; ?></p>
+                                                    
+                                    </div>
+                                </div>
+                            </li>
+                            <?php
+                                }
+                            } else {
+                                // Jika tidak ada data admin yang ditemukan
+                                echo "Tidak ada data admin yang ditemukan.";
+                            }
+                    ?>           
             </ul>
         </div>
     </div>

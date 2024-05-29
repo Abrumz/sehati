@@ -5,28 +5,59 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Sehati</title>
 	<link rel="icon" href="img/LogoSehati.png">
-
 	<!-- font -->
 	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<!-- end font -->
-
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/ionicons.min.css">
 	<link rel="stylesheet" href="css/magnific-popup.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
 	<!-- loader -->
 	<div class="fakeLoader"></div>
 	<!-- end loader -->
-	
 	<!-- navbar -->
-
-	<?php include 'header.html'; ?>
+	<nav id="navbar" class="navbar navbar-expand-md navbar-light fixed-top">
+		<div class="container" style="display: flex; justify-content: space-between;">
+			<a href="index" class="navbar-brand"><img src="img/LogoSehati.png" alt=""></a>
+			<div class="navbar">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="icon ion-ios-menu"></i>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent" >
+				<ul class="nav navbar-nav navbar-collapse" data-in="#" data-out="#" style="justify-content: center !important;">
+					<li class="nav-item">
+						<a class="nav-link" href="index">Beranda</a>
+					</li>
+					<li class="nav-item dropdown" >
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+							Layanan
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+							<a class="dropdown-item" href="#" >Booking</a>
+							<a class="dropdown-item" href="#">Konsultasi</a>
+							<a class="dropdown-item" href="soon">Mental Health </a>
+						</div>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="#portfolio">Kontak Kami</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#services">Blog</a>
+					</li>
+					
+				</ul>
+					<div class="navbar" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;" >
+						<a href="login" class="button button-secondary">Masuk</a>
+						<a href="signup" class="button">Daftar</a>
+					</div>
+			</div>
+		</div>
+	</nav>
 	
 	<!-- end navbar -->
-
 	<!-- home intro -->
 	<div id="home" class="home-intro">
 		<div class="container">
@@ -126,7 +157,6 @@
 		</div>
 	</div> -->
 	<!-- end words -->
-
 <!-- pelayananan intro -->
 <div id="pelayanan" class="pelayanan-intro">
 	<div class="container">
@@ -158,9 +188,7 @@
 	</div>
 </div>
 <!-- end home intro -->
-
 	
-
 	<!-- Layanan Kami -->
 	<div id="process-work" class="process-work section">
 		<div class="container">
@@ -170,16 +198,15 @@
 			</div>
 			<div class="row" style="justify-content: center; display: flex;">
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="login">
+					<a href="404">
 						<div class="content" style="margin: auto;">
-							<img src="img/Janji.png" alt="">
-							<h5>Buat Jadwal Temu</h5>
+						<h5>Buat Jadwal Temu</h5>
 							<p>Jadwalkan pertemuan secara online dengan dokter sesuai kebutuhan Anda</p>
 						</div>
 					</a>
 				</div>
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="login">
+					<a href="404">
 						<div class="content" style="margin: auto;">
 							<img src="img/cari.png" alt="">
 							<h5>Konsultasi Dokter</h5>
@@ -200,7 +227,6 @@
 		</div>
 	</div>
 	<!-- end process work -->
-
 	<!-- Rating -->
 	<div id="Rating" class="services section-bottom-only">
 		<div class="section-title">
@@ -278,10 +304,7 @@
 		  </section>
 	</div>
 	<!-- end services -->
-
 	
-
-
 	<!-- contact -->
 	<div id="contact" class="contact section-bottom-only">
 		<div class="container">
@@ -357,9 +380,68 @@
 		</div>
 	</div>
 	<!-- end contact -->
-
-	<?php include 'footer.html'; ?>
-
+	<!-- footer -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="content">
+						<div class="brand"><img src="img/LogoSehatiW.png" alt=""></div>
+						<p>Kami selalu selalu memberikan pelayanan yang terbaik untuk pasien.</p>
+						<p> We are happy, if our patient Healthy.</p>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Layanan</h5>
+						<ul>
+							<li><a href=""> Buat Jadwal Temu</a></li>
+							<li><a href="">Cari Dokter</a></li>
+							<li><a href="">Medical Check-Up</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Sumber</h5>
+						<ul>
+							<li><a href="">Blog</a></li>
+							<li><a href="">Product</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Bantuan</h5>
+						<ul>
+							<li><a href="">Tentang Kami</a></li>
+							<li><a href="">Kebijakan Platform</a></li>
+							<li><a href="">Pusat Bantuan</a></li>
+							<li><a href="">FAQ</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-6 col-xs-12">
+					<div class="content">
+						<h5>Informasi Kontak</h5>
+						<ul><li><a href="">cs@sehati.ilkomerz.biz.id</a></li></ul>
+						<ul class="social">
+							<img src="img/facebook.png" alt="">
+							<img src="img/instagram.png" alt="">
+							<img src="img/twitter.png" alt="">
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- end footer -->
+	<!-- footer bottom -->
+	<div class="footer-bottom">
+		<span>Copyright @2024 Sehati. All right reserved</span>
+	</div>
+	<!-- end footer bottom -->
 	<!-- script -->
 	<script src="js/jquery-3.5.1.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
@@ -368,19 +450,15 @@
 	<script src="js/magnific-popup.min.js"></script>
 	<script src="js/contact-form.js"></script>
 	<script src="js/main.js"></script>
-
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
 	const counts = document.querySelectorAll('.count');
 const speed = 867;
-
 counts.forEach((counter) => {
     function update() {
         const target = Number(counter.getAttribute('data-target'));
         const count = Number(counter.innerText.replace(/,/g, ''));
-
         const inc = target / speed;
-
         if (count < target) {
             if (target > 1000) {
                 counter.innerText = '+' + Math.floor(count + inc).toLocaleString();
@@ -402,7 +480,6 @@ counts.forEach((counter) => {
     }
     update();
 });
-
     </script>
 <script>
 	let counter = 1;
@@ -413,7 +490,6 @@ setInterval(() => {
         counter = 1;
     }
 }, 2000);
-
 </script>
 </body>
 </html> 

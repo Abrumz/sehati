@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/ionicons.min.css">
     <link rel="stylesheet" href="../css/magnific-popup.css">
-    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
         .question {
@@ -51,7 +51,45 @@
     
     <!-- navbar -->
 
-    <?php include 'header.html'; ?>
+    <nav id="navbar" class="navbar navbar-expand-md navbar-light fixed-top">
+		<div class="container" style="display: flex; justify-content: space-between;">
+			<a href="../" class="navbar-brand"><img src="../img/LogoSehati.png" alt=""></a>
+			<div class="navbar">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="icon ion-ios-menu"></i>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent" >
+				<ul class="nav navbar-nav navbar-collapse" data-in="#" data-out="#" style="justify-content: center !important;">
+					<li class="nav-item">
+						<a class="nav-link" href="#home">Beranda</a>
+					</li>
+					<li class="nav-item dropdown" >
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+							Layanan
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+							<a class="dropdown-item" href="../login" >Booking</>
+							<a class="dropdown-item" href="../login">Konsultasi</a>
+							<a class="dropdown-item" href="../mental-health">Mental Health</a>
+							<!-- <a class="dropdown-item" href="soon">Mental Health <span class="badge" style="align-content: center; align-items: center;">Coming Soon</span></a> -->
+						</div>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="../">Kontak Kami</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../">Blog</a>
+					</li>
+					
+				</ul>
+					<div class="nav navbar-nav navbar-collapse" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;" >
+						<a href="../login" class="button button-secondary">Masuk</a>
+						<a href="../signup" class="button">Daftar</a>
+					</div>
+			</div>
+		</div>
+	</nav>
     
     <!-- end navbar -->
 

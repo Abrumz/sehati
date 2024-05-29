@@ -8,7 +8,7 @@
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
 <title>Sehati</title>
-<link rel="icon" href="../img/LogoSehati.png">
+<link rel="icon" href="../img/sehati-vector.png">
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
@@ -258,7 +258,7 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
+                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>

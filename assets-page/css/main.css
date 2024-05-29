@@ -2369,7 +2369,7 @@ fieldset[disabled] .btn-link.active {
 .form-control {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid #E3E3E3;
-    border-radius: 30px;
+    /* border-radius: 30px; */
     color: #2c2c2c;
     line-height: normal;
     font-size: .93em;
@@ -2380,7 +2380,8 @@ fieldset[disabled] .btn-link.active {
     transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
     -webkit-box-shadow: none;
     box-shadow: none;
-    height: auto
+    height: 50px;
+    padding: 0px;
 }
 
 .has-success .form-control {
@@ -23309,6 +23310,7 @@ h2.Bawah{
 
 .btn.dropdown-toggle.btn-round.btn-simple {
     visibility: hidden;
+    display: none;
 }
 
 .select-menu{
@@ -23318,7 +23320,7 @@ h2.Bawah{
 .select-menu .select-btn{
     display: flex;
     height: 55px;
-    background: #fff;
+    background: #F9FAFB;
     /* padding: 20px; */
     font-size: 18px;
     font-weight: 400;
@@ -23329,11 +23331,13 @@ h2.Bawah{
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     /* display: flex; */
     /* width: 120px; */
-    padding: 4px 16px;
+    /* padding: 4px 16px; */
     justify-content: center;
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
+    width: 100%;
+    border: 1px solid var(--Color-Neutral-neutral-200, #ACB1B7);
 }
 .select-btn i{
     font-size: 25px;

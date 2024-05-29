@@ -44,67 +44,24 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"] == "" || $_SESSION['usertype'
     exit; // Pastikan untuk keluar dari skrip setelah mengalihkan
 }
 
-// Import database
 include("../connection.php");
+include("../adm.php");
 
-$error = '';
+// var yg dibutuhkan
+$email = "admin@example.com";
+$userType = "admin";
+$adminName = "Admin Name";
+$apassword = "admin123";
+$adminEmail = "admin@example.com";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-    // Validasi input
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $nic = $_POST["nic"];
-    $tele = $_POST["tele"];
-    $spec = $_POST["specialties"];
-    $password = $_POST["password"];
-    $cpassword = $_POST["cpassword"];
-    $id = $_POST["id00"];
-    $oldemail = $_POST["oldemail"];
+$admin = new Admin($email, $userType, $adminEmail, $adminName, $apassword, $database);
 
-    // Periksa apakah kata sandi cocok
-    if ($password != $cpassword) {
-        $error = "Passwords do not match.";
-    } else {
-
-        // Simpan data ke tabel doctor
-        $stmt = $database->prepare("UPDATE doctor SET docname=?, docemail=?, docnic=?, doctel=?, docpassword=?, specialties=? WHERE docid=?");
-        $stmt->bind_param("ssssssi", $name, $email, $nic, $tele, $password, $spec, $id);
-        $stmt->execute();
-
-        // Periksa apakah pernyataan berhasil dieksekusi
-        if ($stmt->affected_rows === 0) {
-            $error = "Failed to update doctor data.";
-        } else {
-            // Perbarui email di tabel webuser jika email baru digunakan
-            if ($oldemail != $email) {
-                $stmt = $database->prepare("UPDATE webuser SET email=? WHERE email=?");
-                $stmt->bind_param("ss", $email, $oldemail);
-                $stmt->execute();
-            }
-
-            header("location: doctors.php?action=edit&success=true");
-            exit;
-        }
-        $stmt->close();
-    }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Call the editDoctor() function
+    $admin->editDoctor();
 }
 
-// Ambil detail dokter dari database
-if (isset($_GET['id'])) {
-    $docid = $_GET['id'];
-    $result = $database->query("SELECT * FROM doctor WHERE docid=$docid");
-    if ($result->num_rows == 1) {
-        $doctor = $result->fetch_assoc();
-    } else {
-        // Handle jika dokter tidak ditemukan
-        echo "Dokter tidak ditemukan.";
-        exit;
-    }
-} else {
-    // Handle jika parameter id tidak ditemukan
-    echo "Parameter id tidak ditemukan.";
-    exit;
-}
+$doctor = $admin->getDoctorDetails();
 ?>
 
 

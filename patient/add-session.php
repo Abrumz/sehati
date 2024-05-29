@@ -34,72 +34,59 @@
 </style>
 
 </head>
-
 <?php
+// add-session.php
+
 session_start();
 
-// Periksa apakah pengguna sudah login sebagai pasien
-if(isset($_SESSION["user"]) && $_SESSION['usertype'] == 'p'){
-    $useremail = $_SESSION["user"];
+if (isset($_SESSION["user"])) {
+    if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'p') {
+        header("location: ../login.php");
+    }
 } else {
-    // Jika belum, arahkan ke halaman login
     header("location: ../login.php");
-    exit; // Hentikan eksekusi kode selanjutnya
 }
 
-// Impor koneksi database
 include("../connection.php");
+include("../pat.php");
 
-// Ambil data pasien dari database
-$sqlmain = "SELECT * FROM patient WHERE pemail=?";
-$stmt = $database->prepare($sqlmain);
-$stmt->bind_param("s", $useremail);
-$stmt->execute();
-$userrow = $stmt->get_result();
-$userfetch = $userrow->fetch_assoc();
-$userid = $userfetch["pid"];
-$username = $userfetch["pname"];
-$email = $userfetch["pemail"];
+$email = $_SESSION['user'];
+$userType = 'p'; 
+$patientName = '';
+$phoneNumber = ''; 
+$nik = ''; 
+$dateOfBirth = '';
+$password = ''; 
+$patientId = '';
+ 
 
-// Proses formulir saat dikirimkan (method POST)
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-    // Ambil data dari formulir
-    $sesi_id = $database->real_escape_string($_POST["sesi_id"]);
-    $title = ''; // Kosongkan untuk saat ini
-    $docid = ''; // Kosongkan untuk saat ini
-    $date = ''; // Kosongkan untuk saat ini
-    $time = ''; // Kosongkan untuk saat ini
+// Buat objek Patient dengan menyediakan koneksi database dari connection.php
+$patient = new Patient($email, $userType, $patientName, $phoneNumber, $dateOfBirth, $nik, $password, $patientId);
 
-    // Ambil informasi sesi yang dipilih dari database
-    $sesi_query = "SELECT * FROM schedule WHERE scheduleid ='$sesi_id'";
-    $sesi_result = $database->query($sesi_query);
-    
-    if ($sesi_result->num_rows > 0) {
-        // Jika sesi ditemukan, ambil informasinya
-        $sesi_data = $sesi_result->fetch_assoc();
-        $title = $sesi_data['title'];
-        $docid = $sesi_data['docid'];
-        $date = $sesi_data['scheduledate'];
-        $time = $sesi_data['scheduletime'];
-    }
+// Menggunakan metode getUserInfo
+$userInfo = $patient->getUserInfo($email);
+$username = $userInfo['pname'];
 
-    // Gabungkan tanggal dan waktu menjadi format datetime yang sesuai
-    $datetime = date('Y-m-d H:i:s', strtotime("$date $time"));
+// Jika formulir sudah dikirimkan
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Tangkap data dari formulir
+    $userid = $userInfo['pid']; // Pastikan $userid diambil dari user info yang benar
+    $sesi_id = $_POST['scheduleid'];
 
-    // Query untuk memasukkan data booking ke dalam tabel appointment
-    $query = "INSERT INTO appointment (pid, scheduleid, appodate) 
-              VALUES ('$userid', '$sesi_id', '$datetime')";
+    // Panggil metode bookAppointment
+    $result = $patient->bookAppointment($userid, $sesi_id);
 
-    // Eksekusi query
-    if ($database->query($query) === TRUE) {
-        // Jika query berhasil dieksekusi, arahkan kembali ke halaman jadwal pasien
-        header("location: schedule");
-        exit; // Hentikan eksekusi kode selanjutnya
+    // Cek apakah penambahan jadwal berhasil
+    if ($result === true) {
+        // Redirect ke halaman jadwal
+        header("location: schedule.php");
     } else {
-        // Jika terjadi kesalahan dalam eksekusi query, tampilkan pesan error
-        echo "<script>alert('Error: " . $query . "<br>" . $database->error . "');</script>";
+        // Tampilkan pesan kesalahan
+        echo "Gagal menambahkan jadwal: " . $result;
     }
 }
+
+
 ?>
 
 <body class="theme-black">
@@ -331,7 +318,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             <div class="row">
                 <div class="col">
                     <h1>Pilih Sesi Jadwal Temu</h1>
-                    <select name="sesi_id" id="sesi_id" class="form-control" required onchange="setSessionInfo()">
+                    <select name="scheduleid" id="scheduleid" class="form-control" required onchange="setSessionInfo()">
                         <option value="">Pilih Sesi</option>
                         <?php
                         // Query untuk mengambil data sesi dari tabel schedule
@@ -427,8 +414,8 @@ optionMenus.forEach(optionMenu => {
 
 // Fungsi untuk mengisi otomatis informasi sesi yang dipilih
 function setSessionInfo() {
-        var sesi_id = document.getElementById("sesi_id").value;
-        var selectedOption = document.getElementById("sesi_id").querySelector("option:checked");
+        var sesi_id = document.getElementById("scheduleid").value;
+        var selectedOption = document.getElementById("scheduleid").querySelector("option:checked");
 
         var docname = selectedOption.getAttribute("data-docname");
         var scheduledate = selectedOption.getAttribute("data-scheduledate");

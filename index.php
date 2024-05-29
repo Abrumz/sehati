@@ -200,6 +200,7 @@
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
 					<a href="404">
 						<div class="content" style="margin: auto;">
+						<img src="img/Janji.png" alt="">
 						<h5>Buat Jadwal Temu</h5>
 							<p>Jadwalkan pertemuan secara online dengan dokter sesuai kebutuhan Anda</p>
 						</div>

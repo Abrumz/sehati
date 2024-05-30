@@ -302,17 +302,17 @@
                                     
                                         <form action="" method="post" class="header-search">
 
-                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Jadwal" list="schedule" style="background: none; display: flex; text-align: left; padding: 0px;">  
 
 
                                         <?php
-                                            echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select  docname,docemail from  doctor;");
+                                            echo '<datalist id="schedule">';
+                                            $list11 = $database->query("select title,scheduleid from schedule;");
 
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
-                                                $d=$row00["docname"];
-                                                $c=$row00["docemail"];
+                                                $d=$row00["title"];
+                                                $c=$row00["scheduleid"];
                                                 echo "<option value='$d'><br/>";
                                                 echo "<option value='$c'><br/>";
                                             };
@@ -402,47 +402,63 @@
                 </tr> -->
                 
                 <?php
-                    if($_POST){
-                        //print_r($_POST);
-                        $sqlpt1="";
-                        if(!empty($_POST["sheduledate"])){
-                            $sheduledate=$_POST["sheduledate"];
-                            $sqlpt1=" schedule.scheduledate='$sheduledate' ";
-                        }
+                if ($_POST) {
+                    // Inisialisasi variabel
+                    $sqlpt1 = "";
+                    $sqlpt2 = "";
+                    $search = $_POST['search'] ?? '';
 
-
-                        $sqlpt2="";
-                        if(!empty($_POST["docid"])){
-                            $docid=$_POST["docid"];
-                            $sqlpt2=" doctor.docid=$docid ";
-                        }
-                        //echo $sqlpt2;
-                        //echo $sqlpt1;
-                        $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid ";
-                        $sqllist=array($sqlpt1,$sqlpt2);
-                        $sqlkeywords=array(" where "," and ");
-                        $key2=0;
-                        foreach($sqllist as $key){
-
-                            if(!empty($key)){
-                                $sqlmain.=$sqlkeywords[$key2].$key;
-                                $key2++;
-                            };
-                        };
-                        //echo $sqlmain;
-
-                        
-                        
-                        //
-                    }else{
-                        $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  order by schedule.scheduledate desc";
-
+                    // Filter berdasarkan tanggal
+                    if (!empty($_POST["sheduledate"])) {
+                        $sheduledate = $_POST["sheduledate"];
+                        $sqlpt1 = "schedule.scheduledate='$sheduledate'";
                     }
 
+                    // Filter berdasarkan doctor ID
+                    if (!empty($_POST["docid"])) {
+                        $docid = $_POST["docid"];
+                        $sqlpt2 = "doctor.docid=$docid";
+                    }
 
+                    // Membangun query dasar
+                    $sqlmain = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, schedule.nop
+                                FROM schedule
+                                INNER JOIN doctor ON schedule.docid = doctor.docid";
+                    
+                    // Array untuk menampung kondisi where
+                    $conditions = array();
 
+                    // Menambahkan kondisi filter tanggal dan doctor ID
+                    if (!empty($sqlpt1)) {
+                        $conditions[] = $sqlpt1;
+                    }
+                    if (!empty($sqlpt2)) {
+                        $conditions[] = $sqlpt2;
+                    }
+
+                    // Menambahkan kondisi pencarian
+                    if (!empty($search)) {
+                        $conditions[] = "(schedule.title LIKE '%$search%' OR schedule.scheduleid LIKE '%$search%')";
+                    }
+
+                    // Menyusun kondisi where dalam query utama
+                    if (count($conditions) > 0) {
+                        $sqlmain .= " WHERE " . implode(" AND ", $conditions);
+                    }
+
+                    // Menambahkan urutan berdasarkan tanggal
+                    $sqlmain .= " ORDER BY schedule.scheduledate DESC";
+
+                } else {
+                    // Query default jika tidak ada filter atau pencarian
+                    $sqlmain = "SELECT schedule.scheduleid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime, schedule.nop
+                                FROM schedule
+                                INNER JOIN doctor ON schedule.docid = doctor.docid
+                                ORDER BY schedule.scheduledate DESC";
+                }
+                $result = $database->query($sqlmain);
                 ?>
-                  
+                    
                 <tr>
                    <td colspan="4">
                        <center>

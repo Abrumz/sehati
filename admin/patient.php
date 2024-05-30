@@ -291,7 +291,7 @@
                     <div class="nav-doctor" style="justify-content: flex-end; padding-right: 44px; padding-bottom: 0">  
                         <form action="" method="post" class="header-search">
 
-                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patiens" style="background: none; display: flex; text-align: left; padding: 0px;">  
+                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patient" style="background: none; display: flex; text-align: left; padding: 0px;">  
 
 
                         <?php

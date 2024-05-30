@@ -72,6 +72,24 @@
     $username=$userfetch["pname"];
     $email=$userfetch["pemail"];
     
+    $patient_id = $userid;
+
+    $query = "SELECT COUNT(*) AS schedule_count FROM appointment WHERE pid = ?";
+    $stmt = $database->prepare($query);
+    $stmt->bind_param("i", $patient_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if there are any schedules for the patient
+    if ($result->num_rows > 0) {
+        // Fetch the schedule count
+        $row = $result->fetch_assoc();
+        $schedule_count = $row['schedule_count'];
+    } else {
+        // If no schedules found, set count to 0
+        $schedule_count = 0;
+    }
+
     ?>
     
     <body class="theme-black">
@@ -386,7 +404,7 @@
                                     Jadwal
                                 </div>
                                 <div class="h1-tabel" >
-                                    <?php echo $appointmentrow ->num_rows ?>
+                                    <?php echo $schedule_count ?>
                                 </div><br>
                                 
                             </div>

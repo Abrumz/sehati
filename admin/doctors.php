@@ -337,7 +337,6 @@ if($_POST){
 
     
     <form action="" method="post" class="header-search">
-        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
         <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Dokter" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
     <?php
         echo '<datalist id="doctors">';
@@ -360,6 +359,12 @@ if($_POST){
 
     </form>
 </div>
+
+<form action="" method="post" id="status-form">
+        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+        <input type="hidden" name="docid" id="docid-input">
+        <input type="hidden" name="status" id="status-input">
+    </form>
 
 <!-- as -->
 
@@ -535,58 +540,58 @@ if($_POST){
 <script src="../assets-page/js/pages/index.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const optionMenus = document.querySelectorAll(".select-menu");
-        optionMenus.forEach(optionMenu => {
-            const selectBtn = optionMenu.querySelector(".select-btn"),
-                options = optionMenu.querySelectorAll(".option"),
-                sBtn_text = optionMenu.querySelector(".sBtn-text");
+    const optionMenus = document.querySelectorAll(".select-menu");
+    optionMenus.forEach(optionMenu => {
+        const selectBtn = optionMenu.querySelector(".select-btn"),
+            options = optionMenu.querySelectorAll(".option"),
+            sBtn_text = optionMenu.querySelector(".sBtn-text");
 
-            selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
+        selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
 
-            options.forEach(option => {
-                option.addEventListener("click", () => {
-                    let selectedOption = option.querySelector(".option-text").innerText;
-                    sBtn_text.innerText = selectedOption;
-                    selectBtn.className = "select-btn " + option.dataset.status;
-                    optionMenu.classList.remove("active");
-                    updateDoctorStatus(option.parentElement.parentElement.dataset.docid, option.dataset.status);
-                });
+        options.forEach(option => {
+            option.addEventListener("click", () => {
+                let selectedOption = option.querySelector(".option-text").innerText;
+                sBtn_text.innerText = selectedOption;
+                selectBtn.className = "select-btn " + option.dataset.status;
+                optionMenu.classList.remove("active");
+                updateDoctorStatus(optionMenu.dataset.docid, option.dataset.status);
             });
-
-            if (selectBtn.dataset.status === "") {
-                sBtn_text.innerText = "Select your status";
-            }
         });
 
-        function updateDoctorStatus(docid, status) {
-            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
-            const formData = new FormData();
-            formData.append('docid', docid);
-            formData.append('status', status);
-            formData.append('csrf_token', csrfToken);
-
-            fetch('', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const statusCell = document.querySelector(`[data-docid="${docid}"]`);
-                        statusCell.querySelector(".sBtn-text").innerText = status === 'aktif' ? 'Aktif' : 'Non-Aktif';
-                        const selectBtn = statusCell.querySelector(".select-btn");
-                        selectBtn.className = "select-btn " + (status === 'aktif' ? 'aktif' : 'non-aktif');
-                        document.getElementById('status-popup').style.display = 'block';
-                        setTimeout(() => {
-                            document.getElementById('status-popup').style.display = 'none';
-                        }, 3000);
-                    } else {
-                        console.error("Gagal memperbarui status dokter:", data.message);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+        if (selectBtn.dataset.status === "") {
+            sBtn_text.innerText = "Select your status";
         }
     });
+
+    function updateDoctorStatus(docid, status) {
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+        const formData = new FormData();
+        formData.append('docid', docid);
+        formData.append('status', status);
+        formData.append('csrf_token', csrfToken);
+
+        fetch('', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const statusCell = document.querySelector(`[data-docid="${docid}"]`);
+                    statusCell.querySelector(".sBtn-text").innerText = status === 'aktif' ? 'Aktif' : 'Non-Aktif';
+                    const selectBtn = statusCell.querySelector(".select-btn");
+                    selectBtn.className = "select-btn " + (status === 'aktif' ? 'aktif' : 'non-aktif');
+                    document.getElementById('status-popup').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('status-popup').style.display = 'none';
+                    }, 3000);
+                } else {
+                    console.error("Gagal memperbarui status dokter:", data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+});
 </script>
 
 </body>

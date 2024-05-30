@@ -67,6 +67,23 @@
     $username=$userfetch["docname"];
     $email=$userfetch["docemail"];
 
+    $doctor_id = $userid; // Menggunakan ID dokter dari session
+
+    // Query untuk mengambil jumlah jadwal yang hanya dimiliki oleh dokter yang login
+    $query = "SELECT COUNT(*) AS total_schedules FROM schedule WHERE docid = '$doctor_id'";
+
+    // Eksekusi query
+    $result = $database->query($query);
+
+    // Periksa apakah query berhasil dieksekusi dan hasilnya ditemukan
+    if ($result) {
+        // Ambil jumlah jadwal dari hasil query
+        $row = $result->fetch_assoc();
+        $total_schedules = $row['total_schedules'];
+    } else {
+        // Jika query gagal dieksekusi atau tidak ada hasil, atur jumlah jadwal ke 0
+        $total_schedules = 0;
+    }
 
     //echo $userid;
     //echo $username;
@@ -383,7 +400,7 @@
                                     Jadwal
                                 </div>
                                 <div class="h1-tabel" >
-                                    <?php echo $appointmentrow ->num_rows ?>
+                                    <?php echo $total_schedules ?>
                                 </div><br>
                                 
                             </div>

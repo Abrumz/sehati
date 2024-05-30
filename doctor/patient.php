@@ -221,32 +221,32 @@
                     </li>
                  
                     <?php
-    //import database
-            include("../connection.php");
+                    //import database
+                    include("../connection.php");
 
-            // Query untuk mengambil data admin dari database
-                $query = "SELECT * FROM admin";
-                $result = $database->query($query);
+                    // Query untuk mengambil data admin dari database
+                        $query = "SELECT * FROM admin";
+                        $result = $database->query($query);
 
-                // Memeriksa apakah ada hasil yang ditemukan
-                if ($result->num_rows > 0) {
-                    // Loop melalui setiap baris hasil query
-                    while ($row = $result->fetch_assoc()) {
-                        // Ekstrak data yang dibutuhkan dari setiap baris
-                        $adminEmail = $row['aemail'];
-                ?>
-                <li>
-                    <div class="user-info m-b-20">
-                        <div class="image">
-                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
+                        // Memeriksa apakah ada hasil yang ditemukan
+                        if ($result->num_rows > 0) {
+                            // Loop melalui setiap baris hasil query
+                            while ($row = $result->fetch_assoc()) {
+                                // Ekstrak data yang dibutuhkan dari setiap baris
+                                $adminEmail = $row['aemail'];
+                    ?>
+                    <li>
+                        <div class="user-info m-b-20">
+                            <div class="image">
+                                <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
+                            </div>
+                            <div class="detail">
+                                <h6><?php echo $username  ?></h6>
+                                <p class="m-b-0"><?php echo $email; ?></p>
+                                            
+                            </div>
                         </div>
-                        <div class="detail">
-                            <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0"><?php echo $email; ?></p>
-                                         
-                        </div>
-                    </div>
-                </li>
+                    </li>
                 <?php
                     }
                 } else {
@@ -301,137 +301,73 @@
     </div>
 </div>
 </div>
-<?php       
-    $selecttype = "My";
-    $current = "My patients Only";
-    if ($_POST) {
-        if (isset($_POST["search"])) {
-            $keyword = $_POST["search12"];
-            $sqlmain = "SELECT * FROM patient WHERE pemail LIKE '%$keyword%' OR pname LIKE '%$keyword%'";
-            $selecttype = "my";
-        }
-        if (isset($_POST["filter"])) {
-            if ($_POST["showonly"] == 'all') {
-                $sqlmain = "SELECT * FROM patient";
-                $selecttype = "All";
-                $current = "All patients";
-            } else {
-                $sqlmain = "SELECT * FROM appointment INNER JOIN patient ON patient.pid = appointment.pid INNER JOIN schedule ON schedule.scheduleid = appointment.scheduleid WHERE schedule.docid = $userid";
-                $selecttype = "My";
-                $current = "My patients Only";
-            }
-        }
-    } else {
-        $sqlmain = "SELECT * FROM appointment INNER JOIN patient ON patient.pid = appointment.pid INNER JOIN schedule ON schedule.scheduleid = appointment.scheduleid WHERE schedule.docid = $userid";
-        $selecttype = "My";
-    }
-?>
-<div>
-    <table border="0" width="100%" style="border-spacing: 0;margin:0;padding:0;margin-top:25px;">
-        <tr>
-            <td>
-                <!-- 
-                <form action="" method="post" class="header-search">
-                    <input type="search" name="search12" class="input-text header-searchbar" placeholder="Search Patient name or Email" list="patient">  
-                    <?php
-                        echo '<datalist id="patient">';
-                        $list11 = $database->query($sqlmain);
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["pname"];
-                            $c = $row00["pemail"];
-                            echo "<option value='$d'><br/>";
-                            echo "<option value='$c'><br/>";
-                        };
-                        echo ' </datalist>';
-                    ?>
-                    <input type="Submit" value="Search" name="search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                </form>
-                -->
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4" style="padding-top:10px;">
-                <p class="heading-janjitemu">Jumlah Pasien: <span style="font-weight: 600;"><?php echo $list11->num_rows; ?></span></p>
-            </td>
+<div class="dash-body">
+            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+            
+                <tr >
+                    
+                    <td>
 
-        </tr>
-    </table>
-</div>
+                    <div class="nav-doctor" style="justify-content: flex-end; padding-right: 44px; padding-bottom: 0">  
+                        <form action="" method="post" class="header-search">
 
-<tr>
-    <td>                  
+                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patient" style="background: none; display: flex; text-align: left; padding: 0px;">  
+
+
+                        <?php
+                                echo '<datalist id="patient">';
+                                $list11 = $database->query("select  pname,pemail from patient;");
+
+                                for ($y=0;$y<$list11->num_rows;$y++){
+                                    $row00=$list11->fetch_assoc();
+                                    $d=$row00["pname"];
+                                    $c=$row00["pemail"];
+                                    echo "<option value='$d'><br/>";
+                                    echo "<option value='$c'><br/>";
+                                };
+
+                            echo ' </datalist>';
+                        ?>
+
+                        <input type="image" src="../img/search.png" >
+
+
+
+                        </form>
+                    </div>                        
+                    </td>
+
+
+                </tr>
+               
+                
+                <tr>
+                    <td colspan="4" style="padding-top:10px;">
+                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49);">Jumlah Pasien: <span style="font-weight: 700;"><?php echo $list11->num_rows; ?></p>
+                    </td>
                     
                 </tr>
-                <div class="header-doc" colspan="4" style="justify-content: flex-end;">
-                                <div class="filter-search" >
-                                
-                                    <div>
-
-                                    
-                                        <form action="" method="post" class="header-search">
-
-                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
-
-
-                                        <?php
-                                            echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select  docname,docemail from  doctor;");
-
-                                            for ($y=0;$y<$list11->num_rows;$y++){
-                                                $row00=$list11->fetch_assoc();
-                                                $d=$row00["docname"];
-                                                $c=$row00["docemail"];
-                                                echo "<option value='$d'><br/>";
-                                                echo "<option value='$c'><br/>";
-                                            };
-
-                                        echo ' </datalist>';
-                                        ?>
-
-                                        <input type="image" src="../img/search.png" >
-
-
-
-                                        </form>
-                                    </div>
-                                <div>
-                            </div>
                 <?php
-
-
-                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
-
                     if($_POST){
-                        //print_r($_POST);
+                        $keyword=$_POST["search"];
                         
-
-
-                        
-                        if(!empty($_POST["sheduledate"])){
-                            $sheduledate=$_POST["sheduledate"];
-                            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
-                        };
-
-                        
-
-                        //echo $sqlmain;
+                        $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+                    }else{
+                        $sqlmain= "select * from patient order by pid desc";
 
                     }
 
 
-                ?>
-                </div>
-                </div>
 
-        <?php       
+                ?>
+            <?php       
 
                     $selecttype="My";
                     $current="My patients Only";
                     if($_POST){
 
                         if(isset($_POST["search"])){
-                            $keyword=$_POST["search12"];
+                            $keyword=$_POST["search"];
                             
                             $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
                             $selecttype="my";
@@ -456,45 +392,6 @@
 
 
                 ?>
-        <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td>
-                        
-                        <!-- <form action="" method="post" class="header-search">
-
-                            <input type="search" name="search12" class="input-text header-searchbar" placeholder="Search Patient name or Email" list="patient">&nbsp;&nbsp;
-                            
-                            <?php
-                                echo '<datalist id="patient">';
-                                $list11 = $database->query($sqlmain);
-                               //$list12= $database->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
-
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $d=$row00["pname"];
-                                    $c=$row00["pemail"];
-                                    echo "<option value='$d'><br/>";
-                                    echo "<option value='$c'><br/>";
-                                };
-
-                            echo ' </datalist>';
-?>
-                            
-                       
-                            <input type="Submit" value="Search" name="search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
-                        </form> -->
-                        
-                    </td>
-               
-                
-                <tr>
-
-                        </center>
-                    </td>
-                    
-                </tr>
                   
                 <tr>
                    <td colspan="4">

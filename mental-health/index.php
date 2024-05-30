@@ -93,6 +93,16 @@
 			</div>
 		</div>
 
+        <div class="accordion-item">
+		<button class="accordion-button">Tes Kecemasan</button>
+			<div class="accordion-content">
+				<p>Tes ini membandingkan tanda-tanda serangan panik dan gangguan panik berdasarkan literatur ilmiah. Anda dapat mengetahui apakah Anda mengalami gangguan panik dan seberapa parah gejalanya. Tes ini juga membantu mengidentifikasi perbedaan antara kecemasan umum dan gangguan panik.</p>
+				<button class="depression-test-button">
+					<a href="anxiety-test">Ikuti Tes Depresi</a>
+				</button>
+			</div>
+		</div>
+
         <!-- <div class="accordion-item">
             <button class="accordion-button">ANXIETY TEST</button>
             <div class="accordion-content">

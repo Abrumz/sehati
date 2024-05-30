@@ -27,10 +27,10 @@
                 </div>
                 <div class="skor" style="padding: 32px;">
                     <p class="mb-4" style="margin-top: 16px;margin-bottom: 0 !important;display: flex; justify-content: center; font-weight: 700;">
-                        Tes yang singkat dan valid secara ilmiah, digunakan oleh tenaga kesehatan.
-                    </p>
-                    <p class="mb-4" style="margin: 0px; display: flex;flex-direction: row; justify-content: center; padding-top: 16px;">
                         <span id="explanation"></span>
+                    </p>
+                    <p class="mb-4" style="margin: 0px; display: flex;flex-direction: row; justify-content: center; padding-top: 16px;">                        
+                        (Kalimat ini masih dalam pengembangan). <br>Kamu masih menjalani kegiatan sehari-hari, namun dengan kurang bersemangat atau merasa tertarik. Konsultasi dengan ahli kesehatan mental untuk mencari tahu penyebab dan solusinya. 
                     </p>  
                 </div>                       
             </div>
@@ -39,7 +39,7 @@
 </div>
 
     <div id="result" style="display: none">
-        <!-- <h1>Hasil Test: <span id="test_name"></span></h1> -->
+        <h1>Hasil Test: <span id="test_name"></span></h1>
         <p><span id="score"></span></p>
         <p><span id="explanation"></span></p>
     </div>

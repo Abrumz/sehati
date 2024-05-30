@@ -107,9 +107,22 @@
             <button class="accordion-button">Tes ADHD</button>
             <div class="accordion-content">
                 <p>Adult ADHD Self-Report Scale (ASRS) adalah alat yang dirancang untuk membantu skrining gangguan perhatian dan hiperaktivitas (ADHD) pada orang dewasa. ASRS membantu mengidentifikasi gejala ADHD pada orang dewasa dan memungkinkan manajemen serta strategi penanganan yang lebih baik.</p>
-                <a href="adhd-test">Ikuti Tes ADHD</a>
+                <button class="depression-test-button">
+					<a href="anxiety-test">Ikuti Tes ADHD</a>
+				</button>
             </div>
         </div>
+
+        <div class="accordion-item">
+            <button class="accordion-button">Tes Bipolar</button>
+            <div class="accordion-content">
+                <p>Mood Disorder Questionnaire (MDQ) adalah alat yang digunakan untuk skrining gangguan bipolar. MDQ dirancang oleh tim psikiater, peneliti, dan advokat konsumen untuk mengevaluasi bipolar secara akurat dan tepat waktu</p>
+                <button class="depression-test-button">
+					<a href="anxiety-test">Ikuti Tes Bipolar</a>
+				</button>
+            </div>
+        </div>
+
         <!-- <div class="accordion-item">
             <button class="accordion-button">ADHD TEST</button>
             <div class="accordion-content">

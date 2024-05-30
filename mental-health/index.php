@@ -98,18 +98,18 @@
 			<div class="accordion-content">
 				<p>Tes ini membandingkan tanda-tanda serangan panik dan gangguan panik berdasarkan literatur ilmiah. Anda dapat mengetahui apakah Anda mengalami gangguan panik dan seberapa parah gejalanya. Tes ini juga membantu mengidentifikasi perbedaan antara kecemasan umum dan gangguan panik.</p>
 				<button class="depression-test-button">
-					<a href="anxiety-test">Ikuti Tes Depresi</a>
+					<a href="anxiety-test">Ikuti Tes Kecemasan</a>
 				</button>
 			</div>
 		</div>
 
-        <!-- <div class="accordion-item">
-            <button class="accordion-button">ANXIETY TEST</button>
+        <div class="accordion-item">
+            <button class="accordion-button">Tes ADHD</button>
             <div class="accordion-content">
-                <p>Description for the Anxiety Test.</p>
-                <a href="#">TAKE ANXIETY TEST</a>
+                <p>Adult ADHD Self-Report Scale (ASRS) adalah alat yang dirancang untuk membantu skrining gangguan perhatian dan hiperaktivitas (ADHD) pada orang dewasa. ASRS membantu mengidentifikasi gejala ADHD pada orang dewasa dan memungkinkan manajemen serta strategi penanganan yang lebih baik.</p>
+                <a href="adhd-test">Ikuti Tes ADHD</a>
             </div>
-        </div> -->
+        </div>
         <!-- <div class="accordion-item">
             <button class="accordion-button">ADHD TEST</button>
             <div class="accordion-content">

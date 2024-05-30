@@ -118,7 +118,7 @@
             <div class="accordion-content">
                 <p>Mood Disorder Questionnaire (MDQ) adalah alat yang digunakan untuk skrining gangguan bipolar. MDQ dirancang oleh tim psikiater, peneliti, dan advokat konsumen untuk mengevaluasi bipolar secara akurat dan tepat waktu</p>
                 <button class="depression-test-button">
-					<a href="anxiety-test">Ikuti Tes Bipolar</a>
+					<a href="bipolar-test">Ikuti Tes Bipolar</a>
 				</button>
             </div>
         </div>

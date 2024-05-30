@@ -105,7 +105,7 @@
                 </p>
                 <p class="mb-4" style="margin-top: 16px;margin-bottom: 0 !important;display: flex;">
                     <img src="../img/checklist.png" alt="Green Checklist Icon" style="vertical-align: middle;margin-right: 8px;height: 100%;width: auto;">
-                    Berisi 5 pertanyaan menggunakan skala 0 sampai 3 untuk menghitung skor akhir.
+                    Berisi 8 pertanyaan menggunakan skala 0 sampai 3 untuk menghitung skor akhir.
                 </p>
                 <p class="mb-4" style="margin-top: 16px;margin-bottom: 0 !important;display: flex;">
                     <img src="../img/checklist.png" alt="Green Checklist Icon" style="vertical-align: middle;margin-right: 8px;height: 100%;width: auto;">

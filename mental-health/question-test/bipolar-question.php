@@ -38,9 +38,9 @@
         <h3>Apakah Anda pernah mengalami periode di mana suasana hati Anda sangat tinggi, ekspansif, atau iritabel selama setidaknya satu minggu?</h3>
         <div class="options" required>
             <label class="option"><input type="radio" name="q1" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q1" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q1" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q1" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q1" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q1" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q1" value="3"> Hampir Selalu</label>
         </div>
     </div>
 
@@ -48,9 +48,9 @@
         <h3>Apakah Anda merasa memiliki energi yang luar biasa atau merasa tidak memerlukan banyak tidur selama periode tersebut?</h3>
         <div class="options" required>
             <label class="option"><input type="radio" name="q2" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q2" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q2" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q2" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q2" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q2" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q2" value="3"> Hampir Selalu</label>
         </div>
     </div>
 
@@ -58,9 +58,9 @@
         <h3>Apakah Anda merasa sangat percaya diri atau memiliki harga diri yang sangat tinggi selama periode tersebut?</h3>
         <div class="options" required>
             <label class="option"><input type="radio" name="q3" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q3" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q3" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q3" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q3" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q3" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q3" value="3"> Hampir Selalu</label>
         </div>
     </div>
 
@@ -68,9 +68,9 @@
         <h3>Apakah Anda pernah berbicara lebih cepat dari biasanya atau merasa sulit untuk tetap fokus pada satu topik?</h3>
         <div class="options">
             <label class="option"><input type="radio" name="q4" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q4" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q4" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q4" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q4" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q4" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q4" value="3"> Hampir Selalu</label>
         </div>
     </div>
 
@@ -78,9 +78,9 @@
         <h3>Apakah Anda pernah melakukan tindakan yang tidak biasa atau berisiko selama periode suasana hati yang tinggi, seperti belanja berlebihan, keputusan impulsif, atau aktivitas seksual yang tidak biasa?</h3>
         <div class="options">
             <label class="option"><input type="radio" name="q5" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q5" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q5" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q5" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q5" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q5" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q5" value="3"> Hampir Selalu</label>
         </div>
     </div>
 
@@ -88,9 +88,9 @@
         <h3>Apakah perubahan suasana hati ini menyebabkan masalah dalam pekerjaan, hubungan sosial, atau fungsi sehari-hari?</h3>
         <div class="options">
             <label class="option"><input type="radio" name="q6" value="0" required> Tidak Pernah</label>
-            <label class="option"><input type="radio" name="q6" value="1"> Beberapa Hari</label>
-            <label class="option"><input type="radio" name="q6" value="2"> Sebagian Besar Hari</label>
-            <label class="option"><input type="radio" name="q6" value="3"> Hampir Setiap Hari</label>
+            <label class="option"><input type="radio" name="q6" value="1"> Beberapa Kali</label>
+            <label class="option"><input type="radio" name="q6" value="2"> Sering</label>
+            <label class="option"><input type="radio" name="q6" value="3"> Hampir Selalu</label>
         </div>
     </div>
 

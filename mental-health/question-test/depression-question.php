@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes Depresi - Sehati</title>
+    <title>Tes Kecemasan - Sehati</title>
     <link rel="icon" href="../img/sehati-vector.png">
     <link rel="stylesheet" href="../css/question.css">
     <style>
@@ -130,34 +130,50 @@
 
 <script>
     function calculateScore() {
-        var score = 0;
-        for (var i = 1; i <= 9; i++) { // Sesuaikan dengan jumlah pertanyaan
-            var radios = document.getElementsByName('q' + i);
-            for (var j = 0; j < radios.length; j++) {
-                if (radios[j].checked) {
-                    score += parseInt(radios[j].value);
-                }
+    var score = 0;
+    for (var i = 1; i <= 9; i++) { // Sesuaikan dengan jumlah pertanyaan
+        var radios = document.getElementsByName('q' + i);
+        for (var j = 0; j < radios.length; j++) {
+            if (radios[j].checked) {
+                score += parseInt(radios[j].value);
             }
         }
+    }
 
-        var explanation = "";
+    var explanation1 = "";
+        if (score >= 0 && score <= 4) {
+            explanation1 = "Anda tidak mengalami depresi. Tetap jaga kesehatan mental Anda.";
+        } else if (score >= 5 && score <= 9) {
+            explanation1 = "Anda mengalami depresi ringan. Tetap jaga kesehatan mental Anda dan bicarakan dengan orang terdekat atau profesional kesehatan mental.";
+        } else if (score >= 10 && score <= 14) {
+            explanation1 = "Anda mengalami depresi sedang. Segera konsultasikan dengan profesional kesehatan mental untuk penilaian lebih lanjut dan perawatan yang tepat.";
+        } else if (score >= 15 && score <= 19) {
+            explanation1 = "Anda mengalami depresi berat. Segera konsultasikan dengan profesional kesehatan mental atau layanan kesehatan mental darurat untuk bantuan segera.";
+        } else {
+            explanation1 = "Anda mengalami depresi sangat berat. Segera konsultasikan dengan profesional kesehatan mental atau layanan kesehatan mental darurat untuk bantuan segera.";
+        }
+
+    var explanation2 = "";
             if (score >= 0 && score <= 4) {
-                explanation = "Skor kamu menandakan depresi yang sangat rendah, kamu baik-baik saja.";
+                explanation2 = "Selamat! Anda tidak mengalami depresi. Tetap jaga kesehatan mental Anda dan bicarakan dengan orang terdekat jika Anda merasa perlu. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!";
             } else if (score >= 5 && score <= 9) {
-                explanation = "Skor kamu menandakan depresi yang rendah, kamu baik-baik saja.";
+                explanation2 = "Orang yang mengalami depresi ringan mungkin mengalami beberapa gejala depresi yang mempengaruhi kesejahteraan dan kualitas hidup mereka. Gejala-gejala ini mungkin tidak cukup parah untuk menimbulkan gangguan yang signifikan, tetapi tetap penting untuk memperhatikan perubahan suasana hati dan perilaku. Bicarakan dengan orang terdekat atau profesional kesehatan mental jika Anda merasa perlu. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             } else if (score >= 10 && score <= 14) {
-                explanation = "Skor kamu menandakan depresi yang sedang, kamu perlu lebih banyak istirahat.";
+                explanation2 = "Orang yang mengalami depresi sedang mungkin mengalami gejala depresi yang lebih signifikan yang mempengaruhi kesejahteraan dan kualitas hidup mereka. Gejala-gejala ini mungkin mulai mempengaruhi kehidupan sehari-hari, seperti pekerjaan, hubungan sosial, atau fungsi sehari-hari lainnya. Penting untuk mengevaluasi lebih lanjut dan mungkin merujuk ke profesional kesehatan mental untuk penilaian yang lebih mendalam. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             } else if (score >= 15 && score <= 19) {
-                explanation = "Skor kamu menandakan depresi yang tinggi, kamu perlu berkonsultasi dengan ahli kesehatan.";
+                explanation2 = "Orang yang mengalami depresi berat mungkin mengalami gejala depresi yang signifikan dan mengganggu. Gejala-gejala ini mungkin sangat mempengaruhi pekerjaan, hubungan sosial, dan fungsi sehari-hari. Depresi berat dapat menyebabkan kesulitan yang signifikan dalam kehidupan sehari-hari dan mungkin memerlukan perawatan yang intensif. Segera konsultasikan dengan profesional kesehatan mental atau layanan kesehatan mental darurat untuk bantuan segera. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             } else {
-                explanation = "kamu memiliki hasil yang sangat tinggi, saya sarankan ...";
+                explanation2 = "Hai, apakah Anda baik-baik saja? Jika Anda merasa tidak baik, jangan ragu untuk berbicara dengan orang terdekat atau profesional kesehatan mental. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             }
 
-        sessionStorage.setItem('depression-test_score', score);
-        sessionStorage.setItem('depression-test_explanation', explanation);
-        sessionStorage.setItem('test_name', 'Tes Depresi');
-        window.location.href = 'skor.html?test=depression-test';
-    }
+
+    sessionStorage.setItem('depression-test_score', score);
+    sessionStorage.setItem('depression-test_explanation1', explanation1);
+    sessionStorage.setItem('depression-test_explanation2', explanation2);
+    sessionStorage.setItem('test_name', 'Tes depression');
+    window.location.href = 'skor.html?test=depression-test';
+}
+
 </script>
 </body>
 </html>

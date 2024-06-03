@@ -108,7 +108,7 @@
             <div class="accordion-content">
                 <p>Adult ADHD Self-Report Scale (ASRS) adalah alat yang dirancang untuk membantu skrining gangguan perhatian dan hiperaktivitas (ADHD) pada orang dewasa. ASRS membantu mengidentifikasi gejala ADHD pada orang dewasa dan memungkinkan manajemen serta strategi penanganan yang lebih baik.</p>
                 <button class="depression-test-button">
-					<a href="anxiety-test">Ikuti Tes ADHD</a>
+					<a href="adhd-test">Ikuti Tes ADHD</a>
 				</button>
             </div>
         </div>

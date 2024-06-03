@@ -121,30 +121,42 @@
 
 <script>
     function calculateScore() {
-        var score = 0;
-        for (var i = 1; i <= 8; i++) { // Sesuaikan dengan jumlah pertanyaan
-            var radios = document.getElementsByName('q' + i);
-            for (var j = 0; j < radios.length; j++) {
-                if (radios[j].checked) {
-                    score += parseInt(radios[j].value);
-                }
+    var score = 0;
+    for (var i = 1; i <= 8; i++) { // Sesuaikan dengan jumlah pertanyaan
+        var radios = document.getElementsByName('q' + i);
+        for (var j = 0; j < radios.length; j++) {
+            if (radios[j].checked) {
+                score += parseInt(radios[j].value);
             }
         }
+    }
 
-        var explanation = "";
+    var explanation1 = "";
+        if (score >= 0 && score <= 8) {
+            explanation1 = "Skor Anda rendah.";
+        } else if (score >= 9 && score <= 16) {
+            explanation1 = "Skor Anda sedang.";
+        } else {
+            explanation1 = "Skor Anda tinggi.";
+        }
+
+    var explanation2 = "";
             if (score >= 0 && score <= 8) {
-                explanation = "Orang dengan skor ini cenderung tidak menunjukkan gejala ADHD yang signifikan. Mereka mungkin memiliki sedikit kesulitan dalam perhatian atau hiperaktif/impulsif, tetapi tidak sampai mengganggu kehidupan sehari-hari secara berarti.";
+                explanation2 = "Orang dengan skor ini cenderung tidak menunjukkan gejala ADHD yang signifikan. Mereka mungkin memiliki sedikit kesulitan dalam perhatian atau hiperaktif/impulsif, tetapi tidak sampai mengganggu kehidupan sehari-hari secara berarti. Disarankan untuk tetap menjaga pola hidup sehat dan berkonsultasi dengan tenaga medis jika merasa ada gejala yang mengganggu.";
             } else if (score >= 9 && score <= 16) {
-                explanation = "Skor ini menunjukkan adanya gejala ADHD yang sedang. Orang dengan skor ini mungkin mengalami beberapa kesulitan dalam perhatian atau hiperaktif/impulsif yang mempengaruhi kehidupan sehari-hari, namun masih bisa mengelola sebagian besar aktivitasnya.";
+                explanation2 = "Skor ini menunjukkan adanya gejala ADHD yang sedang. Orang dengan skor ini mungkin mengalami beberapa kesulitan dalam perhatian atau hiperaktif/impulsif yang mempengaruhi kehidupan sehari-hari, namun masih bisa mengelola sebagian besar aktivitasnya. Penting untuk memperhatikan pola hidup sehari-hari dan mungkin perlu berkonsultasi dengan profesional kesehatan untuk mendapatkan saran lebih lanjut.";
             } else {
-                explanation = "Skor ini menunjukkan gejala ADHD yang berat. Orang dengan skor ini kemungkinan besar mengalami kesulitan yang signifikan dalam perhatian atau hiperaktif/impulsif yang sangat mempengaruhi kehidupan sehari-hari dan memerlukan perhatian atau intervensi profesional.";
+                explanation2 = "Skor ini menunjukkan gejala ADHD yang berat. Orang dengan skor ini kemungkinan besar mengalami kesulitan yang signifikan dalam perhatian atau hiperaktif/impulsif yang sangat mempengaruhi kehidupan sehari-hari dan Sangat disarankan untuk segera berkonsultasi dengan profesional kesehatan untuk evaluasi dan perawatan lebih lanjut. Hai, apakah Anda baik-baik saja? Jika Anda merasa tidak baik, jangan ragu untuk berbicara dengan orang terdekat atau profesional kesehatan mental. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             }
 
-        sessionStorage.setItem('adhd-test_score', score);
-        sessionStorage.setItem('adhd-test_explanation', explanation);
-        sessionStorage.setItem('test_name', 'Tes ADHD');
-        window.location.href = 'skor.html?test=adhd-test';
-    }
+
+    sessionStorage.setItem('adhd-test_score', score);
+    sessionStorage.setItem('adhd-test_explanation1', explanation1);
+    sessionStorage.setItem('adhd-test_explanation2', explanation2);
+    sessionStorage.setItem('test_name', 'Tes ADHD');
+    window.location.href = 'skor.html?test=adhd-test';
+}
+
 </script>
 </body>
 </html>

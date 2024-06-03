@@ -121,32 +121,46 @@
 
 <script>
     function calculateScore() {
-        var score = 0;
-        for (var i = 1; i <= 8; i++) { // Sesuaikan dengan jumlah pertanyaan
-            var radios = document.getElementsByName('q' + i);
-            for (var j = 0; j < radios.length; j++) {
-                if (radios[j].checked) {
-                    score += parseInt(radios[j].value);
-                }
+    var score = 0;
+    for (var i = 1; i <= 8; i++) { // Sesuaikan dengan jumlah pertanyaan
+        var radios = document.getElementsByName('q' + i);
+        for (var j = 0; j < radios.length; j++) {
+            if (radios[j].checked) {
+                score += parseInt(radios[j].value);
             }
         }
+    }
 
-        var explanation = "";
+    var explanation1 = "";
+        if (score >= 0 && score <= 4) {
+            explanation1 = "Anda Aman.";
+        } else if (score >= 5 && score <= 9) {
+            explanation1 = "Anda Mengalami Kecemasan Ringan";
+        } else if (score >= 10 && score <= 14) {
+            explanation1 = "Anda Mengalami Kecemasan Sedang";
+        } else {
+            explanation1 = "Anda Mengalami Kecemasan Berat";
+        }
+
+    var explanation2 = "";
             if (score >= 0 && score <= 4) {
-                explanation = "Tidak menunjukkan gejala kecemasan yang signifikan. Kecemasan dalam rentang ini mungkin masih dalam batas normal dan dapat diatasi dengan strategi koping sehari-hari.";
+                explanation2 = "Tidak menunjukkan gejala kecemasan yang signifikan. Kecemasan dalam rentang ini mungkin masih dalam batas normal dan dapat diatasi dengan strategi koping sehari-hari.";
             } else if (score >= 5 && score <= 9) {
-                explanation = "Menunjukkan tingkat kecemasan ringan hingga sedang. Kecemasan dalam rentang ini mungkin mulai memengaruhi aktivitas sehari-hari dan kualitas hidup, tetapi masih dapat diatasi dengan dukungan sosial dan strategi koping.";
+                explanation2 = "Menunjukan adanya gejala kecemasan ringan. Orang dengan skor ini mungkin mengalami beberapa kesulitan dalam perhatian atau hiperaktif/impulsif yang mempengaruhi kehidupan sehari-hari, namun masih bisa mengelola sebagian besar aktivitasnya. Penting untuk memperhatikan pola hidup sehari-hari dan mungkin perlu berkonsultasi dengan profesional kesehatan untuk mendapatkan saran lebih lanjut.";
             } else if (score >= 10 && score <= 14) {
-                explanation = "Menunjukkan kecemasan yang moderat hingga tinggi. Individu dalam rentang ini mungkin memerlukan bantuan profesional untuk mengatasi gejala kecemasan dan mencegah dampak yang lebih serius pada kesehatan mental.";
+                explanation2 = "Menunjukkan adanya gejala kecemasan sedang. Orang dengan skor ini mungkin mengalami kesulitan yang signifikan dalam perhatian atau hiperaktif/impulsif yang mempengaruhi kehidupan sehari-hari. Sangat disarankan untuk berkonsultasi dengan profesional kesehatan untuk evaluasi dan perawatan lebih lanjut. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku";
             } else {
-                explanation = "Menunjukkan kecemasan yang sangat tinggi. Ini mungkin memerlukan intervensi segera oleh profesional kesehatan mental dan terapi yang intensif untuk mengelola gejala dan mengurangi risiko komplikasi kesehatan mental yang serius.";
+                explanation2 = "Menunjukkan kecemasan yang sangat tinggi. Ini mungkin memerlukan intervensi segera oleh profesional kesehatan mental dan terapi yang intensif untuk mengelola gejala dan mengurangi risiko komplikasi kesehatan mental yang serius. Hai, apakah Anda baik-baik saja? Jika Anda merasa tidak baik, jangan ragu untuk berbicara dengan orang terdekat atau profesional kesehatan mental. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             }
 
-        sessionStorage.setItem('anxiety-test_score', score);
-        sessionStorage.setItem('anxiety-test_explanation', explanation);
-        sessionStorage.setItem('test_name', 'Tes Kecemasan');
-        window.location.href = 'skor.html?test=anxiety-test';
-    }
+
+    sessionStorage.setItem('anxiety-test_score', score);
+    sessionStorage.setItem('anxiety-test_explanation1', explanation1);
+    sessionStorage.setItem('anxiety-test_explanation2', explanation2);
+    sessionStorage.setItem('test_name', 'Tes anxiety');
+    window.location.href = 'skor.html?test=anxiety-test';
+}
+
 </script>
 </body>
 </html>

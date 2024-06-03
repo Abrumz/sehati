@@ -100,30 +100,42 @@
 
 <script>
     function calculateScore() {
-        var score = 0;
-        for (var i = 1; i <= 6; i++) { // Sesuaikan dengan jumlah pertanyaan
-            var radios = document.getElementsByName('q' + i);
-            for (var j = 0; j < radios.length; j++) {
-                if (radios[j].checked) {
-                    score += parseInt(radios[j].value);
-                }
+    var score = 0;
+    for (var i = 1; i <= 6; i++) { // Sesuaikan dengan jumlah pertanyaan
+        var radios = document.getElementsByName('q' + i);
+        for (var j = 0; j < radios.length; j++) {
+            if (radios[j].checked) {
+                score += parseInt(radios[j].value);
             }
         }
+    }
 
-        var explanation = "";
-            if (score >= 0 && score <= 8) {
-                explanation = "Kemungkinan kecil gangguan bipolar. Orang dengan skor ini cenderung tidak menunjukkan gejala gangguan bipolar yang signifikan. Mereka mungkin mengalami fluktuasi suasana hati yang normal dan tidak sampai mengganggu kehidupan sehari-hari. Gejala yang dialami mungkin lebih sesuai dengan gangguan suasana hati lainnya atau bahkan stres sehari-hari.";
-            } else if (score >= 9 && score <= 16) {
-                explanation = "Gejala gangguan bipolar sedang. Orang dengan skor ini menunjukkan gejala yang lebih signifikan yang mungkin terkait dengan gangguan bipolar. Gejala-gejala ini mungkin mulai mempengaruhi kehidupan sehari-hari, seperti kesulitan dalam pekerjaan, hubungan sosial, atau fungsi sehari-hari lainnya. Namun, gejala ini mungkin belum cukup parah untuk menimbulkan gangguan yang berat. Penting untuk mengevaluasi lebih lanjut dan mungkin merujuk ke profesional kesehatan mental untuk penilaian yang lebih mendalam.";
+    var explanation1 = "";
+        if (score >= 0 && score <= 8) {
+            explanation1 = "Anda Aman.";
+        } else if (score >= 9 && score <= 16) {
+            explanation1 = "Anda Mengalami Gangguan Bipolar Sedang";
+        } else {
+            explanation1 = "Anda Mengalami Gangguan Bipolar Berat";
+        }
+
+    var explanation2 = "";
+            if (score >= 0 && score <= 4) {
+                explanation2 = "Kemungkinan kecil gangguan bipolar. Orang dengan skor ini cenderung tidak menunjukkan gejala gangguan bipolar yang signifikan. Mereka mungkin mengalami fluktuasi suasana hati yang normal dan tidak sampai mengganggu kehidupan sehari-hari. Gejala yang dialami mungkin lebih sesuai dengan gangguan suasana hati lainnya atau bahkan stres sehari-hari.";
+            } else if (score >= 5 && score <= 9) {
+                explanation2 = "Gejala gangguan bipolar sedang. Orang dengan skor ini menunjukkan gejala yang lebih signifikan yang mungkin terkait dengan gangguan bipolar. Gejala-gejala ini mungkin mulai mempengaruhi kehidupan sehari-hari, seperti kesulitan dalam pekerjaan, hubungan sosial, atau fungsi sehari-hari lainnya. Namun, gejala ini mungkin belum cukup parah untuk menimbulkan gangguan yang berat. Penting untuk mengevaluasi lebih lanjut dan mungkin merujuk ke profesional kesehatan mental untuk penilaian yang lebih mendalam.";
             } else {
-                explanation = "Gejala gangguan bipolar berat. Orang dengan skor ini kemungkinan besar mengalami gejala gangguan bipolar yang signifikan dan mengganggu. Gejala ini mungkin sangat mempengaruhi pekerjaan, hubungan sosial, dan fungsi sehari-hari. Gangguan suasana hati seperti mania atau hipomania mungkin terjadi dengan intensitas yang tinggi dan sering. Disarankan untuk segera konsultasi dengan profesional kesehatan mental untuk diagnosis dan pengobatan yang tepat.";
+                explanation2 = "Gejala gangguan bipolar berat. Orang dengan skor ini kemungkinan besar mengalami gejala gangguan bipolar yang signifikan dan mengganggu. Gejala ini mungkin sangat mempengaruhi pekerjaan, hubungan sosial, dan fungsi sehari-hari. Gangguan suasana hati seperti mania atau hipomania mungkin terjadi dengan intensitas yang tinggi dan sering. Disarankan untuk segera konsultasi dengan profesional kesehatan mental untuk diagnosis dan pengobatan yang tepat. Hai, apakah Anda baik-baik saja? Jika Anda merasa tidak baik, jangan ragu untuk berbicara dengan orang terdekat atau profesional kesehatan mental. Ingat, Anda tidak sendirian. Semoga harimu menyenangkan!, Peluk Jauh untukmu sayangku.";
             }
 
-        sessionStorage.setItem('bipolar-test_score', score);
-        sessionStorage.setItem('bipolar-test_explanation', explanation);
-        sessionStorage.setItem('test_name', 'Tes ADHD');
-        window.location.href = 'skor.html?test=bipolar-test';
-    }
+
+    sessionStorage.setItem('bipolar-test_score', score);
+    sessionStorage.setItem('bipolar-test_explanation1', explanation1);
+    sessionStorage.setItem('bipolar-test_explanation2', explanation2);
+    sessionStorage.setItem('test_name', 'Tes bipolar');
+    window.location.href = 'skor.html?test=bipolar-test';
+}
+
 </script>
 </body>
 </html>

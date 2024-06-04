@@ -126,6 +126,9 @@
 
     <input onclick="parent.redirectToSkorPage()" type="submit" value="Kirim Jawaban" style="color: #ffffff;border: none;cursor: pointer;box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05), 0px 8px 16px -3px rgba(0, 0, 0, 0.08);display: flex;padding: 20px 32px;justify-content: center;align-items: center;gap: 10px;border-radius: 16px;background: var(--Color-Blue-blue-500, #4256A0);width: -webkit-fill-available;">
 
+    <p>
+        <small>*Kroenke K, Spitzer RL, Williams JBW, Dsw BLW. 2001. Validity of a brief depression severity measure. Journal of General Internal Medicine, 16(9), 606-613. doi: 10.1046/j.1525-1497.2001.016009606.x</small>
+    </p>
 </form>
 
 <script>

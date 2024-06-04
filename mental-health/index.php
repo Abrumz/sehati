@@ -84,7 +84,9 @@
 
 	<div class="accordion">
 		<div class="accordion-item">
-		<button class="accordion-button">Tes Depresi</button>
+		<button class="accordion-button">
+            <h1>Tes Depresi</h1>
+        </button>
 			<div class="accordion-content">
 				<p>Bagi orang yang mengalami kesedihan dan keputusasaan yang luar biasa, energi rendah, atau citra diri negatif.</p>
 				<button class="depression-test-button">
@@ -94,7 +96,9 @@
 		</div>
 
         <div class="accordion-item">
-		<button class="accordion-button">Tes Kecemasan</button>
+		<button class="accordion-button">
+            <h1>Tes Kecemasan</h1>
+        </button>
 			<div class="accordion-content">
 				<p>Tes ini membandingkan tanda-tanda serangan panik dan gangguan panik berdasarkan literatur ilmiah. Anda dapat mengetahui apakah Anda mengalami gangguan panik dan seberapa parah gejalanya. Tes ini juga membantu mengidentifikasi perbedaan antara kecemasan umum dan gangguan panik.</p>
 				<button class="depression-test-button">
@@ -104,7 +108,9 @@
 		</div>
 
         <div class="accordion-item">
-            <button class="accordion-button">Tes ADHD</button>
+            <button class="accordion-button">
+                <h1>Tes ADHD</h1>
+            </button>
             <div class="accordion-content">
                 <p>Adult ADHD Self-Report Scale (ASRS) adalah alat yang dirancang untuk membantu skrining gangguan perhatian dan hiperaktivitas (ADHD) pada orang dewasa. ASRS membantu mengidentifikasi gejala ADHD pada orang dewasa dan memungkinkan manajemen serta strategi penanganan yang lebih baik.</p>
                 <button class="depression-test-button">
@@ -114,7 +120,9 @@
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-button">Tes Bipolar</button>
+            <button class="accordion-button">
+                <h1>Tes Bipolar</h1>
+            </button>
             <div class="accordion-content">
                 <p>Mood Disorder Questionnaire (MDQ) adalah alat yang digunakan untuk skrining gangguan bipolar. MDQ dirancang oleh tim psikiater, peneliti, dan advokat konsumen untuk mengevaluasi bipolar secara akurat dan tepat waktu</p>
                 <button class="depression-test-button">

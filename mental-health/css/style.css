@@ -97,7 +97,8 @@
 .accordion-button {
     width: 100%;
     padding: 15px;
-    background-color: #00bcd4;
+    border-radius: 20px;
+    background: var(--Color-Blue-blue-50, #ECEEF6);
     color: #fff;
     border: none;
     text-align: left;
@@ -162,6 +163,10 @@
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: center;
+    }
+
+    .mental-health-row h1{
+        font-size: 32px;
     }
 }
 
@@ -265,3 +270,114 @@ input[type="submit"] {
     font-weight: 400;
     line-height: normal;
   }
+
+  /* Styling for the depression test button */
+.Skor-button {
+    display: flex;
+    height: 73px;
+    padding: 20px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+
+    border-radius: 16px;
+    background: var(--Color-Blue-blue-500, #4256A0);
+}
+
+.Skor-button:hover {
+    background-color: #2f527b;
+}
+
+.Skor-button a{
+    color: var(--Color-Neutral-neutral-50, #EDEEEF);
+    text-align: center;
+    
+    /* Nunito Sans/Semibold/Headline 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.skor-row{
+    margin: 32px;
+    width: 100%;
+}
+
+.skor-row h1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 0 0;
+    align-self: stretch;
+
+    color: var(--Color-Blue-blue-500, #4256A0);
+
+    /* Rubik/Display 2 */
+    font-family: Rubik, sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 0px !important;
+    margin-left: 16px;
+    }
+
+.Skor-row p{
+    align-self: stretch;
+    color: #000;
+    font-family: "Nunito Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 35px; /* 194.444% */
+
+}
+
+.repeat-test{
+    color: var(--Color-Blue-blue-500, #4256A0);
+
+    /* Nunito Sans/Regular/Headline 2 */
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    justify-content: end;
+    padding-top: 64px;
+}
+
+.accordion-item h1{
+    color: var(--Color-Blue-blue-700, #2F3D72);
+    text-align: center;
+
+    /* Rubik/Semibold/Body 1 */
+    font-family: Rubik, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+@media (max-width: 425px) {
+    .container-mental-health {
+        gap: 0px;;
+    }
+
+    .skor-row h1{
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .skor-row{
+        margin: 0px;
+    }
+
+    .skor{
+        padding: 0px;
+    }
+}

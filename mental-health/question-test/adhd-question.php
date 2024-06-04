@@ -117,6 +117,10 @@
     
     <input onclick="parent.redirectToSkorPage()" type="submit" value="Kirim Jawaban" style="color: #ffffff;border: none;cursor: pointer;box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05), 0px 8px 16px -3px rgba(0, 0, 0, 0.08);display: flex;padding: 20px 32px;justify-content: center;align-items: center;gap: 10px;border-radius: 16px;background: var(--Color-Blue-blue-500, #4256A0);width: -webkit-fill-available;">
 
+    <p>
+        <small>*Kessler RC, Adler L, Ames M, Demler O, Faraone S, Hiripi E.  Ustun TB. 2005. The World Health Organization Adult ADHD Self-Report Scale (ASRS): a short screening scale for use in the general population. Psychological Medicine, 35(2), 245-256. doi:10.1017/S0033291704002892.</small>
+    </p>
+
 </form>
 
 <script>

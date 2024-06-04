@@ -96,6 +96,9 @@
 
     <input onclick="parent.redirectToSkorPage()" type="submit" value="Kirim Jawaban" style="color: #ffffff;border: none;cursor: pointer;box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.05), 0px 8px 16px -3px rgba(0, 0, 0, 0.08);display: flex;padding: 20px 32px;justify-content: center;align-items: center;gap: 10px;border-radius: 16px;background: var(--Color-Blue-blue-500, #4256A0);width: -webkit-fill-available;">
 
+    <p>
+        <small>*Hirschfeld RM, Williams JB, Spitzer RL, Calabrese JR, Flynn L, Keck Jr PE, Zajecka J. 2000. Development and validation of a screening instrument for bipolar spectrum disorder: the Mood Disorder Questionnaire. American Journal of Psychiatry, 157(11), 1873-1875. doi:10.1176/appi.ajp.157.11.1873.</small>
+    </p>
 </form>
 
 <script>

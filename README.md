@@ -6,7 +6,7 @@
 :---:|:---:|:---:|:---:|:---:|:---:
 
 ## Sekilas Tentang
-Nama Website: SEHATI</br />
+Nama Website: SEHATI<br />
 Mata Kuliah : Analisis Desain Sistem<br />
 Paralel: P2<br />
 Kelompok: 2<br />

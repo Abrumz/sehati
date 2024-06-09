@@ -20,6 +20,11 @@ Kelompok: 2<br />
 ## Deskripsi Singkat
 Sistem E-Booking Healthcare Akses Terintegrasi Informasi (SEHATI) merupakan suatu sistem yang dirancang untuk mempermudah proses reservasi dan akses layanan kesehatan secara terintegrasi. Website ini dibangun menggunakan HTML, CSS, JavaScript, dan beberapa *framework* seperti Bootstrap, Vanilla, dan lainnya untuk pengembangan *front end*. Pengembangan *back end* dilakukan menggunakan bahasa pemrograman PHP dan menggunakan *relational database management system* dengan MySQL.
 
+## Tujuan
+- Meningkatkan efisiensi dan efektivitas layanan kesehatan.
+- Memberikan kemudahan bagi pasien dan tenaga medis.
+- Mendukung transformasi digital dalam sektor kesehatan.
+
 ## Fitur
 
 **Admin**

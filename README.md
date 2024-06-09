@@ -3,7 +3,7 @@
 # SEHATI
 
 [Sekilas Tentang](#sekilas-tentang) | [Anggota](#anggota) | [Deskripsi Singkat](#deskripsi-singkat) | [Tujuan](#tujuan) | [Fitur](#fitur) | [Referensi](#referensi)
-:---:|:---:|:---:|:---:|:---:|:---:|:---:
+:---:|:---:|:---:|:---:|:---:|:---:
 
 ## Sekilas Tentang
 Nama Website: SEHATI</br />

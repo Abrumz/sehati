@@ -65,6 +65,7 @@
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
     $email=$userfetch["pemail"];
+    $picture=$userfetch["picture"];
 
 
     //echo $userid;
@@ -258,11 +259,14 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
+                        <a href="">
+                                <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
+                            </a>
+
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0"><?php echo $email; ?></p>
+                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
                                          
                         </div>
                     </div>

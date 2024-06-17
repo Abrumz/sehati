@@ -66,6 +66,7 @@ $patient = new Patient($email, $userType, $patientName, $phoneNumber, $dateOfBir
 // Menggunakan metode getUserInfo
 $userInfo = $patient->getUserInfo($email);
 $username = $userInfo['pname'];
+$picture = $userInfo['picture'];
 
 // Jika formulir sudah dikirimkan
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -252,11 +253,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
+                        <a href="">
+                                <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
+                            </a>
+
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0"><?php echo $email; ?></p>
+                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
                                          
                         </div>
                     </div>

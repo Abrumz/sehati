@@ -229,7 +229,7 @@ $doctor = $admin->getDoctorDetails();
                         </div>
                         <div class="detail">
                             <h6>Admin Sehati</h6>
-                            <p class="m-b-0">admin@sehati.ilkomerz.biz.id</p>
+                            <p class="m-b-0" style="word-wrap: break-word">admin@sehati.ilkomerz.biz.id</p>
                                          
                         </div>
                     </div>

@@ -271,7 +271,7 @@
                                     </div>
                                     <div class="detail">
                                         <h6><?php echo $username  ?></h6>
-                                        <p class="m-b-0"><?php echo $email; ?></p>
+                                        <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
                                                     
                                     </div>
                                 </div>

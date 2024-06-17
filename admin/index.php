@@ -228,7 +228,7 @@
                         </div>
                         <div class="detail">
                             <h6>Admin Sehati</h6>
-                            <p class="m-b-0"><?php echo $adminEmail; ?></p>
+                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $adminEmail; ?></p>
                                          
                         </div>
                     </div>

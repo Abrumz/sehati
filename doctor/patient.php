@@ -242,7 +242,7 @@
                             </div>
                             <div class="detail">
                                 <h6><?php echo $username  ?></h6>
-                                <p class="m-b-0"><?php echo $email; ?></p>
+                                <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
                                             
                             </div>
                         </div>
@@ -440,7 +440,7 @@
                                     <td colspan="4">
                                     <br><br><br><br>
                                     <center>
-                                    <img src="../img/notfound.svg" width="25%">
+                                    <img src="../img/404-empty.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>

@@ -37,9 +37,6 @@
 </head>
 
 <?php
-
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["user"])){
@@ -48,7 +45,6 @@
         }else{
             $useremail=$_SESSION["user"];
         }
-
     }else{
         header("location: ../login.php");
     }
@@ -80,9 +76,7 @@
                     </div>
                 </div>
             </div>
-                      
         </div>
-        
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
@@ -104,11 +98,9 @@
 </aside>
 
 <aside class="right_menu">
-    
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
-            
         </ul>
         <div class="tab-content slim_scroll">
             <div class="tab-pane slideRight active" id="setting">
@@ -196,61 +188,56 @@
                     </div>
                 </div>               
             </div>
-            
         </div>
     </div>
     <div id="leftsidebar" class="sidebar">
         <div class="menu">
             <ul class="list">
-            <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
-            <li class="header">UTAMA</li>
-                    <li class="active">
-                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
-                    </li>
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
-                    <li class="active">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
-                    </li>
-                    <li class="active open" style="background-color: transparent">
-                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
-                    </li>
+                <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
+                <li class="header">UTAMA</li>
+                <li class="active">
+                    <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                </li>
+                <li class="active">
+                    <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                </li>
+                <li class="active open" style="background-color: transparent">
+                    <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
+                </li>
                  
-                    <?php
+                <?php
                     //import database
                     include("../connection.php");
 
                     // Query untuk mengambil data admin dari database
-                        $query = "SELECT * FROM admin";
-                        $result = $database->query($query);
+                    $query = "SELECT * FROM admin";
+                    $result = $database->query($query);
 
-                        // Memeriksa apakah ada hasil yang ditemukan
-                        if ($result->num_rows > 0) {
-                            // Loop melalui setiap baris hasil query
-                            while ($row = $result->fetch_assoc()) {
-                                // Ekstrak data yang dibutuhkan dari setiap baris
-                                $adminEmail = $row['aemail'];
-                    ?>
-                    <li>
-                        <div class="user-info m-b-20">
-                            <div class="image">
-                                <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
-                            </div>
-                            <div class="detail">
-                                <h6><?php echo $username  ?></h6>
-                                <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
-                                            
-                            </div>
+                    // Memeriksa apakah ada hasil yang ditemukan
+                    if ($result->num_rows > 0) {
+                        // Loop melalui setiap baris hasil query
+                        while ($row = $result->fetch_assoc()) {
+                            // Ekstrak data yang dibutuhkan dari setiap baris
+                            $adminEmail = $row['aemail'];
+                ?>
+                <li>
+                    <div class="user-info m-b-20">
+                        <div class="image">
+                            <a href=""><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
-                    </li>
+                        <div class="detail">
+                            <h6><?php echo $username  ?></h6>
+                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>          
+                        </div>
+                    </div>
+                </li>
                 <?php
+                        }
+                    } else {
+                        // Jika tidak ada data admin yang ditemukan
+                        echo "Tidak ada data admin yang ditemukan.";
                     }
-                } else {
-                    // Jika tidak ada data admin yang ditemukan
-                    echo "Tidak ada data admin yang ditemukan.";
-                }
-        ?>                     
+                ?>                     
             </ul>
         </div>
     </div>
@@ -261,8 +248,8 @@
 <!-- NAVBAR -->
 <div class="nav-bar" >
     <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
-            <img src="../img/back.png" style="padding-right: 8px;">
-            <h2 class="Bawah">Kembali</h2>
+        <img src="../img/back.png" style="padding-right: 8px;">
+        <h2 class="Bawah">Kembali</h2>
     </a>
     <div class="Calendar">
         <div class="date-section">
@@ -271,24 +258,22 @@
                 $locale = 'id_ID.UTF-8';
                 setlocale(LC_TIME, $locale);
                 $today = new DateTime();
-                echo strftime('%A', $today->getTimestamp());
+                echo $today->format('l'); // format the day name in English
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
                 setlocale(LC_TIME, $locale);
-                echo strftime('%d %B %Y', $today->getTimestamp());
+                echo $today->format('d F Y'); // format the date in Indonesian
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
                 $appointmentrow = $database->query("select  * from  appointment where appodate>='" . $today->format('Y-m-d') . "';");
                 $schedulerow = $database->query("select  * from  schedule where scheduledate='" . $today->format('Y-m-d') . "';");
                 $list110 = $database->query("select  * from  schedule where docid=$userid;");
-                
-?>
+                ?>
             </p>
-            
         </div>
         <div class="calendar-section">
             <button class="btn-label">
@@ -451,7 +436,6 @@
 <script src="../assets-page/js/pages/index.js"></script>
 <script src="../assets-page/js/line.js"></script>
 <script src="../assets-page/js/table.js"></script>
-
 
 </body>
 </html>

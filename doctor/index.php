@@ -328,16 +328,14 @@
                 $locale = 'id_ID.UTF-8';
                 setlocale(LC_TIME, $locale);
                 $today = new DateTime();
-                echo strftime('%A', $today->getTimestamp());
+                echo $today->format('l'); // format the day name in English
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0; color: black">
                 <?php 
                 setlocale(LC_TIME, $locale);
-                echo strftime('%d %B %Y', $today->getTimestamp());
-
-
+                echo $today->format('d F Y'); // format the date in Indonesian
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
                 $appointmentrow = $database->query("select  * from  appointment where appodate>='" . $today->format('Y-m-d') . "';");

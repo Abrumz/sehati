@@ -274,14 +274,17 @@
                 $locale = 'id_ID.UTF-8';
                 setlocale(LC_TIME, $locale);
                 $today = new DateTime();
-                echo strftime('%A', $today->getTimestamp());
+
+                $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'Asia/Jakarta', IntlDateFormatter::GREGORIAN);
+                $formatter->setPattern('EEEE'); // Full day name
+                echo $formatter->format($today);
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
-                setlocale(LC_TIME, $locale);
-                echo strftime('%d %B %Y', $today->getTimestamp());
+                $formatter->setPattern('dd MMMM yyyy'); // Full date format
+                echo $formatter->format($today);
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");

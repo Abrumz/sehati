@@ -8,4 +8,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [NC,L]
 
+php_value error_reporting 30711
+
 RewriteRule ^index$ / [NC,R,L]

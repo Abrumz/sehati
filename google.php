@@ -14,7 +14,7 @@ require_once 'vendor/autoload.php';
 $clientID = '682994088356-0gcvafc2qun5o4o5eisgt2b1v326il1a.apps.googleusercontent.com';
 $clientSecret = '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';
 // $redirectUri = 'http://localhost/sehati/login';
-$redirectUri = 'https://sehati.ilkomerz.biz.id/sehati/login';
+$redirectUri = 'https://sehati.ilkomerz.biz.id/login';
 
 $client = new Google_Client();
 $client->setClientId($clientID);

@@ -2,7 +2,8 @@
 // session_start();
 
 // Database connection
-$database = new mysqli("localhost", "ilkomerz_sehati", "23Gusendra16", "ilkomerz_sehati");
+// $database = new mysqli("localhost", "root", "", "sehati");
+$database= new mysqli("localhost","ilkomerz_sehati","23Gusendra16","ilkomerz_sehati");
 if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
@@ -12,6 +13,7 @@ require_once 'vendor/autoload.php';
 // Google client configuration
 $clientID = '682994088356-0gcvafc2qun5o4o5eisgt2b1v326il1a.apps.googleusercontent.com';
 $clientSecret = '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';
+// $redirectUri = 'http://localhost/sehati/login';
 $redirectUri = 'https://sehati.ilkomerz.biz.id/login';
 
 $client = new Google_Client();
@@ -70,9 +72,7 @@ if (isset($_GET['code'])) {
             echo "User type not found.";
         }
     } else {
-        echo "Error during authentication: " . $token['error'];
+        echo "Error during authentication.";
     }
-} else {
-    echo "No code parameter in URL.";
 }
 ?>

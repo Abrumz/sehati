@@ -46,6 +46,8 @@
     //learn from w3schools.com
 
     session_start();
+    var_dump($_SESSION);
+
 
     if(isset($_SESSION["user"])){
         if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){

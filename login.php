@@ -25,6 +25,8 @@
     //Unset all the server side variables
 
     session_start();
+    var_dump($_SESSION);
+
 
     $_SESSION["user"]="";
     $_SESSION["usertype"]="";

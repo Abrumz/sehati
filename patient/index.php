@@ -337,22 +337,22 @@
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
                 setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
-                echo $today;
+                $today = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'EEEE');
+                echo $today->format(new DateTime());
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0; color: black">
                 <?php 
                 setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
-                echo $today;
+                $today = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
+                echo $today->format(new DateTime());
 
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . date('Y-m-d') . "';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . date('Y-m-d') . "';");
 
 
                 ?>

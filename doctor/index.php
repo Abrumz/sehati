@@ -325,23 +325,23 @@
         <div class="date-section">
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
-                setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
-                echo $today;
+                $locale = 'id_ID.UTF-8';
+                setlocale(LC_TIME, $locale);
+                $today = new DateTime();
+                echo strftime('%A', $today->getTimestamp());
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0; color: black">
                 <?php 
-                setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
-                echo $today;
+                setlocale(LC_TIME, $locale);
+                echo strftime('%d %B %Y', $today->getTimestamp());
 
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . $today->format('Y-m-d') . "';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . $today->format('Y-m-d') . "';");
 
 
                 ?>
@@ -465,8 +465,8 @@
             $title = $row["title"];
 
             // Cek apakah jadwal sudah lewat
-            $currentDateTime = date("Y-m-d H:i:s");
-            $scheduleDateTime = date("Y-m-d H:i:s", strtotime($scheduledate . ' ' . $scheduletime));
+            $currentDateTime = new DateTime();
+            $scheduleDateTime = new DateTime("$scheduledate $scheduletime");
             if ($scheduleDateTime > $currentDateTime) {
                 // menampilkan blok
                 if ($count < 4) {

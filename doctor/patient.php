@@ -26,12 +26,12 @@
 <link rel="stylesheet" href="../css/doctor.css"> 
 
 <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
+    .popup{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
+    .sub-table{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
 </style>
 
 </head>
@@ -65,9 +65,6 @@
 
 <body class="theme-black">
 <!-- Page Loader -->
-
-
-
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -271,22 +268,22 @@
         <div class="date-section">
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
-                setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
-                echo $today;
+                $locale = 'id_ID.UTF-8';
+                setlocale(LC_TIME, $locale);
+                $today = new DateTime();
+                echo strftime('%A', $today->getTimestamp());
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
-                setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
-                echo $today;
+                setlocale(LC_TIME, $locale);
+                echo strftime('%d %B %Y', $today->getTimestamp());
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . $today->format('Y-m-d') . "';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . $today->format('Y-m-d') . "';");
                 $list110 = $database->query("select  * from  schedule where docid=$userid;");
                 
 ?>
@@ -302,204 +299,144 @@
 </div>
 </div>
 <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-            
-                <tr >
-                    
-                    <td>
-
-                    <div class="nav-doctor" style="justify-content: flex-end; padding-right: 44px; padding-bottom: 0">  
-                        <form action="" method="post" class="header-search">
-
+    <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+        <tr >
+            <td>
+                <div class="nav-doctor" style="justify-content: flex-end; padding-right: 44px; padding-bottom: 0">  
+                    <form action="" method="post" class="header-search">
                         <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patient" style="background: none; display: flex; text-align: left; padding: 0px;">  
-
-
                         <?php
-                                echo '<datalist id="patient">';
-                                $list11 = $database->query("select  pname,pemail from patient;");
-
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $d=$row00["pname"];
-                                    $c=$row00["pemail"];
-                                    echo "<option value='$d'><br/>";
-                                    echo "<option value='$c'><br/>";
-                                };
-
+                            echo '<datalist id="patient">';
+                            $list11 = $database->query("select  pname,pemail from patient;");
+                            for ($y=0;$y<$list11->num_rows;$y++){
+                                $row00=$list11->fetch_assoc();
+                                $d=$row00["pname"];
+                                $c=$row00["pemail"];
+                                echo "<option value='$d'><br/>";
+                                echo "<option value='$c'><br/>";
+                            };
                             echo ' </datalist>';
                         ?>
-
-                        <input type="image" src="../img/search.png" >
-
-
-
-                        </form>
-                    </div>                        
-                    </td>
-
-
-                </tr>
-               
-                
-                <tr>
-                    <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49);">Jumlah Pasien: <span style="font-weight: 700;"><?php echo $list11->num_rows; ?></p>
-                    </td>
-                    
-                </tr>
-                <?php
-                    if($_POST){
-                        $keyword=$_POST["search"];
-                        
-                        $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
-                    }else{
-                        $sqlmain= "select * from patient order by pid desc";
-
-                    }
-
-
-
-                ?>
-            <?php       
-
-                    $selecttype="My";
-                    $current="My patients Only";
-                    if($_POST){
-
-                        if(isset($_POST["search"])){
-                            $keyword=$_POST["search"];
-                            
-                            $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
-                            $selecttype="my";
-                        }
-                        
-                        if(isset($_POST["filter"])){
-                            if($_POST["showonly"]=='all'){
-                                $sqlmain= "select * from patient";
-                                $selecttype="All";
-                                $current="All patients";
-                            }else{
-                                $sqlmain= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
-                                $selecttype="My";
-                                $current="My patients Only";
-                            }
-                        }
+                        <input type="image" src="../img/search.png">
+                    </form>
+                </div>                        
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding-top:10px;">
+                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49);">Jumlah Pasien: <span style="font-weight: 700;"><?php echo $list11->num_rows; ?></span></p>
+            </td>
+        </tr>
+        <?php
+            if($_POST){
+                $keyword=$_POST["search"];
+                $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+            }else{
+                $sqlmain= "select * from patient order by pid desc";
+            }
+        ?>
+        <?php       
+            $selecttype="My";
+            $current="My patients Only";
+            if($_POST){
+                if(isset($_POST["search"])){
+                    $keyword=$_POST["search"];
+                    $sqlmain= "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+                    $selecttype="my";
+                }
+                if(isset($_POST["filter"])){
+                    if($_POST["showonly"]=='all'){
+                        $sqlmain= "select * from patient";
+                        $selecttype="All";
+                        $current="All patients";
                     }else{
                         $sqlmain= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
                         $selecttype="My";
+                        $current="My patients Only";
                     }
-
-
-
-                ?>
-                  
-                <tr>
-                   <td colspan="4">
-                       <center>
-                        <div class="abc scroll">
+                }
+            }else{
+                $sqlmain= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
+                $selecttype="My";
+            }
+        ?>
+        <tr>
+            <td colspan="4">
+                <center>
+                    <div class="abc scroll">
                         <table width="93%" class="sub-table scrolldown"  style="border-spacing:0; ">
-                        <thead>
-                        <tr>
-                                <th class="table-headin" style="padding: 8px" >
-                                    
-                                
-                                Nama Pasien
-                                
-                                </th>
-                                <th class="table-headin">
-                                    
-                                
-                                    NIK
-                                    
-                                </th>
-                                <th class="table-headin">
-                                
-                            
-                                Telepon
-                                
-                                </th>
-                                <th class="table-headin">
-                                    Email
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Date of Birth
-                                    
-                                </th>
-                                
-                        </thead>
-                        <tbody>
-                        
-                            <?php
-
-                                
-                                $result= $database->query($sqlmain);
-                                //echo $sqlmain;
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/404-empty.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="patient.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-                                for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
-                                    $pid=$row["pid"];
-                                    $name=$row["pname"];
-                                    $email=$row["pemail"];
-                                    $nic=$row["pnic"];
-                                    $dob=$row["pdob"];
-                                    $tel=$row["ptel"];
-                                    
-                                    echo '<tr>
-                                    <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF); padding: 8px"> &nbsp; '.
-                                        substr($name,0,35)
-                                        .'</td>
-                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($nic,0,12).'
+                            <thead>
+                                <tr>
+                                    <th class="table-headin" style="padding: 8px">
+                                        Nama Pasien
+                                    </th>
+                                    <th class="table-headin">
+                                        NIK
+                                    </th>
+                                    <th class="table-headin">
+                                        Telepon
+                                    </th>
+                                    <th class="table-headin">
+                                        Email
+                                    </th>
+                                    <th class="table-headin">
+                                        Date of Birth
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $result= $database->query($sqlmain);
+                                    if($result->num_rows==0){
+                                        echo '<tr>
+                                        <td colspan="4">
+                                        <br><br><br><br>
+                                        <center>
+                                        <img src="../img/404-empty.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">
+                                        <br>
+                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We couldnt find anything related to your keywords !</p>
+                                        <a class="non-style-link" href="patient.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
+                                        </a>
+                                        </center>
+                                        <br><br><br><br>
                                         </td>
-                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            '.substr($tel,0,10).'
-                                        </td>
-                                        <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($email,0,20).'
-                                         </td>
-                                         <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($dob,0,10).'
-                                        </td>
-                                        
-                                    </tr>';
-                                    
-                                }
-                            }
-                                 
-                            ?>
- 
+                                        </tr>';
+                                    } else {
+                                        for ($x=0; $x<$result->num_rows;$x++){
+                                            $row=$result->fetch_assoc();
+                                            $pid=$row["pid"];
+                                            $name=$row["pname"];
+                                            $email=$row["pemail"];
+                                            $nic=$row["pnic"];
+                                            $dob=$row["pdob"];
+                                            $tel=$row["ptel"];
+                                            echo '<tr>
+                                            <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF); padding: 8px"> &nbsp; '.
+                                                substr($name,0,35)
+                                                .'</td>
+                                                <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                                '.substr($nic,0,12).'
+                                                </td>
+                                                <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                                    '.substr($tel,0,10).'
+                                                </td>
+                                                <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                                '.substr($email,0,20).'
+                                                </td>
+                                                <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                                '.date('d/m/Y', strtotime($dob)).'
+                                                </td>
+                                            </tr>';
+                                        }
+                                    }
+                                ?>
                             </tbody>
-
                         </table>
-                        </div>
-                        </center>
-                   </td> 
-                </tr>
-                       
-                        
-                        
-            </table>
-        </div>
-    </div>
-   
+                    </div>
+                </center>
+            </td> 
+        </tr>
+    </table>
 </div>
 <script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
 <script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
@@ -518,5 +455,3 @@
 
 </body>
 </html>
-
-

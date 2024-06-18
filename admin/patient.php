@@ -247,22 +247,22 @@
         <div class="date-section">
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
-                setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
+                $todayFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'EEEE');
+                $today = $todayFormatter->format(new DateTime());
                 echo $today;
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
-                setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
+                $dateFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
+                $today = $dateFormatter->format(new DateTime());
                 echo $today;
 
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . date('Y-m-d') . "';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . date('Y-m-d') . "';");
                 ?>
             </p>
             
@@ -423,7 +423,11 @@
                                         '.substr($email,0,20).'
                                          </td>
                                         <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($dob,0,10).'
+                                        <?php
+                                        $dobFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
+                                        $formattedDob = $dobFormatter->format(new DateTime($dob));
+                                        echo substr($formattedDob, 0, 10);
+                                        ?>
                                         </td>
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
@@ -554,7 +558,11 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    '.$dob.'<br><br>
+                                    <?php
+                                    $formattedDob = $dobFormatter->format(new DateTime($dob));
+                                    echo $formattedDob;
+                                    ?>
+                                    <br><br>
                                 </td>
                                 
                             </tr>

@@ -423,11 +423,7 @@
                                         '.substr($email,0,20).'
                                          </td>
                                         <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        <?php
-                                        $dobFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
-                                        $formattedDob = $dobFormatter->format(new DateTime($dob));
-                                        echo substr($formattedDob, 0, 10);
-                                        ?>
+                                        '.substr($dob,0,10).'
                                         </td>
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
@@ -558,11 +554,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <?php
-                                    $formattedDob = $dobFormatter->format(new DateTime($dob));
-                                    echo $formattedDob;
-                                    ?>
-                                    <br><br>
+                                    '.$dob.'<br><br>
                                 </td>
                                 
                             </tr>

@@ -395,6 +395,14 @@
                                             $nic=$row["pnic"];
                                             $dob=$row["pdob"];
                                             $tel=$row["ptel"];
+
+                                            // Ensuring non-null values before using them
+                                            $name = $name ?? '';
+                                            $nic = $nic ?? '';
+                                            $tel = $tel ?? '';
+                                            $email = $email ?? '';
+                                            $dob = $dob ?? '';
+
                                             echo '<tr>
                                             <td style=" border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF); padding: 8px"> &nbsp; '.
                                                 substr($name,0,35)

@@ -136,7 +136,7 @@
                 <h1>Tes Schizophrenia</h1>
             </button>
             <div class="accordion-content">
-                <p>Skizofrenia adalah gangguan mental serius yang mempengaruhi cara seseorang berpikir, merasakan, dan berperilaku. Gejala umum termasuk halusinasi (seperti mendengar suara yang tidak ada), delusi (kepercayaan yang salah), pikiran yang tidak teratur, dan penurunan fungsi sosial dan pekerjaan. Tes skrining yang disediakan bukanlah alat diagnostik definitif tetapi dapat membantu mengidentifikasi individu yang mungkin memerlukan evaluasi lebih lanjut.</p>
+                <p>Skizofrenia adalah gangguan mental serius yang mempengaruhi cara seseorang berpikir, merasakan, dan berperilaku. Gejala umum termasuk halusinasi (seperti mendengar suara yang tidak ada), delusi (kepercayaan yang salah), pikiran yang tidak teratur, dan penurunan fungsi sosial dan pekerjaan. Tes skrining yang disediakan bukanlah alat diagnostik definitif tetapi dapat membantu mengidentifikasi individu yang mungkin memerlukan evaluasi lebih lanjut. <br><br> Pada tahun 2022, Indonesia menduduki peringat 1 dengan pengidap schizophrenia terbanyak di dunia </p>
                 <button class="depression-test-button">
 					<a href="schizophrenia-test">Ikuti Tes Schizophrenia</a>
 				</button>

@@ -21,6 +21,7 @@ $client->setClientSecret($clientSecret);
 $client->setRedirectUri($redirectUri);
 $client->addScope("email");
 $client->addScope("profile");
+$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
 
 if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -34,16 +35,17 @@ if (isset($_GET['code'])) {
         $g_name = $profile['name'];
         $g_email = $profile['email'];
         $g_id = $profile['id'];
+        $g_picture = $profile['picture']; // Mendapatkan URL gambar profil
 
         $query_check = 'SELECT * FROM patient WHERE oauth_id="' . $g_id . '"';
         $run_query_check = mysqli_query($database, $query_check);
         $d = mysqli_fetch_object($run_query_check);
 
         if ($d) {
-            $query_update = 'UPDATE patient SET pemail="' . $g_email . '", pname="' . $g_name . '" WHERE oauth_id="' . $g_id . '"';
+            $query_update = 'UPDATE patient SET pemail="' . $g_email . '", pname="' . $g_name . '", picture="' . $g_picture . '" WHERE oauth_id="' . $g_id . '"';
             $run_query_update = mysqli_query($database, $query_update);
         } else {
-            $query_insert1 = 'INSERT INTO patient (pemail, pname, oauth_id) VALUES ("' . $g_email . '", "' . $g_name . '", "' . $g_id . '")';
+            $query_insert1 = 'INSERT INTO patient (pemail, pname, oauth_id, picture) VALUES ("' . $g_email . '", "' . $g_name . '", "' . $g_id . '", "' . $g_picture . '")';
             $run_query_insert1 = mysqli_query($database, $query_insert1);
 
             $query_insert2 = 'INSERT INTO webuser (email, usertype) VALUES ("' . $g_email . '", "p")';

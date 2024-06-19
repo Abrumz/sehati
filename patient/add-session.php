@@ -86,15 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Gagal menambahkan jadwal: " . $result;
     }
 }
-
-
 ?>
 
 <body class="theme-black">
 <!-- Page Loader -->
-
-
-
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -109,10 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </span>
                     </div>
                 </div>
-            </div>
-                      
-        </div>
-        
+            </div>                      
+        </div>        
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
@@ -134,11 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </aside>
 
 <aside class="right_menu">
-    
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
-            
         </ul>
         <div class="tab-content slim_scroll">
             <div class="tab-pane slideRight active" id="setting">
@@ -225,8 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <button class="t-dark btn btn-primary btn-round btn-block">Dark</button>
                     </div>
                 </div>               
-            </div>
-            
+            </div>            
         </div>
     </div>
     <div id="leftsidebar" class="sidebar">
@@ -237,17 +227,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li class="active">
                         <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
-                    </li> -->
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
-                    <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
-                    </li>
                     <li class="active open" style="background-color: transparent">
                         <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                    </li>
+                    <li class="active">
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
                     </li>
                  
                 <li>
@@ -256,12 +240,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <a href="">
                                 <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
                             </a>
-
                         </div>
                         <div class="detail">
                             <h6><?php echo $username  ?></h6>
-                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
-                                         
+                            <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>                                 
                         </div>
                     </div>
                 </li>             
@@ -283,21 +265,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
                 setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
-                echo $today;
+                $today = new DateTime();
+                echo $today->format('l');
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
                 setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
-                echo $today;
+                echo $today->format('d F Y');
 
+                $todayFormatted = $today->format('Y-m-d');
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='$todayFormatted';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='$todayFormatted';");
                 ?>
             </p>
             
@@ -310,7 +292,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 </div>
-
 
 <!-- CONTAINER/ISI -->
 <div class="form-doctor">
@@ -367,16 +348,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="confirm">
                 <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" name= "submit" id="submit">Tambah</button>
+                <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
             </div>
         </form>
     </div>
 </div>
-
-                   
-<!-- PHP -->
-
-
 
 </section>
 <!-- Jquery Core Js -->
@@ -418,17 +394,16 @@ optionMenus.forEach(optionMenu => {
 
 // Fungsi untuk mengisi otomatis informasi sesi yang dipilih
 function setSessionInfo() {
-        var sesi_id = document.getElementById("scheduleid").value;
-        var selectedOption = document.getElementById("scheduleid").querySelector("option:checked");
+    var selectedOption = document.getElementById("scheduleid").querySelector("option:checked");
 
-        var docname = selectedOption.getAttribute("data-docname");
-        var scheduledate = selectedOption.getAttribute("data-scheduledate");
-        var scheduletime = selectedOption.getAttribute("data-scheduletime");
+    var docname = selectedOption.getAttribute("data-docname");
+    var scheduledate = selectedOption.getAttribute("data-scheduledate");
+    var scheduletime = selectedOption.getAttribute("data-scheduletime");
 
-        document.getElementById("docname").value = docname;
-        document.getElementById("scheduledate").value = scheduledate;
-        document.getElementById("scheduletime").value = scheduletime;
-    }
+    document.getElementById("docname").value = docname;
+    document.getElementById("scheduledate").value = scheduledate;
+    document.getElementById("scheduletime").value = scheduletime;
+}
 </script>
 </body>
 </html>

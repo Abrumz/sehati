@@ -50,12 +50,9 @@
         header("location: ../login.php");
     }
     
-    
-
     //import database
     include("../connection.php");
     include("../adm.php");
-    
 
     // var yg dibutuhkan
     $email = "admin@example.com";
@@ -90,9 +87,6 @@
 <body class="theme-black">
 <!-- Page Loader -->
 
-
-
-
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
@@ -106,10 +100,8 @@
                         </span>
                     </div>
                 </div>
-            </div>
-                      
-        </div>
-        
+            </div>                      
+        </div>        
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
@@ -131,11 +123,9 @@
 </aside>
 
 <aside class="right_menu">
-    
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
-            
         </ul>
         <div class="tab-content slim_scroll">
             <div class="tab-pane slideRight active" id="setting">
@@ -222,8 +212,7 @@
                         <button class="t-dark btn btn-primary btn-round btn-block">Dark</button>
                     </div>
                 </div>               
-            </div>
-            
+            </div>            
         </div>
     </div>
     <div id="leftsidebar" class="sidebar">
@@ -251,8 +240,7 @@
                         </div>
                         <div class="detail">
                             <h6>Admin Sehati</h6>
-                            <p class="m-b-0" style="word-wrap: break-word">admin@sehati.ilkomerz.biz.id</p>
-                                         
+                            <p class="m-b-0" style="word-wrap: break-word">admin@sehati.ilkomerz.biz.id</p>                                 
                         </div>
                     </div>
                 </li>             
@@ -274,21 +262,21 @@
             <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
                 <?php
                 setlocale(LC_TIME, 'id_ID'); 
-                $today = strftime('%A');
-                echo $today;
+                $today = new DateTime();
+                echo $today->format('l');
                 ?>
             </p>
 
             <p class="heading-sub12" style="padding: 0;margin: 0;">
                 <?php 
                 setlocale(LC_TIME, 'id_ID');
-                $today = strftime('%d %B %Y');
-                echo $today;
+                echo $today->format('d F Y');
 
+                $todayFormatted = $today->format('Y-m-d');
                 $patientrow = $database->query("select  * from  patient;");
                 $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                $appointmentrow = $database->query("select  * from  appointment where appodate>='$todayFormatted';");
+                $schedulerow = $database->query("select  * from  schedule where scheduledate='$todayFormatted';");
                 ?>
             </p>
             
@@ -301,7 +289,6 @@
     </div>
 </div>
 </div>
-
 
 <!-- CONTAINER/ISI -->
 <div class="form-doctor">
@@ -347,9 +334,6 @@
                         <select name="specialties" id="specialties" class="select-btn" required>
                             <option value="" selected disabled>Pilih Spesialis Dokter</option>
                             <?php
-                            //import database
-                            include("../connection.php");
-
                             // Query untuk mengambil daftar spesialis dari database
                             $query = "SELECT id, sname FROM specialties ORDER BY sname ASC";
                             $result = $database->query($query);
@@ -400,8 +384,6 @@
                    
 <!-- PHP -->
 
-
-
 </section>
 <!-- Jquery Core Js -->
 <script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
@@ -444,13 +426,12 @@ document.getElementById('submit').addEventListener('click', function(event) {
     var selectedSpecialty = document.querySelector('.sBtn-text1').innerText;
     if (selectedSpecialty === 'Pilih Spesialis Dokter') {
         alert('Mohon pilih spesialis sebelum mengirim formulir.');
-        event.preventDefault(); /
+        event.preventDefault(); 
     } else {
         var hiddenInput = document.getElementById('sname');
         hiddenInput.value = selectedSpecialty; 
     }
 });
-
 </script>
 </body>
 </html>

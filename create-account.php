@@ -112,7 +112,7 @@ if($_POST){
    <div class="col-md-6 right-box">
       <div class="row align-items-center">
             <div class="header-text mb-4">
-            <a href="index.html"><img src="img/LogoSehati.png" alt=""></a>
+            <a href="index"><img src="img/LogoSehati.png" alt=""></a>
                  <h2>Selamat Datang!👋</h2>
                  <p>Silakan masukkan data diri Anda</p>
             </div>

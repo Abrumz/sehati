@@ -286,7 +286,7 @@
     </a>
     <div class="Calendar">
         <div class="date-section">
-            <<p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
+            <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
             <?php
                 $todayFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'EEEE');
                 $today = $todayFormatter->format(new DateTime());

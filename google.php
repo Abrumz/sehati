@@ -2,8 +2,8 @@
 // session_start();
 
 // Database connection
-$database = new mysqli("localhost", "root", "", "sehati");
-// $database= new mysqli("localhost","ilkomerz_sehati","23Gusendra16","ilkomerz_sehati");
+// $database = new mysqli("localhost", "root", "", "sehati");
+$database= new mysqli("localhost","ilkomerz_sehati","23Gusendra16","ilkomerz_sehati");
 if ($database->connect_error) {
     die("Connection failed: " . $database->connect_error);
 }
@@ -13,8 +13,8 @@ require_once 'vendor/autoload.php';
 // Google client configuration
 $clientID = '682994088356-mo7it1lsnh8lq84mkchkmfvsdsq69dee.apps.googleusercontent.com';
 $clientSecret = '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';
-$redirectUri = 'http://localhost/sehati/login';
-// $redirectUri = 'https://sehati.ilkomerz.biz.id/login';
+// $redirectUri = 'http://localhost/sehati/login';
+$redirectUri = 'https://sehati.ilkomerz.biz.id/login';
 
 $client = new Google_Client();
 $client->setClientId($clientID);

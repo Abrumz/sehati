@@ -198,7 +198,7 @@
 			</div>
 			<div class="row" style="justify-content: center; display: flex;">
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="404">
+					<a href="login">
 						<div class="content" style="margin: auto;">
 						<img src="img/Janji.png" alt="">
 						<h5>Buat Jadwal Temu</h5>
@@ -207,7 +207,7 @@
 					</a>
 				</div>
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="404">
+					<a href="login">
 						<div class="content" style="margin: auto;">
 							<img src="img/cari.png" alt="">
 							<h5>Konsultasi Dokter</h5>
@@ -216,7 +216,7 @@
 					</a>
 				</div>
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="404">
+					<a href="mental-health">
 						<div class="content" style="margin: auto;">
 							<img src="img/medical.png" alt="">
 							<h5>Mental Health</h5>
@@ -396,9 +396,9 @@
 					<div class="content">
 						<h5>Layanan</h5>
 						<ul>
-							<li><a href=""> Buat Jadwal Temu</a></li>
-							<li><a href="">Cari Dokter</a></li>
-							<li><a href="">Medical Check-Up</a></li>
+							<li><a href="login"> Buat Jadwal Temu</a></li>
+							<li><a href="login">Cari Dokter</a></li>
+							<li><a href="login">Medical Check-Up</a></li>
 						</ul>
 					</div>
 				</div>
@@ -406,8 +406,8 @@
 					<div class="content">
 						<h5>Sumber</h5>
 						<ul>
-							<li><a href="">Blog</a></li>
-							<li><a href="">Product</a></li>
+							<li><a href="404">Blog</a></li>
+							<li><a href="soon">Product</a></li>
 						</ul>
 					</div>
 				</div>
@@ -415,10 +415,10 @@
 					<div class="content">
 						<h5>Bantuan</h5>
 						<ul>
-							<li><a href="">Tentang Kami</a></li>
-							<li><a href="">Kebijakan Platform</a></li>
-							<li><a href="">Pusat Bantuan</a></li>
-							<li><a href="">FAQ</a></li>
+							<li><a href="soon">Tentang Kami</a></li>
+							<li><a href="soon">Kebijakan Platform</a></li>
+							<li><a href="mailto: cs@sehati.ilkomerz.biz.id">Pusat Bantuan</a></li>
+							<li><a href="soon">FAQ</a></li>
 						</ul>
 					</div>
 				</div>

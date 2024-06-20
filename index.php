@@ -396,7 +396,7 @@
 					<div class="content">
 						<h5>Layanan</h5>
 						<ul>
-							<li><a href="login"> Buat Jadwal Temu</a></li>
+							<li><a href="login">Buat Jadwal Temu</a></li>
 							<li><a href="login">Cari Dokter</a></li>
 							<li><a href="login">Medical Check-Up</a></li>
 						</ul>

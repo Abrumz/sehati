@@ -139,7 +139,7 @@ if($_POST) {
           <div class="row align-items-center">
                 <div class="header-text mb-4">
                 <a href="index"><img src="img/LogoSehati.png" alt=""></a>
-                     <h2>Selamat Datang!ðŸ‘‹</h2>
+                     <h2>Selamat Datang!🙌‹</h2>
                      <p>Silakan masukkan data akun Anda</p>
                 </div>
                 <div class="form-body">

@@ -3,14 +3,14 @@ session_start();
 
 if(isset($_SESSION["user"])){
     if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-        header("location: ../login.php");
+        header("location: ../login");
     }
 
 }else{
-    header("location: ../login.php");
+    header("location: ../login");
 }
-    include("../connection.php");
-    include("../pat.php");
+    include("../connection");
+    include("../pat");
 
     $email = $_SESSION['user'];
     $userType = 'a'; 
@@ -29,10 +29,10 @@ if(isset($_SESSION["user"])){
         // Memanggil metode deleteAppointment dari objek Doctor
         $patient->deleteAppointment($appoid);
     
-        header("location: schedule.php");
+        header("location: schedule");
         exit(); // 
     } else {
-        header("location: schedule.php");
+        header("location: schedule");
         exit(); // 
     }
 

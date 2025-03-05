@@ -1,3 +1,56 @@
+<?php
+// add-session
+session_start();
+
+if(isset($_SESSION["user"])){
+    if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
+        header("location: ../login");
+        exit;
+    }else{
+        $useremail=$_SESSION["user"];
+    }
+}else{
+    header("location: ../login");
+    exit;
+}
+
+include("../connection");
+include("../pat");
+
+$email = $_SESSION['user'];
+$userType = 'p'; 
+$patientName = '';
+$phoneNumber = ''; 
+$nik = ''; 
+$dateOfBirth = '';
+$password = ''; 
+$patientId = '';
+ 
+// Create Patient object with database connection from connection
+$patient = new Patient($email, $userType, $patientName, $phoneNumber, $dateOfBirth, $nik, $password, $patientId);
+
+// Get user info
+$userInfo = $patient->getUserInfo($email);
+$username = $userInfo['pname'];
+$picture = $userInfo['picture'];
+
+// Form submission handling
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $userid = $userInfo['pid'];
+    $sesi_id = $_POST['scheduleid'];
+
+    // Call bookAppointment method
+    $result = $patient->bookAppointment($userid, $sesi_id);
+
+    // Check if appointment was created successfully
+    if ($result === true) {
+        header("location: schedule");
+        exit;
+    } else {
+        $error_message = "Gagal menambahkan jadwal: " . $result;
+    }
+}
+?>
 <!doctype html>
 <html class="no-js " lang="en">
 
@@ -9,7 +62,6 @@
 
 <title>Sehati</title>
 <link rel="icon" href="../img/sehati-vector.png">
-
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
 <!-- Favicon-->
@@ -25,72 +77,16 @@
 <link rel="stylesheet" href="../css/main.css"> 
 
 <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
+    .popup{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
+    .sub-table{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
 </style>
-
 </head>
-<?php
-// add-session.php
-
-session_start();
-
-if (isset($_SESSION["user"])) {
-    if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'p') {
-        header("location: ../login.php");
-    }
-} else {
-    header("location: ../login.php");
-}
-
-include("../connection.php");
-include("../pat.php");
-
-$email = $_SESSION['user'];
-$userType = 'p'; 
-$patientName = '';
-$phoneNumber = ''; 
-$nik = ''; 
-$dateOfBirth = '';
-$password = ''; 
-$patientId = '';
- 
-
-// Buat objek Patient dengan menyediakan koneksi database dari connection.php
-$patient = new Patient($email, $userType, $patientName, $phoneNumber, $dateOfBirth, $nik, $password, $patientId);
-
-// Menggunakan metode getUserInfo
-$userInfo = $patient->getUserInfo($email);
-$username = $userInfo['pname'];
-$picture = $userInfo['picture'];
-
-// Jika formulir sudah dikirimkan
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Tangkap data dari formulir
-    $userid = $userInfo['pid']; // Pastikan $userid diambil dari user info yang benar
-    $sesi_id = $_POST['scheduleid'];
-
-    // Panggil metode bookAppointment
-    $result = $patient->bookAppointment($userid, $sesi_id);
-
-    // Cek apakah penambahan jadwal berhasil
-    if ($result === true) {
-        // Redirect ke halaman jadwal
-        header("location: schedule.php");
-    } else {
-        // Tampilkan pesan kesalahan
-        echo "Gagal menambahkan jadwal: " . $result;
-    }
-}
-?>
 
 <body class="theme-black">
-<!-- Page Loader -->
-
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
@@ -115,13 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -225,24 +221,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
                     </li>
                     <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
                     </li>
                  
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                        <a href="">
+                            <a href="">
                                 <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
                             </a>
                         </div>
                         <div class="detail">
-                            <h6><?php echo $username  ?></h6>
+                            <h6><?php echo $username; ?></h6>
                             <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>                                 
                         </div>
                     </div>
@@ -254,147 +250,134 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Main Content -->
 <section class="content home">
-<!-- NAVBAR -->
-<div class="nav-bar" >
-    <a href="schedule.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <!-- NAVBAR -->
+    <div class="nav-bar">
+        <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
-    </a>
-    <div class="Calendar">
-        <div class="date-section">
-            <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
-                <?php
-                setlocale(LC_TIME, 'id_ID'); 
-                $today = new DateTime();
-                echo $today->format('l');
-                ?>
-            </p>
+        </a>
+        <div class="Calendar">
+            <div class="date-section">
+                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
+                    <?php
+                    setlocale(LC_TIME, 'id_ID'); 
+                    $today = new DateTime();
+                    echo $today->format('l');
+                    ?>
+                </p>
 
-            <p class="heading-sub12" style="padding: 0;margin: 0;">
-                <?php 
-                setlocale(LC_TIME, 'id_ID');
-                echo $today->format('d F Y');
+                <p class="heading-sub12" style="padding: 0;margin: 0;">
+                    <?php 
+                    setlocale(LC_TIME, 'id_ID');
+                    echo $today->format('d F Y');
 
-                $todayFormatted = $today->format('Y-m-d');
-                $patientrow = $database->query("select  * from  patient;");
-                $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='$todayFormatted';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='$todayFormatted';");
-                ?>
-            </p>
-            
+                    $todayFormatted = $today->format('Y-m-d');
+                    $patientrow = $database->query("select * from patient;");
+                    $doctorrow = $database->query("select * from doctor;");
+                    $appointmentrow = $database->query("select * from appointment where appodate>='$todayFormatted';");
+                    $schedulerow = $database->query("select * from schedule where scheduledate='$todayFormatted';");
+                    ?>
+                </p>
+            </div>
+            <div class="calendar-section">
+                <button class="btn-label">
+                    <img src="../img/calendar.svg" alt="Calendar">
+                </button>
+            </div>    
         </div>
-        <div class="calendar-section">
-            <button class="btn-label">
-                <img src="../img/calendar.svg" alt="Calendar">
-            </button>
-        </div>    
     </div>
-</div>
-</div>
 
-<!-- CONTAINER/ISI -->
-<div class="form-doctor">
-    <div class="form-doctor-header">
-        <h1>Tambah Jadwal Baru</h1>
+    <!-- CONTAINER/ISI -->
+    <div class="form-doctor">
+        <div class="form-doctor-header">
+            <h1>Tambah Jadwal Baru</h1>
+        </div>
+        <?php if(isset($error_message)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_message; ?>
+            </div>
+        <?php endif; ?>
+        <div class="form-doctor-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col">
+                        <h1>Pilih Sesi Jadwal Temu</h1>
+                        <select name="scheduleid" id="scheduleid" class="form-control" required onchange="setSessionInfo()">
+                            <option value="">Pilih Sesi</option>
+                            <?php
+                            // Query untuk mengambil data sesi dari tabel schedule
+                            $query = "SELECT * FROM schedule";
+                            $result = $database->query($query);
+                            
+                            if($result && $result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    // Query untuk mendapatkan nama dokter berdasarkan docid
+                                    $doctor_query = "SELECT docname FROM doctor WHERE docid = '{$row['docid']}'";
+                                    $doctor_result = $database->query($doctor_query);
+                                    $doctor_row = $doctor_result->fetch_assoc();
+                                    $docname = $doctor_row['docname'];
+                                
+                                    echo "<option value='{$row['scheduleid']}' 
+                                                data-docname='{$docname}' 
+                                                data-scheduledate='{$row['scheduledate']}' 
+                                                data-scheduletime='{$row['scheduletime']}'>
+                                            {$row['title']}
+                                        </option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>Nama Dokter</h1>
+                        <input type="text" id="docname" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>Tanggal Sesi</h1>
+                        <input type="date" id="scheduledate" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>Waktu Sesi</h1>
+                        <input type="time" id="scheduletime" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="confirm">
+                    <button class="button-doc" type="reset" id="reset">Buang</button>
+                    <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-doctor-body">
-        <form method="POST">
-            <div class="row">
-                <div class="col">
-                    <h1>Pilih Sesi Jadwal Temu</h1>
-                    <select name="scheduleid" id="scheduleid" class="form-control" required onchange="setSessionInfo()">
-                        <option value="">Pilih Sesi</option>
-                        <?php
-                        // Query untuk mengambil data sesi dari tabel schedule
-                        $query = "SELECT * FROM schedule";
-                        $result = $database->query($query);
-                        
-                        while ($row = $result->fetch_assoc()) {
-                            // Query untuk mendapatkan nama dokter berdasarkan docid
-                            $doctor_query = "SELECT docname FROM doctor WHERE docid = '{$row['docid']}'";
-                            $doctor_result = $database->query($doctor_query);
-                            $doctor_row = $doctor_result->fetch_assoc();
-                            $docname = $doctor_row['docname'];
-                        
-                            echo "<option value='{$row['scheduleid']}' 
-                                         data-docname='{$docname}' 
-                                         data-scheduledate='{$row['scheduledate']}' 
-                                         data-scheduletime='{$row['scheduletime']}'>
-                                      {$row['title']}
-                                  </option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h1>Nama Dokter</h1>
-                    <input type="text" id="docname" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h1>Tanggal Sesi</h1>
-                    <input type="date" id="scheduledate" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h1>Waktu Sesi</h1>
-                    <input type="time" id="scheduletime" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="confirm">
-                <button class="button-doc" type="reset" id="reset">Buang</button>
-                <button class="button-doc" type="submit" name="submit" id="submit">Tambah</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 </section>
+
 <!-- Jquery Core Js -->
-<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
-
-<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/libscripts.bundle.js"></script>
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script>
+<script src="../assets-page/bundles/knob.bundle.js"></script>
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script>
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script>
+<script src="../assets-page/bundles/sparkline.bundle.js"></script>
 <script src="../assets-page/bundles/doughnut.bundle.js"></script>
-
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
+
 <script>
-const optionMenus = document.querySelectorAll(".select-menu");
-
-optionMenus.forEach(optionMenu => {
-    const selectBtn = optionMenu.querySelector(".select-btn"),
-          options = optionMenu.querySelectorAll(".option"),
-          sBtn_text = optionMenu.querySelector(".sBtn-text1");
-
-    selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
-
-    options.forEach(option =>{
-        option.addEventListener("click", ()=>{
-            let selectedOption = option.querySelector(".option-text").innerText;
-            sBtn_text.innerText = selectedOption;
-
-            selectBtn.classList.remove("aktif", "non-aktif");
-
-            selectBtn.classList.add(option.id);
-
-            optionMenu.classList.remove("active");
-            optionMenu.classList.remove("non-active");
-        });
-    });
-});
-
-// Fungsi untuk mengisi otomatis informasi sesi yang dipilih
+// Function to populate session information when selected
 function setSessionInfo() {
     var selectedOption = document.getElementById("scheduleid").querySelector("option:checked");
+    
+    if (!selectedOption || selectedOption.value === "") {
+        document.getElementById("docname").value = "";
+        document.getElementById("scheduledate").value = "";
+        document.getElementById("scheduletime").value = "";
+        return;
+    }
 
     var docname = selectedOption.getAttribute("data-docname");
     var scheduledate = selectedOption.getAttribute("data-scheduledate");
@@ -404,6 +387,16 @@ function setSessionInfo() {
     document.getElementById("scheduledate").value = scheduledate;
     document.getElementById("scheduletime").value = scheduletime;
 }
+
+// Initialize form fields on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Reset the form fields
+    document.getElementById("reset").addEventListener("click", function() {
+        document.getElementById("docname").value = "";
+        document.getElementById("scheduledate").value = "";
+        document.getElementById("scheduletime").value = "";
+    });
+});
 </script>
 </body>
 </html>

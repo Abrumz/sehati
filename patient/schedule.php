@@ -1,3 +1,43 @@
+<?php
+session_start();
+
+if(isset($_SESSION["user"])){
+    if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
+        header("location: ../login");
+        exit;
+    }else{
+        $useremail=$_SESSION["user"];
+    }
+}else{
+    header("location: ../login");
+    exit;
+}
+
+//import database
+include("../connection");
+$sqlmain= "select * from patient where pemail=?";
+$stmt = $database->prepare($sqlmain);
+$stmt->bind_param("s",$useremail);
+$stmt->execute();
+$userrow = $stmt->get_result();
+$userfetch=$userrow->fetch_assoc();
+$userid= $userfetch["pid"];
+$username=$userfetch["pname"];
+$email=$userfetch["pemail"];
+$picture=$userfetch["picture"];
+
+//Query for appointments
+$sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid where patient.pid=$userid ";
+
+if(isset($_POST["sheduledate"])){
+    $sheduledate=$_POST["sheduledate"];
+    $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
+}
+
+$sqlmain.="order by appointment.appodate asc";
+$result= $database->query($sqlmain);
+?>
+
 <!doctype html>
 <html class="no-js " lang="en">
 
@@ -9,7 +49,6 @@
 
 <title>Sehati</title>
 <link rel="icon" href="../img/sehati-vector.png">
-
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
 <!-- Favicon-->
@@ -26,82 +65,16 @@
 <link rel="stylesheet" href="../css/doctor.css"> 
 
 <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
+    .popup{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
+    .sub-table{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
 </style>
-
 </head>
 
-<?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
-        header("location: ../login.php");
-    }
-    
-
-    //import database
-    include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $userrow = $stmt->get_result();
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-    $email=$userfetch["pemail"];
-    $picture=$userfetch["picture"];
-
-
-    //echo $userid;
-    //echo $username;
-
-
-    //TODO
-    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
-
-    if($_POST){
-        //print_r($_POST);
-        
-
-
-        
-        if(!empty($_POST["sheduledate"])){
-            $sheduledate=$_POST["sheduledate"];
-            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
-        };
-
-    
-
-        //echo $sqlmain;
-
-    }
-
-    $sqlmain.="order by appointment.appodate  asc";
-    $result= $database->query($sqlmain);
-    ?>
-
 <body class="theme-black">
-<!-- Page Loader -->
-
-
-
-
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
@@ -116,9 +89,7 @@
                     </div>
                 </div>
             </div>
-                      
         </div>
-        
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
@@ -128,23 +99,21 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
 
 <aside class="right_menu">
-    
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
-            
         </ul>
         <div class="tab-content slim_scroll">
             <div class="tab-pane slideRight active" id="setting">
@@ -232,7 +201,6 @@
                     </div>
                 </div>               
             </div>
-            
         </div>
     </div>
     <div id="leftsidebar" class="sidebar">
@@ -240,34 +208,25 @@
             <ul class="list">
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
-                    <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
-                    </li>
-                    <!-- <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
-                    </li> -->
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
-                    <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
-                    </li>
-                    <li class="active open" style="background-color: transparent">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
-                    </li>
-                 
+                <li class="active">
+                    <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                </li>
+                <li class="active">
+                    <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
+                </li>
+                <li class="active open" style="background-color: transparent">
+                    <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                </li>
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                        <a href="">
+                            <a href="">
                                 <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
                             </a>
-
                         </div>
                         <div class="detail">
-                            <h6><?php echo $username  ?></h6>
+                            <h6><?php echo $username; ?></h6>
                             <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
-                                         
                         </div>
                     </div>
                 </li>             
@@ -278,240 +237,156 @@
 
 <!-- Main Content -->
 <section class="content home">
-<!-- NAVBAR -->
-<div class="nav-bar" >
-    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <!-- NAVBAR -->
+    <div class="nav-bar">
+        <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
-    </a>
-    <div class="Calendar">
-        <div class="date-section">
-            <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
-            <?php
-                setlocale(LC_TIME, 'id_ID'); 
-                $todayFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'EEEE');
-                $today = $todayFormatter->format(new DateTime());
-                echo $today;
-            ?>
+        </a>
+        <div class="Calendar">
+            <div class="date-section">
+                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;">
+                    <?php
+                    setlocale(LC_TIME, 'id_ID'); 
+                    $todayFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'EEEE');
+                    $today = $todayFormatter->format(new DateTime());
+                    echo $today;
+                    ?>
+                </p>
+                <p class="heading-sub12" style="padding: 0;margin: 0;">
+                    <?php 
+                    setlocale(LC_TIME, 'id_ID');
+                    $dateFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
+                    $today = $dateFormatter->format(new DateTime());
+                    echo $today;
 
-            </p>
-
-            <p class="heading-sub12" style="padding: 0;margin: 0;">
-            <?php 
-                setlocale(LC_TIME, 'id_ID');
-                $dateFormatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
-                $today = $dateFormatter->format(new DateTime());
-                echo $today;
-
-                $patientrow = $database->query("select  * from  patient;");
-                $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . date('Y-m-d') . "';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . date('Y-m-d') . "';");
-                ?>
-
-            </p>
-            
+                    $patientrow = $database->query("select * from patient;");
+                    $doctorrow = $database->query("select * from doctor;");
+                    $appointmentrow = $database->query("select * from appointment where appodate>='" . date('Y-m-d') . "';");
+                    $schedulerow = $database->query("select * from schedule where scheduledate='" . date('Y-m-d') . "';");
+                    ?>
+                </p>
+            </div>
+            <div class="calendar-section">
+                <button class="btn-label">
+                    <img src="../img/calendar.svg" alt="Calendar">
+                </button>
+            </div>    
         </div>
-        <div class="calendar-section">
-            <button class="btn-label">
-                <img src="../img/calendar.svg" alt="Calendar">
-            </button>
-        </div>    
     </div>
-</div>
-</div>
-                <tr>
-                    
-                    <td colspan="4" style="padding-top:10px;width: 100%;" >
-                    
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
-                        Jumlah Jadwal: <span style="font-weight: 700;"><?php echo $result->num_rows; ?></span>
-                    </p>
 
-                    </td>
-                    
-                </tr>
-                </tr>
-        <div class="button-schedule">
-            <div class="Add-Doctor">
-                <a href="add-session.php">
-                    <button class="Doctor-btn" style="display: flex; justify-content: center;">
-                        <input type="image" src="../img/add-btn.png" >
-                        <h1>Tambah Jadwal Temu</h1>            
-                    </button>
-                </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 45px;">
+        <p class="heading-main12" style="margin: 0; font-size:18px; color:rgb(49, 49, 49);">
+            Jumlah Jadwal: <span style="font-weight: 700;"><?php echo $result->num_rows; ?></span>
+        </p>
+        
+        <div class="Add-Doctor">
+            <a href="add-session">
+                <button class="Doctor-btn" style="display: flex; justify-content: center;">
+                    <input type="image" src="../img/add-btn.png">
+                    <h1>Tambah Jadwal Temu</h1>            
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="header-doc" colspan="4">
+        <div>
+            <a href="schedule" class="btn-filter-doc" style="padding: 15px; margin:0;width:100%">Reset Filter</a>
+        </div>
+        <div class="filter-search">
+            <div class="filter-doc" style="display: inline-flex; align-content: center; flex-wrap: wrap; border-radius: 16px; border: 1px solid rgba(57, 57, 57, 0.50); background: #FFF; display: flex; height: 50px; padding: 0px 16px; align-items: center; gap: 8px; margin-right: 16px; justify-content: center; margin-bottom: 8px;">
+                <form action="" method="post" id="dateForm">
+                    <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
+                </form>
             </div>
         </div>
-        <div class="header-doc" colspan="4">
-                                <div>
-                                    <a href="" class="btn-filter-doc" style="padding: 15px; margin :0;width:100%">Reset Filter</a>
-                                </div>
-                                <div class="filter-search">
-                                    <div class="filter-doc" style="display: inline-flex align-content: center;/* flex-wrap: wrap; */flex-wrap: wrap;/* display: flex; */align-content: space-around;/* padding-right: 8px; */border-radius: 16px;border: 1px solid rgba(57, 57, 57, 0.50);background: #FFF;display: flex;height: 50px;padding: 0px 16px;align-items: center;gap: 8px;margin-right: 16px;justify-content: center;margin-bottom: 8px;">
-                                        <form action="" method="post" id="dateForm">
-                                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 100%;" onchange="document.getElementById('dateForm').submit();">
-                                        </form>
-                                    </div>
-                
-                </div>
-                </div>        
-                <tr>
-                   <td colspan="4">
-                       <center>
-                       <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" border="0">
-                        <thead>
-                        <tr>
-                                <th class="table-headin">
-                                    
-                                
-                                Sesi
-                                
-                                </th>
-                                
-                                <th class="table-headin">
-                                    Dokter
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Tanggal
-                                    
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Waktu
-                                    
-                                </th>
-                                <!-- <th class="table-headin">
-                                    
-                                Max num that can be booked
-                                    
-                                </th> -->
-                                
-                                <th class="table-headin">
-                                    
-                                    Action
-                                    
-                                </tr>
-                        </thead>
-                        <tbody>
-                        
-                            <?php
-
-                                
-                                
-
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="7">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/404.gif" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="color: var(--Color-Neutral-neutral-700, #353C46);
-
-                                    /* Rubik/Display 2 */
-                                    font-family: Rubik, sans-serif;
-                                    font-size: 48px;
-                                    font-style: normal;
-                                    font-weight: 700;
-                                    line-height: normal;
-                                    padding:0px !important;
-                                    margin: 0px;">Opps!</p>
-                                    <p class="heading-main12" style="color: var(--Color-Neutral-neutral-500, #4B5563);
-
-                                    /* Nunito Sans/Regular/Headline 2 */
-                                    font-family: "Nunito Sans", sans-serif;
-                                    font-size: 24px;
-                                    font-style: normal;
-                                    font-weight: 400;
-                                    line-height: normal;
-                                    padding:0px !important;
-                                    margin: 0px;">Belum ada data apapun disini.</p>
-                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-
-                                    for ( $x=0; $x<($result->num_rows);$x++){
-                                        echo "<tr>";
-                                        for($q=0;$q<3;$q++){
-                                            $row=$result->fetch_assoc();
-                                            if (!isset($row)){
-                                            break;
-                                            };
-                                            $scheduleid=$row["scheduleid"];
-                                            $appoid=$row["appoid"];
-                                            $title=$row["title"];
-                                            $docname=$row["docname"];
-                                            $scheduledate=$row["scheduledate"];
-                                            $scheduletime=$row["scheduletime"];
-                                            $apponum=$row["apponum"];
-                                            $appodate=$row["appodate"];
-                                            $appoid=$row["appoid"];
+    </div>        
     
-                                            if($scheduleid==""){
-                                                break;
-                                            }
-                                            $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
-    
-                                            echo '<tr>
-                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'.
-                                        substr($title,0,30)
-                                        .'</td>
-                                        <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                        '.substr($docname,0,20).'
-                                        </td>
-                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            '.substr($scheduledate,0,10).'
-                                        </td>
-                                        <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            '.substr($scheduletime,0,5).'
-                                        </td>
-
-                                        <td>
-                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="delete-appointment.php?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
-                                                <img src="../img/delete-text.png" alt="Delete">
-                                            </a>
-                                        </div>
-                                        </td>
-                                    </tr>';
-    
-                                        }
-                                        echo "</tr>";
-                           
-                                    
-                                }
-                            }
-                                 
-                            ?>
- 
-                            </tbody>
-
-                        </table>
-                        </div>
+    <center>
+        <div class="abc scroll">
+            <table width="93%" class="sub-table scrolldown" border="0">
+                <thead>
+                    <tr>
+                        <th class="table-headin">Sesi</th>
+                        <th class="table-headin">Dokter</th>
+                        <th class="table-headin">Tanggal</th>
+                        <th class="table-headin">Waktu</th>
+                        <th class="table-headin">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                if($result->num_rows==0){
+                    echo '<tr>
+                        <td colspan="5">
+                        <br><br><br><br>
+                        <center>
+                        <img src="../img/404.gif" width="25%">
+                        <br>
+                        <p class="heading-main12" style="color: var(--Color-Neutral-neutral-700, #353C46); font-family: Rubik, sans-serif; font-size: 48px; font-style: normal; font-weight: 700; line-height: normal; padding:0px !important; margin: 0px;">Opps!</p>
+                        <p class="heading-main12" style="color: var(--Color-Neutral-neutral-500, #4B5563); font-family: \'Nunito Sans\', sans-serif; font-size: 24px; font-style: normal; font-weight: 400; line-height: normal; padding:0px !important; margin: 0px;">Belum ada data apapun disini.</p>
+                        <a class="non-style-link" href="schedule"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</button></a>
                         </center>
-                   </td> 
-                   
-                </tr>
+                        <br><br><br><br>
+                        </td>
+                        </tr>';
+                } else {
+                    for ($x=0; $x<$result->num_rows; $x++){
+                        $row = $result->fetch_assoc();
+                        if (!isset($row)) {
+                            break;
+                        };
+                        $scheduleid = $row["scheduleid"];
+                        $appoid = $row["appoid"];
+                        $title = $row["title"];
+                        $docname = $row["docname"];
+                        $scheduledate = $row["scheduledate"];
+                        $scheduletime = $row["scheduletime"];
+                        $apponum = $row["apponum"];
+                        $appodate = $row["appodate"];
 
+                        if($scheduleid==""){
+                            break;
+                        }
+                        $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus sesi ini?')\"";
 
-    <script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+                        echo '<tr>
+                            <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">&nbsp;'.
+                            substr($title,0,30)
+                            .'</td>
+                            <td style="text-align:center;border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                            '.substr($docname,0,20).'
+                            </td>
+                            <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                '.substr($scheduledate,0,10).'
+                            </td>
+                            <td style="text-align:center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                '.substr($scheduletime,0,5).'
+                            </td>
+                            <td>
+                            <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
+                                <a href="delete-appointment?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                    <img src="../img/delete-text.png" alt="Delete">
+                                </a>
+                            </div>
+                            </td>
+                        </tr>';
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </center>
+</section>
 
-<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/libscripts.bundle.js"></script>
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script>
+<script src="../assets-page/bundles/knob.bundle.js"></script>
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script>
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script>
+<script src="../assets-page/bundles/sparkline.bundle.js"></script>
 <script src="../assets-page/bundles/doughnut.bundle.js"></script>
-
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
 <script src="../assets-page/js/line.js"></script>

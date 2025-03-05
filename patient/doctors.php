@@ -1,3 +1,44 @@
+<?php
+session_start();
+
+if(isset($_SESSION["user"])){
+    if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
+        header("location: ../login");
+        exit;
+    }else{
+        $useremail=$_SESSION["user"];
+    }
+}else{
+    header("location: ../login");
+    exit;
+}
+
+include("../connection");
+
+$sqlmain= "select * from patient where pemail=?";
+$stmt = $database->prepare($sqlmain);
+$stmt->bind_param("s",$useremail);
+$stmt->execute();
+$userrow = $stmt->get_result();
+$userfetch=$userrow->fetch_assoc();
+
+$userid= $userfetch["pid"];
+$username=$userfetch["pname"];
+$email=$userfetch["pemail"];
+$picture=$userfetch["picture"];
+
+// Tambahkan token CSRF ke dalam formulir
+$csrf_token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $csrf_token;
+
+if(isset($_POST["search"])){
+    $keyword=$_POST["search"];
+    $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
+}else{
+    $sqlmain= "select * from doctor order by docid desc";
+}
+?>
+
 <!doctype html>
 <html class="no-js " lang="en">
 
@@ -25,61 +66,21 @@
 <link rel="stylesheet" href="../css/main.css"> 
 
 <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-</style>
-
-</head>
-
-<?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
-        header("location: ../login.php");
+    .popup{
+        animation: transitionIn-Y-bottom 0.5s;
     }
-    
-    
-    include("../connection.php");
-
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $userrow = $stmt->get_result();
-    $userfetch=$userrow->fetch_assoc();
-
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-    $email=$userfetch["pemail"];
-    $picture=$userfetch["picture"];
-    
-    ?>
+    .sub-table{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
+</style>
+</head>
 
 <body class="theme-black">
 
 <!-- Popup -->
 <div id="status-popup" class="popup" style="display:none; position:fixed; top:50%; left:50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); z-index: 9999;">
-        <p>Status dokter berhasil perbarui!</p>
-    </div>
-
-<!-- Page Loader -->
-
-
-
+    <p>Status dokter berhasil perbarui!</p>
+</div>
 
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
@@ -95,9 +96,7 @@
                     </div>
                 </div>
             </div>
-                      
         </div>
-        
     </div>
 </div>
 <div class="overlay"></div><!-- Overlay For Sidebars -->
@@ -107,23 +106,21 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
 
 <aside class="right_menu">
-    
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
-            
         </ul>
         <div class="tab-content slim_scroll">
             <div class="tab-pane slideRight active" id="setting">
@@ -211,7 +208,6 @@
                     </div>
                 </div>               
             </div>
-            
         </div>
     </div>
     <div id="leftsidebar" class="sidebar">
@@ -220,58 +216,27 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
-                    </li> -->
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
                     <li class="active open" style="background-color: transparent">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
                     </li>
                     <li class="active">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
                     </li>
-                 
-                    <?php
-    //import database
-            include("../connection.php");
-
-            // Query untuk mengambil data admin dari database
-                $query = "SELECT * FROM admin";
-                $result = $database->query($query);
-
-                // Memeriksa apakah ada hasil yang ditemukan
-                if ($result->num_rows > 0) {
-                    // Loop melalui setiap baris hasil query
-                    while ($row = $result->fetch_assoc()) {
-                        // Ekstrak data yang dibutuhkan dari setiap baris
-                        $adminEmail = $row['aemail'];
-                ?>
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                        <a href="">
+                            <a href="">
                                 <img src="<?php echo empty($picture) ? '../img/SehatiProfile.png' : $picture; ?>" alt="User">
                             </a>
-
                         </div>
                         <div class="detail">
-                            <h6><?php echo $username  ?></h6>
+                            <h6><?php echo $username; ?></h6>
                             <p class="m-b-0" style="word-wrap: break-word"><?php echo $email; ?></p>
-                                         
                         </div>
                     </div>
                 </li>
-                <?php
-                    }
-                } else {
-                    // Jika tidak ada data admin yang ditemukan
-                    echo "Tidak ada data admin yang ditemukan.";
-                }
-        ?>             
             </ul>
         </div>
     </div>
@@ -280,10 +245,10 @@
 <!-- Main Content -->
 <section class="content home">
 <!-- NAVBAR -->
-<div class="nav-bar" >
-    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
-            <img src="../img/back.png" style="padding-right: 8px;">
-            <h2 class="Bawah">Kembali</h2>
+<div class="nav-bar">
+    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+        <img src="../img/back.png" style="padding-right: 8px;">
+        <h2 class="Bawah">Kembali</h2>
     </a>
     <div class="Calendar">
         <div class="date-section">
@@ -299,13 +264,12 @@
                 $today = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, null, 'd MMMM yyyy');
                 echo $today->format(new DateTime());
 
-                $patientrow = $database->query("select  * from  patient;");
-                $doctorrow = $database->query("select  * from  doctor;");
-                $appointmentrow = $database->query("select  * from  appointment where appodate>='" . date('Y-m-d') . "';");
-                $schedulerow = $database->query("select  * from  schedule where scheduledate='" . date('Y-m-d') . "';");
+                $patientrow = $database->query("select * from patient;");
+                $doctorrow = $database->query("select * from doctor;");
+                $appointmentrow = $database->query("select * from appointment where appodate>='" . date('Y-m-d') . "';");
+                $schedulerow = $database->query("select * from schedule where scheduledate='" . date('Y-m-d') . "';");
                 ?>
             </p>
-            
         </div>
         <div class="calendar-section">
             <button class="btn-label">
@@ -314,176 +278,84 @@
         </div>    
     </div>
 </div>
-</div>
-
 
 <!-- CONTAINER/ISI -->
-<!-- Add and Search -->
-
-<?php
-// Tambahkan token CSRF ke dalam formulir
-$csrf_token = bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $csrf_token;
-
-if($_POST){
-    $keyword=$_POST["search"];
-    
-    $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
-}else{
-    $sqlmain= "select * from doctor order by docid desc";
-
-}
-
-
-
-?>
-
 <div class="nav-doctor" style="justify-content: flex-end;">
-    
-    
-        <!-- <div class="Add-Doctor">
-            <a href="add-new">
-                <button class="Doctor-btn" style="display: flex; justify-content: center;">
-                <input type="image" src="../img/search.png" >
-                <h1>Tambah Dokter</h1>            
-            </button>
-            </a>
-        </div> -->
-
-    
     <form action="" method="post" class="header-search">
         <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Dokter" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
-    <?php
-        echo '<datalist id="doctors">';
-        $list11 = $database->query("select  docname,docemail from  doctor;");
+        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Dokter" list="doctors" style="background: none; display: flex; text-align: left; padding: 0px;">  
+        <?php
+            echo '<datalist id="doctors">';
+            $list11 = $database->query("select docname, docemail from doctor;");
 
-        for ($y=0;$y<$list11->num_rows;$y++){
-            $row00=$list11->fetch_assoc();
-            $d=$row00["docname"];
-            $c=$row00["docemail"];
-            echo "<option value='$d'><br/>";
-            echo "<option value='$c'><br/>";
-        };
-
-    echo ' </datalist>';
-    ?>
-
-    <input type="image" src="../img/search.png" >
-
-
-
+            for ($y=0; $y<$list11->num_rows; $y++){
+                $row00 = $list11->fetch_assoc();
+                $d = $row00["docname"];
+                $c = $row00["docemail"];
+                echo "<option value='$d'><br/>";
+                echo "<option value='$c'><br/>";
+            };
+            echo '</datalist>';
+        ?>
+        <input type="image" src="../img/search.png">
     </form>
 </div>
 
-<!-- as -->
+<tr>
+    <td colspan="4" style="padding-top:10px;">
+        <p class="heading-main12">Jumlah Dokter: <?php echo $list11->num_rows; ?></p>
+    </td>
+</tr>
 
 <tr>
-                    <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12">Jumlah Dokter: <?php echo $list11->num_rows; ?></p>
-                    </td>
-                    
-                </tr>
-                <?php
-                    if($_POST){
-                        $keyword=$_POST["search"];
-                        
-                        $sqlmain= "select * from doctor where docemail='$keyword' or docname='$keyword' or docname like '$keyword%' or docname like '%$keyword' or docname like '%$keyword%'";
-                    }else{
-                        $sqlmain= "select * from doctor order by docid desc";
-
-                    }
-
-
-
-                ?>
-                  
-                <tr>
-                   <td colspan="4">
-                       <center>
-                        <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" border="0">
-                        <thead>
+    <td colspan="4">
+        <center>
+            <div class="abc scroll">
+                <table width="93%" class="sub-table scrolldown" border="0">
+                    <thead>
                         <tr>
-                                <th class="table-headin">
-                                    
-                                
-                                Nama Dokter
-                                
-                                </th>
-                                <th class="table-headin">
-                                    Spesialis
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Email
-                                    
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Status
-                                    
-                                </th>
-                                <!-- <th class="table-headin">
-                                    
-                                    Action
-                                    
-                                </tr> -->
-                        </thead>
-                        <tbody>
-                        
-                            <?php
+                            <th class="table-headin">Nama Dokter</th>
+                            <th class="table-headin">Spesialis</th>
+                            <th class="table-headin">Email</th>
+                            <th class="table-headin">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $result = $database->query($sqlmain);
 
-                                
-                                $result= $database->query($sqlmain);
+                            if($result->num_rows == 0){
+                                echo '<tr>
+                                <td colspan="4">
+                                <br><br><br><br>
+                                <center>
+                                <img src="../img/404.gif" width="25%">
+                                <br>
+                                <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We couldnt find anything related to your keywords!</p>
+                                <a class="non-style-link" href="doctors"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
+                                </a>
+                                </center>
+                                <br><br><br><br>
+                                </td>
+                                </tr>';
+                            } else {
+                                for ($x=0; $x<$result->num_rows; $x++){
+                                    $row = $result->fetch_assoc();
+                                    $docid = $row["docid"];
+                                    $name = $row["docname"];
+                                    $email = $row["docemail"];
+                                    $status = $row["status"];
+                                    $specialties = $row["specialties"];
+                                    $spcil_res = $database->query("select sname from specialties where id='$specialties'");
 
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/404.gif" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="doctors.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-                                for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
-                                    $docid=$row["docid"];
-                                    $name=$row["docname"];
-                                    $email=$row["docemail"];
-                                    $status=$row["status"];
-                                    $specialties=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$specialties'");
-
-                                    // Initialize the JavaScript confirmation popup
-                                    $confirmation_popup = "onclick=\"return confirm('Apakah Anda yakin akan menghapus dokter ini?')\"";
-                                    // Memeriksa apakah hasil kueri ditemukan
-                                    if ($spcil_res) {
-                                        // Memeriksa apakah ada baris hasil yang ditemukan
-                                        if ($spcil_res->num_rows > 0) {
-                                            // Jika ada, ambil baris pertama dari hasil kueri
-                                            $spcil_array = $spcil_res->fetch_assoc();
-                                            // Periksa apakah elemen "sname" ada dalam array
-                                            if (isset($spcil_array["sname"])) {
-                                                $spcil_name = $spcil_array["sname"];
-                                            } else {
-                                                $spcil_name = ""; // Atau berikan nilai default jika tidak ada
-                                            }
-                                        } else {
-                                            $spcil_name = ""; // Atau berikan nilai default jika tidak ada baris hasil
+                                    $spcil_name = "";
+                                    if ($spcil_res && $spcil_res->num_rows > 0) {
+                                        $spcil_array = $spcil_res->fetch_assoc();
+                                        if (isset($spcil_array["sname"])) {
+                                            $spcil_name = $spcil_array["sname"];
                                         }
-                                    } else {
-                                        $spcil_name = ""; // Atau berikan nilai default jika hasil kueri tidak ada
                                     }
+                                    
                                     echo '<tr>
                                     <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;'. substr($name, 0, 30) .'</td>
                                     <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> '.substr($spcil_name, 0, 20).' </td>
@@ -494,42 +366,31 @@ if($_POST){
                                                 <span class="sBtn-text">'. (($status == 1) ? 'Aktif' : 'Non-Aktif') .'</span>
                                                 <i class="bx bx-chevron-down"></i>
                                             </div>
-                                            
                                         </div>
                                     </td>
-
                                     </tr>';
-                                    
                                 }
                             }
-                                
-                            ?>
- 
-                            </tbody>
-
-                        </table>
-                        </div>
-                        </center>
-                   </td> 
-
-                   
-<!-- PHP -->
-
-
-
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </center>
+    </td>
+</tr>
 </section>
+
 <!-- Jquery Core Js -->
-<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
-
-<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<script src="../assets-page/bundles/libscripts.bundle.js"></script>
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script>
+<script src="../assets-page/bundles/knob.bundle.js"></script>
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script>
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script>
+<script src="../assets-page/bundles/sparkline.bundle.js"></script>
 <script src="../assets-page/bundles/doughnut.bundle.js"></script>
-
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const optionMenus = document.querySelectorAll(".select-menu");
@@ -557,12 +418,12 @@ if($_POST){
         });
 
         function updateDoctorStatus(docid, status) {
-            const csrfToken = document.querySelector('input[name="csrf_token"]').value; // Ambil token CSRF dari formulir
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
             const formData = new FormData();
             const booleanStatus = (status === 'aktif');
             formData.append('docid', docid);
             formData.append('status', booleanStatus);
-            formData.append('csrf_token', csrfToken); // Sertakan token CSRF
+            formData.append('csrf_token', csrfToken);
 
             fetch('<?php echo $_SERVER['PHP_SELF']; ?>', {
                     method: 'POST',
@@ -571,18 +432,16 @@ if($_POST){
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    // Periksa apakah respons dari server berhasil memperbarui status
                     if (data.trim() === "Doctor status updated successfully!") {
-                        // Update status di tabel setelah berhasil memperbarui status dokter
                         const statusCell = document.querySelector(`[data-docid="${docid}"]`);
-                        statusCell.dataset.status = booleanStatus; // Perbarui atribut data-status dengan nilai boolean
+                        statusCell.dataset.status = booleanStatus;
                         statusCell.querySelector(".sBtn-text").innerText = (booleanStatus) ? 'Aktif' : 'Non-Aktif';
                         const selectBtn = statusCell.querySelector(".select-btn");
-                        selectBtn.className = "select-btn " + ((booleanStatus) ? 'aktif' : 'non-aktif'); // Perbarui kelas
-                        document.getElementById('status-popup').style.display = 'block'; // Tampilkan popup
+                        selectBtn.className = "select-btn " + ((booleanStatus) ? 'aktif' : 'non-aktif');
+                        document.getElementById('status-popup').style.display = 'block';
                         setTimeout(() => {
-                            document.getElementById('status-popup').style.display = 'none'; // Sembunyikan popup setelah beberapa detik
-                        }, 3000); // Ganti 3000 dengan jumlah milidetik yang diinginkan
+                            document.getElementById('status-popup').style.display = 'none';
+                        }, 3000);
                     } else {
                         console.error("Gagal memperbarui status dokter.");
                     }

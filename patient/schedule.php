@@ -128,13 +128,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -241,7 +241,7 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <!-- <li class="active">
                         <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
@@ -250,10 +250,10 @@
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li> -->
                     <li class="active">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
+                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Semua Dokter</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
                     </li>
                  
                 <li>
@@ -280,7 +280,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -334,7 +334,7 @@
                 </tr>
         <div class="button-schedule">
             <div class="Add-Doctor">
-                <a href="add-session">
+                <a href="add-session.php">
                     <button class="Doctor-btn" style="display: flex; justify-content: center;">
                         <input type="image" src="../img/add-btn.png" >
                         <h1>Tambah Jadwal Temu</h1>            
@@ -477,7 +477,7 @@
 
                                         <td>
                                         <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">
-                                            <a href="delete-appointment?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
+                                            <a href="delete-appointment.php?id='.($appoid).'" class="non-style-link" ' . $confirmation_popup . '>
                                                 <img src="../img/delete-text.png" alt="Delete">
                                             </a>
                                         </div>

@@ -115,7 +115,7 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
@@ -228,19 +228,19 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li> -->
                     <li class="active">
-                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
@@ -264,7 +264,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -328,7 +328,7 @@ if($_POST){
     
     
         <div class="Add-Doctor">
-            <a href="add-new">
+            <a href="add-new.php">
                 <button class="Doctor-btn" style="display: flex; justify-content: center;">
                 <input type="image" src="../img/search.png" >
                 <h1>Tambah Dokter</h1>            
@@ -437,7 +437,7 @@ if($_POST){
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="doctors"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
+                                    <a class="non-style-link" href="doctors.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
                                     </a>
                                     </center>
                                     <br><br><br><br>
@@ -498,11 +498,11 @@ if($_POST){
 
                                         <td>
                                         <div style="display:flex;justify-content: center;">
-                                            <a href="edit-doc?id='.($docid).'" class="non-style-link" style="padding-right:10%">
+                                            <a href="edit-doc.php?id='.($docid).'" class="non-style-link" style="padding-right:10%">
                                                 <img src="../img/edit.png" alt="Edit">
                                             </a>
 
-                                            <a href="delete-doctor?id=' . $docid . '" class="non-style-link" ' . $confirmation_popup . '>
+                                            <a href="delete-doctor.php?id=' . $docid . '" class="non-style-link" ' . $confirmation_popup . '>
                                                 <img src="../img/delete.png" alt="Delete">
                                             </a>
                                         </div>

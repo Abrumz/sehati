@@ -61,13 +61,13 @@ if (isset($_GET['code'])) {
                 $utype = $result->fetch_assoc()['usertype'];
                 if ($utype == 'p') {
                     $_SESSION['usertype'] = 'p';
-                    header('Location: patient/index');
+                    header('Location: patient/index.php');
                 } elseif ($utype == 'a') {
                     $_SESSION['usertype'] = 'a';
-                    header('Location: admin/index');
+                    header('Location: admin/index.php');
                 } elseif ($utype == 'd') {
                     $_SESSION['usertype'] = 'd';
-                    header('Location: doctor/index');
+                    header('Location: doctor/index.php');
                 }
             } else {
                 echo "User type not found.";

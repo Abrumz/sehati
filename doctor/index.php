@@ -121,13 +121,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -234,7 +234,7 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
             <li class="header">UTAMA</li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <!-- <li class="active">
                         <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
@@ -243,11 +243,11 @@
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li> -->
                     <li class="active">
-                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
                     </li>
                     
                     <li class="active">
-                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
+                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
                     </li>
                 <?php
                 //import database
@@ -306,7 +306,7 @@
                             <h3 style="color: #FFF;">Hallo <?php echo $username  ?>,</h3>
                             <p style="color: #FFF;">Selamat Datang di Dashboard Sehati! Yuk cek Jadwal Anda Hari ini! 
                             </p>
-                            <a href="schedule" class="non-style-link" style="padding:32px; "><button class="btn-doctor-dash">
+                            <a href="schedule.php" class="non-style-link" style="padding:32px; "><button class="btn-doctor-dash">
                                 <p>Cek Jadwal</p>
                             </button>
                             </a>
@@ -512,7 +512,7 @@
 
                 
                 <div style="text-align: end;">
-                    <a href="../doctor/schedule">
+                    <a href="../doctor/schedule.php">
                         <h4>Lihat Semua Jadwal</h4>
                     </a>
                 </div>

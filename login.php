@@ -66,7 +66,7 @@
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='p';
                     
-                    header('location: patient/index');
+                    header('location: patient/index.php');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Email atau Kata Sandi Salah/Tidak ditemukan</label>';
@@ -82,7 +82,7 @@
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='a';
                     
-                    header('location: admin/index');
+                    header('location: admin/index.php');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
@@ -98,7 +98,7 @@
                     //   doctor dashbord
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='d';
-                    header('location: doctor/index');
+                    header('location: doctor/index.php');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
@@ -143,7 +143,7 @@
        <div class="col-md-6 right-box">
           <div class="row align-items-center">
                 <div class="header-text mb-4">
-                <a href="index"><img src="img/LogoSehati.png" alt=""></a>
+                <a href="index.php"><img src="img/LogoSehati.png" alt=""></a>
                      <h2>Selamat Datang!👋</h2>
                      <p>Silakan masukkan data akun Anda</p>
                 </div>
@@ -169,7 +169,7 @@
                     </div>
                     <br>
                     <label for="" class="sub-text" style="font-weight: 280;">Belum Punya Akun? </label>
-                    <a href="signup" class="hover-link1 non-style-link">Daftar</a>
+                    <a href="signup.php" class="hover-link1 non-style-link">Daftar</a>
                     </br>
                     </br>
                     </br>

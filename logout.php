@@ -23,6 +23,6 @@ if (ini_get("session.use_cookies")) {
 }
 
 // Redirect to login page
-header('Location: login?action=logout');
+header('Location: login.php?action=logout');
 exit();
 ?>

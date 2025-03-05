@@ -19,6 +19,7 @@ jobs:
           server: ftp.gusendra.site
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
+          timeout: 3600000  # Set timeout to 1 hour
           exclude: |
             .htaccess
             assets-page/**
@@ -26,4 +27,4 @@ jobs:
             vendor/**
             connection.php
             google.php
-           timeout: 3600000  # Set timeout to 1 hour
+            

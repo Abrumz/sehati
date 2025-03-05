@@ -20,7 +20,7 @@
 	<!-- navbar -->
 	<nav id="navbar" class="navbar navbar-expand-md navbar-light fixed-top">
 		<div class="container" style="display: flex; justify-content: space-between;">
-			<a href="index.php" class="navbar-brand"><img src="img/LogoSehati.png" alt=""></a>
+			<a href="index" class="navbar-brand"><img src="img/LogoSehati.png" alt=""></a>
 			<div class="navbar">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<i class="icon ion-ios-menu"></i>
@@ -29,15 +29,15 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent" >
 				<ul class="nav navbar-nav navbar-collapse" data-in="#" data-out="#" style="justify-content: center !important;">
 					<li class="nav-item">
-						<a class="nav-link" href="index.php">Beranda</a>
+						<a class="nav-link" href="index">Beranda</a>
 					</li>
 					<li class="nav-item dropdown" >
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 							Layanan
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-							<a class="dropdown-item" href="login.php" >Booking</a>
-							<a class="dropdown-item" href="login.php">Konsultasi</a>
+							<a class="dropdown-item" href="login" >Booking</a>
+							<a class="dropdown-item" href="login">Konsultasi</a>
 							<a class="dropdown-item" href="mental-health">Mental Health </a>
 						</div>
 					</li>	
@@ -50,8 +50,8 @@
 					
 				</ul>
 					<div class="nav navbar-nav navbar-collapse" style="justify-content: center !important; gap: 16px; font-family: Nunito Sans;     justify-content: flex-end !important;" >
-						<a href="login.php" class="button button-secondary">Masuk</a>
-						<a href="signup.php" class="button">Daftar</a>
+						<a href="login" class="button button-secondary">Masuk</a>
+						<a href="signup" class="button">Daftar</a>
 					</div>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 							Gak perlu lama. Buatlah janji temu dengan dokter Anda sekarang melalui Booking secara gratis!
 						</p>
 						<ul>
-							<li><a href="login.php" class="button">Buat Jadwal Temu Sekarang</a></li>
+							<li><a href="login" class="button">Buat Jadwal Temu Sekarang</a></li>
 							<!-- <li><a href="" class="button button-secondary">Free Trial</a></li> -->
 						</ul>
 						<h3> Kami telah bekerja sama dengan beberapa mitra kesehatan di Indonesia.</h3>
@@ -198,7 +198,7 @@
 			</div>
 			<div class="row" style="justify-content: center; display: flex;">
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="login.php">
+					<a href="login">
 						<div class="content" style="margin: auto;">
 						<img src="img/Janji.png" alt="">
 						<h5>Buat Jadwal Temu</h5>
@@ -207,7 +207,7 @@
 					</a>
 				</div>
 				<div class="col-md-4 col-sm-6 col-xs-12" style="text-align: center;">
-					<a href="login.php">
+					<a href="login">
 						<div class="content" style="margin: auto;">
 							<img src="img/cari.png" alt="">
 							<h5>Konsultasi Dokter</h5>
@@ -396,9 +396,9 @@
 					<div class="content">
 						<h5>Layanan</h5>
 						<ul>
-							<li><a href="login.php">Buat Jadwal Temu</a></li>
-							<li><a href="login.php">Cari Dokter</a></li>
-							<li><a href="login.php">Medical Check-Up</a></li>
+							<li><a href="login">Buat Jadwal Temu</a></li>
+							<li><a href="login">Cari Dokter</a></li>
+							<li><a href="login">Medical Check-Up</a></li>
 						</ul>
 					</div>
 				</div>

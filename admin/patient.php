@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+if(isset($_SESSION["user"])){
+    if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
+        header("location: ../login.php");
+        exit;
+    }
+}else{
+    header("location: ../login.php");
+    exit;
+}
+
+//import database
+include("../connection.php");
+
+// Process patient edit if form submitted
+if(isset($_POST["editpatient"])) {
+    $id = $_POST["pid"];
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $nic = $_POST["nic"];
+    $tel = $_POST["tel"];
+    $dob = $_POST["dob"];
+    $address = $_POST["address"];
+    
+    // Update patient information
+    $sql = "UPDATE patient SET pname=?, pemail=?, pnic=?, ptel=?, paddress=?, pdob=? WHERE pid=?";
+    $stmt = $database->prepare($sql);
+    $stmt->bind_param("ssssssi", $name, $email, $nic, $tel, $address, $dob, $id);
+    
+    if ($stmt->execute()) {
+        $success_message = "Patient information updated successfully!";
+    } else {
+        $error_message = "Failed to update patient information: " . $database->error;
+    }
+}
+?>
+
 <!doctype html>
 <html class="no-js " lang="en">
 
@@ -9,7 +48,6 @@
 
 <title>Sehati</title>
 <link rel="icon" href="../img/sehati-vector.png">
-
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
 <!-- Favicon-->
@@ -25,35 +63,101 @@
 <link rel="stylesheet" href="../css/main.css"> 
 
 <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
+    .popup{
+        animation: transitionIn-Y-bottom 0.5s;
+        width: 50%;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 80vh;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
+    }
+    .overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+    .sub-table{
+        animation: transitionIn-Y-bottom 0.5s;
+    }
+    .action-icon {
+        width: 24px;
+        height: 24px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 24px;
+        color: #666;
+    }
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .btn-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+    .btn {
+        padding: 8px 15px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-primary {
+        background-color: #4568dc;
+        color: white;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    .alert {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    /* Prevent popup from closing when clicking inside */
+    .popup-content {
+        pointer-events: auto;
+    }
 </style>
-
 </head>
 
-<?php
-//learn from w3schools.com
-session_start();
-
-if(isset($_SESSION["user"])){
-    if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-        header("location: ../login.php");
-    }
-}else{
-    header("location: ../login.php");
-}
-
-//import database
-include("../connection.php");
-?>
-
 <body class="theme-black">
-<!-- Page Loader -->
-
 <div class="overlay_menu">
     <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
     <div class="container">        
@@ -71,7 +175,7 @@ include("../connection.php");
         </div>
     </div>
 </div>
-<div class="overlay"></div><!-- Overlay For Sidebars -->
+<div id="editOverlay" class="overlay"></div><!-- Overlay For Popups -->
 
 <!-- Left Sidebar -->
 <aside id="minileftbar" class="minileftbar">
@@ -196,9 +300,6 @@ include("../connection.php");
                     <li class="active">
                         <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
-                    <!-- <li class="active">
-                        <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
-                    </li> -->
                     <li class="active open" style="background-color: transparent">
                         <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
@@ -261,225 +362,203 @@ include("../connection.php");
 
 <!-- Add and Search -->
 <div class="dash-body">
-    <table border="0" width="100%" style="border-spacing: 0;margin:0;padding:0;margin-top:25px;">
-        <tr>
-            <td>
-                <div class="nav-doctor" style="justify-content: flex-end; padding-right: 44px; padding-bottom: 0">  
-                    <form action="" method="post" class="header-search">
-                        <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patient" style="background: none; display: flex; text-align: left; padding: 0px;">  
-                        <?php
-                        echo '<datalist id="patient">';
-                        $list11 = $database->query("select pname, pemail from patient;");
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["pname"];
-                            $c = $row00["pemail"];
-                            echo "<option value='$d'><br/>";
-                            echo "<option value='$c'><br/>";
-                        }
-                        echo ' </datalist>';
-                        ?>
-                        <input type="image" src="../img/search.png">
-                    </form>
-                </div>                        
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4" style="padding-top:10px;">
-                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49);">Jumlah Pasien: <span style="font-weight: 700;"><?php echo $list11->num_rows; ?></p>
-            </td>
-        </tr>
-        <?php
-        if ($_POST) {
-            $keyword = $_POST["search"];
-            $sqlmain = "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%'";
-        } else {
-            $sqlmain = "select * from patient order by pid desc";
-        }
-        ?>
-        <tr>
-            <td colspan="4">
-                <center>
-                    <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" style="border-spacing:0;">
-                            <thead>
-                                <tr>
-                                    <th class="table-headin">Nama Pasien</th>
-                                    <th class="table-headin">NIK</th>
-                                    <th class="table-headin">Telepon</th>
-                                    <th class="table-headin">Email</th>
-                                    <th class="table-headin">Tanggal Lahir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $result = $database->query($sqlmain);
-                                if ($result->num_rows == 0) {
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/404.gif" width="25%">
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="patient.php"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                } else {
-                                    for ($x = 0; $x < $result->num_rows; $x++) {
-                                        $row = $result->fetch_assoc();
-                                        $pid = $row["pid"];
-                                        $name = $row["pname"] ?? '';
-                                        $email = $row["pemail"] ?? '';
-                                        $nic = $row["pnic"] ?? '';
-                                        $dob = $row["pdob"] ?? '';
-                                        $tel = $row["ptel"] ?? '';
-                                        echo '<tr>
-                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;' . substr($name, 0, 35) . '</td>
-                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($nic, 0, 12) . '</td>
-                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($tel, 0, 10) . '</td>
-                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($email, 0, 20) . '</td>
-                                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($dob, 0, 10) . '</td>
-                                        <td>
-                                        <div style="display:flex;justify-content: center; border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"></div>
-                                        </td>
-                                        </tr>';
-                                    }
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </center>
-            </td> 
-        </tr>
-    </table>
-</div>
-
-<?php 
-if ($_GET) {
-    $id = $_GET["id"];
-    $action = $_GET["action"];
-    $sqlmain = "select * from patient where pid='$id'";
-    $result = $database->query($sqlmain);
-    $row = $result->fetch_assoc();
-    $name = $row["pname"];
-    $email = $row["pemail"];
-    $nic = $row["pnic"];
-    $dob = $row["pdob"];
-    $tele = $row["ptel"];
-    $address = $row["paddress"];
-    echo '
-    <div id="popup1" class="overlay">
-        <div class="popup">
-        <center>
-            <a class="close" href="patient.php">&times;</a>
-            <div class="content"></div>
-            <div style="display: flex;justify-content: center;">
-            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                <tr>
-                    <td>
-                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="name" class="form-label">Patient ID: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        P-' . $id . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="name" class="form-label">Name: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $name . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="Email" class="form-label">Email: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $email . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="nic" class="form-label">NIC: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $nic . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="Tele" class="form-label">Telephone: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $tele . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="spec" class="form-label">Address: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $address . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        <label for="name" class="form-label">Date of Birth: </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-td" colspan="2">
-                        ' . $dob . '<br><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn"></a>
-                    </td>
-                </tr>
-            </table>
-            </div>
-        </center>
-        <br><br>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 45px;">
+        <p class="heading-main12" style="font-size:18px; color:rgb(49, 49, 49); margin: 0;">
+            Jumlah Pasien: <span style="font-weight: 700;"><?php echo $patientrow ? $patientrow->num_rows : 0; ?></span>
+        </p>
+        
+        <div class="nav-doctor" style="justify-content: flex-end; margin: 0;">  
+            <form action="" method="post" class="header-search">
+                <input type="search" name="search" class="input-text header-searchbar" placeholder="cari Pasien" list="patient" style="background: none; display: flex; text-align: left; padding: 0px;">  
+                <?php
+                echo '<datalist id="patient">';
+                $list11 = $database->query("select pname, pemail from patient;");
+                for ($y = 0; $y < $list11->num_rows; $y++) {
+                    $row00 = $list11->fetch_assoc();
+                    $d = $row00["pname"];
+                    $c = $row00["pemail"];
+                    echo "<option value='$d'><br/>";
+                    echo "<option value='$c'><br/>";
+                }
+                echo '</datalist>';
+                ?>
+                <input type="image" src="../img/search.png">
+            </form>
         </div>
-    </div>';
-};
-?>
+    </div>
+
+    <!-- Success/Error messages -->
+    <?php if(isset($success_message)): ?>
+        <div class="alert alert-success" style="width: 95%; margin: 0 auto 20px auto;">
+            <?php echo $success_message; ?>
+        </div>
+    <?php endif; ?>
+    
+    <?php if(isset($error_message)): ?>
+        <div class="alert alert-danger" style="width: 95%; margin: 0 auto 20px auto;">
+            <?php echo $error_message; ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Patient table -->
+    <div class="abc scroll" style="margin: 0 auto; width: 95%;">
+        <table width="100%" class="sub-table scrolldown" style="border-spacing:0;">
+            <thead>
+                <tr>
+                    <th class="table-headin">Nama Pasien</th>
+                    <th class="table-headin">NIK</th>
+                    <th class="table-headin">Telepon</th>
+                    <th class="table-headin">Email</th>
+                    <th class="table-headin">Tanggal Lahir</th>
+                    <th class="table-headin">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (isset($_POST["search"])) {
+                    $keyword = $_POST["search"];
+                    $sqlmain = "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%'";
+                } else {
+                    $sqlmain = "select * from patient order by pid desc";
+                }
+                
+                $result = $database->query($sqlmain);
+                if (!$result || $result->num_rows == 0) {
+                    echo '<tr>
+                    <td colspan="6">
+                    <br><br><br><br>
+                    <center>
+                    <img src="../img/404.gif" width="25%">
+                    <br>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We couldnt find anything related to your keywords!</p>
+                    <a class="non-style-link" href="patient.php"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</button>
+                    </a>
+                    </center>
+                    <br><br><br><br>
+                    </td>
+                    </tr>';
+                } else {
+                    for ($x = 0; $x < $result->num_rows; $x++) {
+                        $row = $result->fetch_assoc();
+                        $pid = $row["pid"];
+                        $name = $row["pname"] ?? '';
+                        $email = $row["pemail"] ?? '';
+                        $nic = $row["pnic"] ?? '';
+                        $dob = $row["pdob"] ?? '';
+                        $tel = $row["ptel"] ?? '';
+                        $address = $row["paddress"] ?? '';
+                        
+                        $formatted_dob = $dob ? date('d/m/Y', strtotime($dob)) : '';
+                        
+                        echo '<tr>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);"> &nbsp;' . substr($name, 0, 35) . '</td>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($nic, 0, 12) . '</td>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($tel, 0, 10) . '</td>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . substr($email, 0, 20) . '</td>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF);">' . $formatted_dob . '</td>
+                        <td style="border-bottom: 1px solid var(--Color-Neutral-neutral-100, #C7CACF); text-align: center;">
+                            <button onclick="showEditPopup(' . $pid . ', \'' . addslashes($name) . '\', \'' . addslashes($email) . '\', \'' . addslashes($nic) . '\', \'' . addslashes($tel) . '\', \'' . addslashes($dob) . '\', \'' . addslashes($address) . '\')" class="action-icon">
+                            </button>
+                        </td>
+                        </tr>';
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<script src="../assets-page/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
-<script src="../assets-page/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
-<script src="../assets-page/bundles/knob.bundle.js"></script> <!-- Jquery Knob-->
-<script src="../assets-page/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
-<script src="../assets-page/bundles/morrisscripts.bundle.js"></script> <!-- Morris Plugin Js --> 
-<script src="../assets-page/bundles/sparkline.bundle.js"></script> <!-- sparkline Plugin Js --> 
+<!-- Edit Patient Popup -->
+<div id="editPopup" class="popup" style="display: none;" onclick="event.stopPropagation();">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closeEditPopup()">&times;</span>
+        <h2>Edit Patient Information</h2>
+        
+        <form action="" method="POST" onclick="event.stopPropagation();">
+            <input type="hidden" name="pid" id="edit_pid">
+            
+            <div>
+                <label class="form-label" for="name">Full Name:</label>
+                <input type="text" class="form-control" name="name" id="edit_name" required>
+            </div>
+            
+            <div>
+                <label class="form-label" for="email">Email:</label>
+                <input type="email" class="form-control" name="email" id="edit_email" required>
+            </div>
+            
+            <div>
+                <label class="form-label" for="nic">NIK:</label>
+                <input type="text" class="form-control" name="nic" id="edit_nic">
+            </div>
+            
+            <div>
+                <label class="form-label" for="tel">Phone Number:</label>
+                <input type="text" class="form-control" name="tel" id="edit_tel">
+            </div>
+            
+            <div>
+                <label class="form-label" for="dob">Date of Birth:</label>
+                <input type="date" class="form-control" name="dob" id="edit_dob">
+            </div>
+            
+            <div>
+                <label class="form-label" for="address">Address:</label>
+                <textarea class="form-control" name="address" id="edit_address" rows="3"></textarea>
+            </div>
+            
+            <div class="btn-row">
+                <button type="button" class="btn btn-secondary" onclick="closeEditPopup()">Cancel</button>
+                <button type="submit" class="btn btn-primary" name="editpatient">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+</section>
+
+<script src="../assets-page/bundles/libscripts.bundle.js"></script>
+<script src="../assets-page/bundles/vendorscripts.bundle.js"></script>
+<script src="../assets-page/bundles/knob.bundle.js"></script>
+<script src="../assets-page/bundles/jvectormap.bundle.js"></script>
+<script src="../assets-page/bundles/morrisscripts.bundle.js"></script>
+<script src="../assets-page/bundles/sparkline.bundle.js"></script>
 <script src="../assets-page/bundles/doughnut.bundle.js"></script>
 <script src="../assets-page/bundles/mainscripts.bundle.js"></script>
 <script src="../assets-page/js/pages/index.js"></script>
 <script src="../assets-page/js/line.js"></script>
 <script src="../assets-page/js/table.js"></script>
+
+<script>
+// Function to show edit popup with patient data
+function showEditPopup(pid, name, email, nic, tel, dob, address) {
+    document.getElementById('edit_pid').value = pid;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_email').value = email;
+    document.getElementById('edit_nic').value = nic;
+    document.getElementById('edit_tel').value = tel;
+    document.getElementById('edit_dob').value = dob;
+    document.getElementById('edit_address').value = address;
+    
+    document.getElementById('editPopup').style.display = 'block';
+    // document.getElementById('editOverlay').style.display = 'block';
+}
+
+// Function to close edit popup
+function closeEditPopup() {
+    document.getElementById('editPopup').style.display = 'none';
+    document.getElementById('editOverlay').style.display = 'none';
+}
+
+// Close popup when clicking outside the popup
+document.getElementById('editOverlay').addEventListener('click', function() {
+    closeEditPopup();
+});
+
+// Prevent closing when clicking inside the popup
+document.getElementById('editPopup').addEventListener('click', function(event) {
+    event.stopPropagation();
+});
+</script>
 </body>
 </html>

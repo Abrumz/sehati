@@ -33,16 +33,16 @@
 
     if(isset($_SESSION["user"])){
         if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
+            header("location: ../login");
         }
 
     }else{
-        header("location: ../login.php");
+        header("location: ../login");
     }
     
 
     //import database
-    include("../connection.php");
+    include("../connection");
 
     
     ?>
@@ -79,13 +79,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -192,23 +192,23 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li> -->
                     <li class="active">
-                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
     <?php
     //import database
-            include("../connection.php");
+            include("../connection");
 
             // Query untuk mengambil data admin dari database
                 $query = "SELECT * FROM admin";
@@ -224,7 +224,7 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a href="profile.php"><img src="../img/SehatiProfile.png" alt="User"></a>
+                            <a href="profile"><img src="../img/SehatiProfile.png" alt="User"></a>
                         </div>
                         <div class="detail">
                             <h6>Admin Sehati</h6>
@@ -370,7 +370,7 @@
             <div class="table-row">
             <?php
     //import database
-    include("../connection.php");
+    include("../connection");
 
     // query untuk mengambil data dokter
     $query_doctor_ids = "SELECT docid FROM doctor"; // query untuk mengambil ID dokter
@@ -461,7 +461,7 @@
 ?>
             </div>
                 <div style="text-align: end;">
-                    <a href="../admin/schedule.php">
+                    <a href="../admin/schedule">
                         <h4>Lihat Semua Jadwal</h4>
                     </a>
                 </div>

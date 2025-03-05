@@ -43,15 +43,15 @@
 
     if(isset($_SESSION["user"])){
         if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
+            header("location: ../login");
         }
 
     }else{
-        header("location: ../login.php");
+        header("location: ../login");
     }
     
-    include("../connection.php");
-    include("../adm.php");
+    include("../connection");
+    include("../adm");
 
     // Definisikan variabel-variabel yang dibutuhkan
     $email = "admin@example.com";
@@ -71,13 +71,13 @@
         $date = $_POST['date'];
         $time = $_POST['time'];
 
-        // Panggil fungsi addSchedule() dari file webuser.php
+        // Panggil fungsi addSchedule() dari file webuser
         $result = $admin->addSchedule($title, $docid, $date, $time);
 
         // Cek apakah penambahan jadwal berhasil
         if($result === true){
             // Redirect ke halaman jadwal
-            header("location: schedule.php");
+            header("location: schedule");
         }else{
             // Tampilkan pesan kesalahan
             echo "Gagal menambahkan jadwal: " . $result;
@@ -118,7 +118,7 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
@@ -231,16 +231,16 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="index"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
@@ -264,7 +264,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="schedule.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -325,7 +325,7 @@
                             <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
                             <?php
                             //import database
-                            include("../connection.php");
+                            include("../connection");
 
                             // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
                             $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";

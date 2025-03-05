@@ -40,18 +40,18 @@
 
     // Redirect users if not logged in or not an admin
     if (!isset($_SESSION["user"]) || $_SESSION['usertype'] !== 'a') {
-        header("location: ../login.php");
+        header("location: ../login");
         exit(); // Make sure to exit after a header redirect
     }
 
     // Import database connection
-    include("../connection.php");
-    include("../adm.php");
+    include("../connection");
+    include("../adm");
 
     // Check if schedule ID is provided in URL
     if (!isset($_GET['id'])) {
         // Redirect or display error message
-        header("location: schedule.php");
+        header("location: schedule");
         exit();
     }
     
@@ -80,7 +80,7 @@
 
         if ($result) {
             // Redirect to schedule page or display success message
-            header("location: schedule.php");
+            header("location: schedule");
             exit();
         } else {
             // Handle error
@@ -94,7 +94,7 @@
     // Check if schedule exists
     if (!$schedule_data) {
         // Redirect or display error message
-        header("location: schedule.php");
+        header("location: schedule");
         exit();
     }
 
@@ -131,13 +131,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -244,19 +244,19 @@
             <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 64px; padding-top: 64px;">
                 <li class="header">UTAMA</li>
                     <li class="active">
-                        <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                        <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                     </li>
                     <li class="active">
-                        <a href="doctors.php"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
+                        <a href="doctors"><img src="..\img\LDokter.png" alt="home"><span>Dokter</span></a>
                     </li>
                     <li class="active open" style="background-color: transparent">
-                        <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
+                        <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal</span></a>
                     </li>
                     <!-- <li class="active">
                         <a href="appointment"><img src="..\img\LJanTem.png" alt="home"><span>Janji Temu</span></a>
                     </li> -->
                     <li class="active">
-                        <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
+                        <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien</span></a>
                     </li>
                  
                 <li>
@@ -280,7 +280,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="schedule.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="schedule" style="display: flex; flex-wrap: wrap; align-content: center;">
             <img src="../img/back.png" style="padding-right: 8px;">
             <h2 class="Bawah">Kembali</h2>
     </a>
@@ -349,7 +349,7 @@
                                 echo "<option value='{$doctor['docid']}' $selected>{$doctor['docname']}</option>";
                             }
                             //import database
-                            include("../connection.php");
+                            include("../connection");
 
                             // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
                             $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";

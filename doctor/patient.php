@@ -41,16 +41,16 @@
 
     if(isset($_SESSION["user"])){
         if(($_SESSION["user"])=="" or $_SESSION['usertype']!='d'){
-            header("location: ../login.php");
+            header("location: ../login");
         }else{
             $useremail=$_SESSION["user"];
         }
     }else{
-        header("location: ../login.php");
+        header("location: ../login");
     }
     
     //import database
-    include("../connection.php");
+    include("../connection");
     $userrow = $database->query("select * from doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
@@ -86,13 +86,13 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.php"><img src="../img/Oncology.png" alt="Alpino"></a>
+            <a class="navbar-brand" href="index"><img src="../img/Oncology.png" alt="Alpino"></a>
         </li>     
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>        
         <li><a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a></li>
         <li class="power">
             <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>            
-            <a href="../logout.php" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+            <a href="../logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>    
 </aside>
@@ -196,18 +196,18 @@
                 <img src="../img/LogoSehatiDashboard.png" style="display: block; margin: 0 auto; padding-bottom: 25%; padding-top: 25%;">
                 <li class="header">UTAMA</li>
                 <li class="active">
-                    <a href="index.php"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
+                    <a href="index"><img src="..\img\Dashboard.png" alt="home"><span>Dashboard</span></a>
                 </li>
                 <li class="active">
-                    <a href="schedule.php"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
+                    <a href="schedule"><img src="..\img\LJadwal.png" alt="home"><span>Jadwal Saya</span></a>
                 </li>
                 <li class="active open" style="background-color: transparent">
-                    <a href="patient.php"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
+                    <a href="patient"><img src="..\img\LPasien.png" alt="home"><span>Pasien Saya</span></a>
                 </li>
                  
                 <?php
                     //import database
-                    include("../connection.php");
+                    include("../connection");
 
                     // Query untuk mengambil data admin dari database
                     $query = "SELECT * FROM admin";
@@ -247,7 +247,7 @@
 <section class="content home">
 <!-- NAVBAR -->
 <div class="nav-bar" >
-    <a href="index.php" style="display: flex; flex-wrap: wrap; align-content: center;">
+    <a href="index" style="display: flex; flex-wrap: wrap; align-content: center;">
         <img src="../img/back.png" style="padding-right: 8px;">
         <h2 class="Bawah">Kembali</h2>
     </a>
@@ -380,7 +380,7 @@
                                         <img src="../img/404-empty.gif" alt="Tidak ada data yang ditemukan." style="margin: auto; ">
                                         <br>
                                         <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We couldnt find anything related to your keywords !</p>
-                                        <a class="non-style-link" href="patient.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
+                                        <a class="non-style-link" href="patient"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
                                         </a>
                                         </center>
                                         <br><br><br><br>

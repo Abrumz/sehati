@@ -1,7 +1,7 @@
 <?php
 // Configure your Subject Prefix and Recipient here
 $subjectPrefix = '[Contact via website]';
-$emailTo       = 'cs@sehati.linksphere.site';
+$emailTo       = 'cs@sehati.gusendra.site';
 
 $errors = array(); // array to hold validation errors
 $data   = array(); // array to pass back data

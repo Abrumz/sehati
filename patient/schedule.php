@@ -14,7 +14,7 @@ if(isset($_SESSION["user"])){
 }
 
 //import database
-include("../connection");
+include("../connection.php");
 $sqlmain= "select * from patient where pemail=?";
 $stmt = $database->prepare($sqlmain);
 $stmt->bind_param("s",$useremail);

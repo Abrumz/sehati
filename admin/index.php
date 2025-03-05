@@ -42,7 +42,7 @@
     
 
     //import database
-    include("../connection");
+    include("../connection.php");
 
     
     ?>
@@ -208,7 +208,7 @@
                     </li>
     <?php
     //import database
-            include("../connection");
+            include("../connection.php");
 
             // Query untuk mengambil data admin dari database
                 $query = "SELECT * FROM admin";
@@ -370,7 +370,7 @@
             <div class="table-row">
             <?php
     //import database
-    include("../connection");
+    include("../connection.php");
 
     // query untuk mengambil data dokter
     $query_doctor_ids = "SELECT docid FROM doctor"; // query untuk mengambil ID dokter

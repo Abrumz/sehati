@@ -9,8 +9,8 @@ date_default_timezone_set('Asia/Jakarta');
 $date = date('Y-m-d');
 $_SESSION["date"] = $date;
 
-include("connection");
-include("google");
+include("connection.php");
+include("google.php");
 
 // Aktifkan pelaporan error untuk debugging
 ini_set('display_errors', 1);

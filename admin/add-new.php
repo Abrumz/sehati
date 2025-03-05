@@ -51,8 +51,8 @@
     }
     
     //import database
-    include("../connection");
-    include("../adm");
+    include("../connection.php");
+    include("../adm.php");
 
     // var yg dibutuhkan
     $email = "admin@example.com";

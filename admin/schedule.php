@@ -54,7 +54,7 @@
     
 
     //import database
-    include("../connection");
+    include("../connection.php");
 
     
     ?>

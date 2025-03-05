@@ -14,7 +14,7 @@ if(isset($_SESSION["user"])){
 }
 
 //import database
-include("../connection");
+include("../connection.php");
 $userrow = $database->query("select * from doctor where docemail='$useremail'");
 $userfetch=$userrow->fetch_assoc();
 $userid= $userfetch["docid"];

@@ -14,8 +14,8 @@ if(isset($_SESSION["user"])){
     exit;
 }
 
-include("../connection");
-include("../pat");
+include("../connection.php");
+include("../pat.php");
 
 $email = $_SESSION['user'];
 $userType = 'p'; 

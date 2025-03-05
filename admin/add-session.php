@@ -50,8 +50,8 @@
         header("location: ../login");
     }
     
-    include("../connection");
-    include("../adm");
+    include("../connection.php");
+    include("../adm.php");
 
     // Definisikan variabel-variabel yang dibutuhkan
     $email = "admin@example.com";
@@ -325,7 +325,7 @@
                             <option value="" selected disabled>Pilih Dokter yang Tersedia</option>
                             <?php
                             //import database
-                            include("../connection");
+                            include("../connection.php");
 
                             // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
                             $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";

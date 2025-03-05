@@ -44,8 +44,8 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"] == "" || $_SESSION['usertype'
     exit; // Pastikan untuk keluar dari skrip setelah mengalihkan
 }
 
-include("../connection");
-include("../adm");
+include("../connection.php");
+include("../adm.php");
 
 // var yg dibutuhkan
 $email = "admin@example.com";
@@ -327,7 +327,7 @@ $doctor = $admin->getDoctorDetails();
                                 <option value="" selected disabled>Pilih Spesialis Dokter</option>
                                 <?php
                                 //import database
-                                include("../connection");
+                                include("../connection.php");
 
                                 // Query untuk mengambil daftar spesialis dari database
                                 $query = "SELECT id, sname FROM specialties ORDER BY sname ASC";

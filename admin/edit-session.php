@@ -45,8 +45,8 @@
     }
 
     // Import database connection
-    include("../connection");
-    include("../adm");
+    include("../connection.php");
+    include("../adm.php");
 
     // Check if schedule ID is provided in URL
     if (!isset($_GET['id'])) {
@@ -349,7 +349,7 @@
                                 echo "<option value='{$doctor['docid']}' $selected>{$doctor['docname']}</option>";
                             }
                             //import database
-                            include("../connection");
+                            include("../connection.php");
 
                             // Query untuk mengambil daftar dokter dengan status aktif (status = 1)
                             $query = "SELECT docid, docname FROM doctor WHERE status = 1 ORDER BY docname ASC";

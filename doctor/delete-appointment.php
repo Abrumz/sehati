@@ -9,8 +9,8 @@ if(isset($_SESSION["user"])){
 }else{
     header("location: ../login");
 }
-    include("../connection");
-    include("../doc");
+    include("../connection.php");
+    include("../doc.php");
 
     $email = $_SESSION['user'];
     $userType = 'a'; 

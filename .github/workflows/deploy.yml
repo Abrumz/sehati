@@ -22,4 +22,6 @@ jobs:
           exclude: |
             .htaccess
             vendor/**
+            connection.php
+            google.php
           # timeout: 3600000  # Set timeout to 1 hour
